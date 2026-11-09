@@ -1,0 +1,711 @@
+/* =====================================================================
+   Ithaca — a notebook theme for Obsidian
+   The whole window is one sheet of paper: no panel frames, no tab chrome,
+   red-pen accents, paper slips for callouts, tickets for tags.
+
+   MIT License. Copyright (c) 2026 Rexxall.
+   Bundled fonts (Bodoni Moda, Jost, Pinyon Script) are SIL Open Font License 1.1;
+   see fonts/licenses in the repository. Fonts are subset to Latin and embedded,
+   so the theme makes no network requests.
+   ===================================================================== */
+
+/* @settings
+name: Ithaca
+id: ithaca
+settings:
+  - id: ith-paper-heading
+    title: Paper
+    title.zh: 纸色
+    type: heading
+    level: 2
+    collapsed: false
+  - id: ith-light-paper
+    title: Light mode paper
+    title.zh: 浅色模式的纸
+    type: class-select
+    allowEmpty: false
+    default: ith-light-quiet
+    options:
+      - label: Quiet (fog white, red pen)
+        value: ith-light-quiet
+      - label: Happy (warm cream, magenta)
+        value: ith-light-happy
+  - id: ith-dark-paper
+    title: Dark mode paper
+    title.zh: 深色模式的纸
+    type: class-select
+    allowEmpty: false
+    default: ith-dark-tense
+    options:
+      - label: Tense (blackboard, vermilion)
+        value: ith-dark-tense
+      - label: Night (ink blue)
+        value: ith-dark-night
+      - label: Quiet (graphite)
+        value: ith-dark-quiet
+      - label: Happy (dark cream)
+        value: ith-dark-happy
+  - id: ith-paper-info
+    title: Per-note paper
+    type: info-text
+    description: "Add ih-mood-quiet, ih-mood-tense, ih-mood-night or ih-mood-happy to a note's cssclasses to give that note its own paper."
+    markdown: false
+  - id: ith-window-heading
+    title: Window
+    title.zh: 窗口
+    type: heading
+    level: 2
+    collapsed: true
+  - id: ith-hide-tabs
+    title: Hide the tab bar until the pointer reaches the top edge
+    title.zh: 藏起标签栏（鼠标移到顶边才出）
+    type: class-toggle
+    default: false
+  - id: ith-show-ribbon
+    title: Always show ribbon icons
+    title.zh: 左侧工具条图标一直显示
+    type: class-toggle
+    default: false
+  - id: ith-nav-title
+    title: Handwritten title above the file list
+    title.zh: 文件列表顶上的手写题字
+    type: class-toggle
+    default: false
+  - id: ith-nav-title-text
+    title: Title text
+    title.zh: 题字内容
+    type: variable-text
+    default: ''
+    quotes: true
+  - id: ith-type-heading
+    title: Typography
+    title.zh: 排版
+    type: heading
+    level: 2
+    collapsed: true
+  - id: ith-open-fonts
+    title: Use the bundled open fonts everywhere
+    title.zh: 西文一律用主题自带的开源字体
+    description: "Off: Didot, Futura and Snell Roundhand when installed (macOS), bundled fonts otherwise."
+    type: class-toggle
+    default: false
+  - id: ith-no-counter
+    title: No Roman numerals before H2
+    title.zh: 二级标题前不要罗马数字
+    type: class-toggle
+    default: false
+  - id: ith-no-margin
+    title: Keep footnotes at the bottom instead of the right margin
+    title.zh: 脚注留在页底，不搬到右页边
+    type: class-toggle
+    default: false
+  - id: ith-lamp
+    title: "Desk lamp: dim every paragraph except the one under the pointer"
+    title.zh: 台灯：鼠标停在哪段哪段亮
+    type: class-toggle
+    default: false
+  - id: ith-sign
+    title: Signature at the end of each note
+    title.zh: 笔记末尾的签名
+    type: class-toggle
+    default: false
+  - id: ith-sign-text
+    title: Signature text
+    title.zh: 签名内容
+    type: variable-text
+    default: ''
+    quotes: true
+  - id: ith-labels-heading
+    title: Labels
+    title.zh: 文字
+    type: heading
+    level: 2
+    collapsed: true
+  - id: ith-empty-hint
+    title: Hint on an empty new note (blank = none)
+    title.zh: 空白新笔记里的提示（留空不显示）
+    type: variable-text
+    default: ''
+    quotes: true
+  - id: ith-backlinks-label
+    title: Label before embedded backlinks
+    title.zh: 文末反向链接前的一句
+    type: variable-text
+    default: '← Mentioned in'
+    quotes: true
+  - id: ith-stamp-draft
+    title: "Stamp text: ih-stamp-draft"
+    type: variable-text
+    default: '草 稿'
+    quotes: true
+  - id: ith-stamp-final
+    title: "Stamp text: ih-stamp-final"
+    type: variable-text
+    default: '定 稿'
+    quotes: true
+  - id: ith-stamp-sent
+    title: "Stamp text: ih-stamp-sent"
+    type: variable-text
+    default: '已 寄'
+    quotes: true
+  - id: ith-stamp-wait
+    title: "Stamp text: ih-stamp-wait"
+    type: variable-text
+    default: '等回信'
+    quotes: true
+  - id: ith-stamp-done
+    title: "Stamp text: ih-stamp-done"
+    type: variable-text
+    default: '完'
+    quotes: true
+  - id: ith-aged-label
+    title: "Corner mark: ih-aged"
+    type: variable-text
+    default: '旧'
+    quotes: true
+*/
+
+/*@FONTS@*/
+
+/* =====================================================================
+   1. Variables
+   Layer 1 (body): fonts and words. Layer 2 (.theme-light / .theme-dark):
+   paper palettes. Layer 3: palette -> Obsidian semantic variables.
+   ===================================================================== */
+body {
+  --ith-disp: "Didot", "Bodoni 72", "Ithaca Display", Georgia, "Times New Roman", serif;
+  --ith-label: "Futura", "Avenir Next", "Ithaca Label", "Helvetica Neue", Arial, sans-serif;
+  --ith-sign: "Snell Roundhand", "Ithaca Script", "Zapfino", cursive;
+  --ith-title: "Weibei SC", "Source Han Serif SC", "Noto Serif SC", "Noto Serif CJK SC", "Songti SC", "STSong", "SimSun", serif;
+  --ith-hand: "HanziPen SC", "Hannotate SC", "LXGW WenKai", "LXGW WenKai Screen", "Kaiti SC", "STKaiti", "KaiTi", cursive;
+  --ith-voice: "Songti SC", "Hiragino Mincho ProN", "Source Han Serif SC", "Noto Serif SC", "Noto Serif JP", "Yu Mincho", "SimSun", serif;
+  --ith-mono: ui-monospace, "SF Mono", Menlo, Consolas, "Courier New", monospace;
+  --ith-sign-text: "";
+  --ith-nav-title-text: "";
+  --ith-empty-hint: "";
+  --ith-backlinks-label: "← Mentioned in";
+  --ith-stamp-draft: "草 稿"; --ith-stamp-final: "定 稿"; --ith-stamp-sent: "已 寄"; --ith-stamp-wait: "等回信"; --ith-stamp-done: "完";
+  --ith-aged-label: "旧";
+  --ith-slipink: #2b2620; --ith-sticky: #f2dc72; --ith-stamp: #b8251e; --ith-stamp-blue: #24467f;
+  --font-interface-theme: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans", "Microsoft YaHei", sans-serif;
+  --file-line-width: 680px;
+}
+body.ith-open-fonts {
+  --ith-disp: "Ithaca Display", Georgia, serif;
+  --ith-label: "Ithaca Label", "Helvetica Neue", Arial, sans-serif;
+  --ith-sign: "Ithaca Script", cursive;
+}
+
+/* Paper palettes. Light: quiet (default) or happy. */
+.theme-light {
+  --ith-bg: #f3f2ee; --ith-ink: #2c2a27; --ith-body: #4a4742; --ith-mute: #6f6b64; --ith-acc: #b8251e; --ith-acc2: #4f6b88;
+  --ith-slip: #fbfaf6; --ith-tape: rgb(214 196 160 / .6);
+}
+.theme-light.ith-light-happy {
+  --ith-bg: #fbf4e6; --ith-ink: #111; --ith-body: #2a2620; --ith-mute: #6e665a; --ith-acc: #e0156a; --ith-acc2: #2b5cff;
+  --ith-slip: #ffffff; --ith-tape: rgb(255 45 122 / .35);
+}
+/* Dark: tense (default), night, quiet, happy. */
+.theme-dark {
+  --ith-bg: #121014; --ith-ink: #efe9dd; --ith-body: #cdc6ba; --ith-mute: #8d867b; --ith-acc: #e0442f; --ith-acc2: #f3a03a;
+  --ith-slip: #e9e1cf; --ith-tape: rgb(226 214 186 / .55); --ith-stamp: #ef5a42; --ith-stamp-blue: #7ea4e6;
+}
+.theme-dark.ith-dark-night {
+  --ith-bg: #060c1f; --ith-ink: #e6eefc; --ith-body: #aabbdc; --ith-mute: #8296bf; --ith-acc: #8ec5ff; --ith-acc2: #8ec5ff;
+  --ith-slip: #b9c3d6; --ith-slipink: #0f1d4a; --ith-tape: rgb(180 200 240 / .4);
+}
+.theme-dark.ith-dark-quiet { --ith-bg: #1b1c1e; --ith-ink: #ece9e2; --ith-body: #bdb8b0; --ith-mute: #948f87; --ith-acc: #e5583f; --ith-acc2: #8fa9c6; --ith-slip: #fbfaf6; --ith-tape: rgb(214 196 160 / .5); }
+.theme-dark.ith-dark-happy { --ith-bg: #15130f; --ith-ink: #fbf4e6; --ith-body: #ddd5c6; --ith-mute: #a39b8e; --ith-acc: #ff4f93; --ith-acc2: #7d9bff; --ith-slip: #ffffff; --ith-tape: rgb(255 45 122 / .35); }
+
+/* Per-note paper: cssclasses ih-mood-*. Only the note's own pane changes; the window keeps the global paper. */
+:is(.markdown-preview-view, .markdown-source-view).ih-mood-quiet { --ith-bg: #f3f2ee; --ith-ink: #2c2a27; --ith-body: #4a4742; --ith-mute: #6f6b64; --ith-acc: #b8251e; --ith-acc2: #4f6b88; --ith-slip: #fbfaf6; --ith-slipink: #2b2620; --ith-tape: rgb(214 196 160 / .6); }
+:is(.markdown-preview-view, .markdown-source-view).ih-mood-happy { --ith-bg: #fbf4e6; --ith-ink: #111; --ith-body: #2a2620; --ith-mute: #6e665a; --ith-acc: #e0156a; --ith-acc2: #2b5cff; --ith-slip: #ffffff; --ith-slipink: #111; --ith-tape: rgb(255 45 122 / .35); }
+:is(.markdown-preview-view, .markdown-source-view).ih-mood-tense { --ith-bg: #121014; --ith-ink: #efe9dd; --ith-body: #cdc6ba; --ith-mute: #8d867b; --ith-acc: #e0442f; --ith-acc2: #f3a03a; --ith-slip: #e9e1cf; --ith-slipink: #2b2620; --ith-tape: rgb(226 214 186 / .55); }
+:is(.markdown-preview-view, .markdown-source-view).ih-mood-night { --ith-bg: #060c1f; --ith-ink: #e6eefc; --ith-body: #aabbdc; --ith-mute: #8296bf; --ith-acc: #8ec5ff; --ith-acc2: #8ec5ff; --ith-slip: #b9c3d6; --ith-slipink: #0f1d4a; --ith-tape: rgb(180 200 240 / .4); }
+/* In dark mode the two light moods switch to same-hue dark paper, so a note never flashes white. */
+.theme-dark :is(.markdown-preview-view, .markdown-source-view).ih-mood-quiet { --ith-bg: #1b1c1e; --ith-ink: #ece9e2; --ith-body: #bdb8b0; --ith-mute: #948f87; --ith-acc: #e5583f; --ith-slip: #fbfaf6; }
+.theme-dark :is(.markdown-preview-view, .markdown-source-view).ih-mood-happy { --ith-bg: #15130f; --ith-ink: #fbf4e6; --ith-body: #ddd5c6; --ith-mute: #a39b8e; --ith-acc: #ff4f93; --ith-slip: #ffffff; }
+
+/* Palette -> Obsidian. Re-declared on per-note paper so derived variables follow it. */
+body.theme-light, body.theme-dark, :is(.markdown-preview-view, .markdown-source-view)[class*="ih-mood-"] {
+  --background-primary: var(--ith-bg); --background-primary-alt: var(--ith-bg);
+  --background-secondary: var(--ith-bg); --background-secondary-alt: var(--ith-bg);
+  --titlebar-background: var(--ith-bg); --titlebar-background-focused: var(--ith-bg);
+  --ribbon-background: var(--ith-bg); --ribbon-background-collapsed: var(--ith-bg);
+  --tab-background-active: transparent; --tab-container-background: var(--ith-bg); --tab-outline-color: transparent; --tab-divider-color: transparent;
+  --divider-color: transparent; --divider-color-hover: var(--ith-mute); --background-modifier-border: transparent; --background-modifier-border-hover: transparent; --background-modifier-border-focus: var(--ith-acc);
+  --background-modifier-hover: color-mix(in srgb, var(--ith-ink) 6%, transparent);
+  --background-modifier-active-hover: color-mix(in srgb, var(--ith-ink) 9%, transparent);
+  --text-normal: var(--ith-body); --text-muted: var(--ith-mute); --text-faint: color-mix(in srgb, var(--ith-mute) 88%, var(--ith-bg));
+  --text-accent: var(--ith-acc); --text-accent-hover: var(--ith-acc); --link-color: var(--ith-ink); --link-color-hover: var(--ith-ink); --link-external-color: var(--ith-mute); --link-external-color-hover: var(--ith-ink); --link-unresolved-color: var(--ith-mute);
+  --text-selection: color-mix(in srgb, var(--ith-acc) 22%, transparent); --text-highlight-bg: color-mix(in srgb, var(--ith-acc2) 28%, transparent);
+  --interactive-accent: var(--ith-acc); --interactive-accent-hover: var(--ith-acc); --interactive-normal: transparent; --interactive-hover: color-mix(in srgb, var(--ith-ink) 8%, transparent);
+  --checkbox-color: var(--ith-acc); --checkbox-color-hover: var(--ith-acc); --checkbox-border-color: var(--ith-mute); --checkbox-border-color-hover: var(--ith-acc); --checkbox-marker-color: #fff; --checkbox-radius: 3px;
+  --scrollbar-bg: transparent; --scrollbar-thumb-bg: color-mix(in srgb, var(--ith-ink) 16%, transparent); --scrollbar-active-thumb-bg: var(--ith-acc);
+  --hr-color: transparent; --blockquote-border-color: var(--ith-acc); --code-background: color-mix(in srgb, var(--ith-ink) 5%, transparent); --code-normal: var(--ith-body);
+  --code-comment: var(--ith-mute); --code-punctuation: var(--ith-mute); --code-keyword: var(--ith-acc); --code-important: var(--ith-acc); --code-operator: var(--ith-body); --code-function: var(--ith-ink); --code-property: var(--ith-ink); --code-tag: var(--ith-ink); --code-value: var(--ith-body); --code-string: color-mix(in srgb, var(--ith-acc) 55%, var(--ith-ink));
+  --table-header-background: transparent; --table-header-background-hover: transparent; --table-border-color: transparent; --table-row-background-hover: color-mix(in srgb, var(--ith-ink) 4%, transparent);
+  --tag-background: var(--ith-slip); --tag-background-hover: var(--ith-slip); --tag-color: var(--ith-slipink); --tag-color-hover: var(--ith-slipink); --tag-border-color: transparent; --tag-border-color-hover: transparent;
+  --nav-item-background-active: transparent; --nav-item-background-hover: transparent; --nav-item-background-selected: transparent; --nav-item-color-active: var(--ith-ink); --nav-item-color-hover: var(--ith-ink); --nav-item-color: var(--ith-mute); --nav-indentation-guide-color: transparent;
+  --prompt-border-color: transparent; --modal-border-color: transparent;
+  --inline-title-font: var(--ith-title); --inline-title-weight: 400; --inline-title-size: 2.3em; --inline-title-line-height: 1.25; --inline-title-color: var(--ith-ink); --inline-title-margin-bottom: .4em;
+  --h1-font: var(--ith-title); --h2-font: var(--ith-title); --h3-font: var(--ith-voice);
+  --h1-color: var(--ith-ink); --h2-color: var(--ith-ink); --h3-color: var(--ith-ink);
+}
+body { background: var(--ith-bg); }
+:is(.markdown-preview-view, .markdown-source-view)[class*="ih-mood-"] { background-color: var(--ith-bg); color: var(--ith-body); }
+.markdown-preview-view { overflow-x: hidden; }
+::selection { background: var(--text-selection); }
+
+/* =====================================================================
+   2. Window: frames removed; controls appear on hover
+   ===================================================================== */
+.workspace-leaf-resize-handle, .workspace-tab-header-container .workspace-tab-header-spacer, .mod-root .workspace-tab-header-new-tab { opacity: 0; }
+.workspace-split.mod-left-split, .workspace-split.mod-right-split, .workspace-split.mod-root { background: var(--ith-bg); border: 0; box-shadow: none; }
+.workspace-tabs .workspace-leaf { background: transparent; }
+.workspace .mod-root .workspace-tabs .workspace-leaf { border-radius: 0; }
+.workspace-tab-header-container, .workspace-tabs .workspace-tab-header-container { border: 0; background: var(--ith-bg); }
+.workspace-tab-header { --tab-text-color: var(--ith-mute); --tab-text-color-focused: var(--ith-mute); color: var(--ith-mute); padding: 0; background: transparent; box-shadow: none; }
+.workspace .mod-root .workspace-tab-header.is-active { background: transparent; box-shadow: none; color: var(--ith-ink); }
+.workspace-tab-header.is-active::before, .workspace-tab-header.is-active::after, .workspace-tab-header-inner::after, .workspace-tab-header-inner::before { display: none; }
+.workspace-tab-header-inner { font-size: 12px; padding: 0 10px; }
+.mod-root .workspace-tab-header-container { height: 34px; padding-top: 0; }
+.mod-root .workspace-tab-header-container-inner { padding: 6px 0 0; }
+.workspace-tab-header.is-active .workspace-tab-header-inner-title { background: linear-gradient(var(--ith-acc), var(--ith-acc)) 0 100% / 100% 1.5px no-repeat; }
+.workspace-tab-header-inner-close-button { color: var(--ith-mute); }
+
+body.ith-hide-tabs:not(.is-mobile) .mod-root .workspace-tabs { position: relative; }
+body.ith-hide-tabs:not(.is-mobile) .mod-root .workspace-tabs .workspace-tab-header-container { position: absolute; top: 0; left: 0; right: 0; z-index: 30; opacity: 0; background: color-mix(in srgb, var(--ith-bg) 92%, transparent); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); }
+body.ith-hide-tabs:not(.is-mobile) .mod-root .workspace-tabs .workspace-tab-header-container:is(:hover, :focus-within) { opacity: 1; }
+
+body:not(.ith-show-ribbon):not(.is-mobile) .workspace-ribbon :is(.side-dock-actions, .side-dock-settings, .sidebar-toggle-button) { opacity: 0; }
+body:not(.ith-show-ribbon):not(.is-mobile) .workspace-ribbon:is(:hover, :focus-within) :is(.side-dock-actions, .side-dock-settings, .sidebar-toggle-button) { opacity: 1; }
+.workspace-ribbon { border: 0; }
+.side-dock-ribbon-action { color: var(--ith-mute); }
+
+.view-header { background: transparent; border: 0; height: 36px; padding: 0 18px; }
+.view-header-title-container { justify-content: flex-start; }
+.view-header-title, .view-header-breadcrumb { font: 400 11px/1 var(--ith-label); letter-spacing: .32em; text-transform: uppercase; color: var(--ith-mute); }
+.view-header-breadcrumb-separator { color: var(--ith-mute); margin: 0 .4em; }
+.view-header .view-actions, .view-header .view-header-nav-buttons { opacity: .55; }
+.view-header:is(:hover, :focus-within) :is(.view-actions, .view-header-nav-buttons) { opacity: 1; }
+.view-header .view-action { color: var(--ith-mute); }
+.view-header-icon { display: none; }
+
+.status-bar { background: transparent; border: 0; font-size: 11px; color: var(--ith-mute); }
+.status-bar-item { color: var(--ith-mute); }
+.workspace-sidedock-vault-profile { border: 0; background: transparent; }
+
+/* =====================================================================
+   3. File list: a column of words, not a tree
+   ===================================================================== */
+.nav-files-container { padding: 24px 10px 20px 16px; }
+.nav-header { display: none; padding: 10px 14px 4px; }
+.workspace-leaf-content[data-type="file-explorer"]:is(:hover, :focus-within) .nav-header { display: block; position: absolute; right: 8px; top: 8px; z-index: 2; }
+body.ith-nav-title .nav-files-container::before { content: var(--ith-nav-title-text); display: block; font: italic 30px/1 var(--ith-sign); color: var(--ith-mute); margin: 8px 0 22px 4px; }
+.nav-folder-title, .nav-file-title { background: transparent; border-radius: 0; padding: 3px 4px 3px 0; box-shadow: none; }
+.nav-folder-title-content, .nav-file-title-content { font-size: 13.5px; line-height: 1.75; color: var(--ith-mute); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.nav-folder-title:focus-visible, .nav-file-title:focus-visible { outline: 2px solid var(--ith-acc); outline-offset: -2px; border-radius: 3px; }
+.nav-folder.mod-root > .nav-folder-title { display: none; }
+.nav-folder-title > .tree-item-icon.collapse-icon { display: none; }
+.nav-folder.is-collapsed > .nav-folder-title .nav-folder-title-content::after { content: " …"; color: var(--ith-acc); letter-spacing: .1em; }
+.nav-folder-children { margin-left: 0; padding-left: 14px; border: 0; }
+.nav-folder-title:hover .nav-folder-title-content, .nav-file-title:hover .nav-file-title-content { color: var(--ith-ink); }
+@media (hover: hover) and (pointer: fine) { .nav-folder-title:hover .nav-folder-title-content::before, .nav-file-title:hover .nav-file-title-content::before { content: "›"; position: absolute; margin-left: -12px; color: var(--ith-acc); } }
+.nav-file-title.is-active .nav-file-title-content { color: var(--ith-ink); background: linear-gradient(var(--ith-acc), var(--ith-acc)) 0 90% / 100% 2px no-repeat; }
+.nav-file-tag { font: 400 11px/1 var(--ith-label); letter-spacing: .2em; color: var(--ith-mute); background: transparent; }
+/* Top-level folders numbered 00, 10, 20…: the number in small label type */
+.nav-folder.mod-root > .nav-folder-children > .nav-folder > .nav-folder-title .nav-folder-title-content { font-variant-numeric: tabular-nums; }
+.nav-folder.mod-root > .nav-folder-children > .nav-folder > .nav-folder-title .nav-folder-title-content::first-letter { font-family: var(--ith-label); font-size: 10px; letter-spacing: .14em; color: var(--ith-mute); }
+.workspace-split.mod-right-split :is(.workspace-tabs, .workspace-leaf-content) { background: transparent; }
+
+/* =====================================================================
+   4. Reading view
+   ===================================================================== */
+.markdown-preview-view .markdown-preview-sizer { padding-top: 40px; }
+.markdown-preview-view { font-size: 15.5px; line-height: 1.85; }
+.markdown-rendered h1, .inline-title { font-family: var(--ith-title); font-weight: 400; font-size: 2.3em; line-height: 1.25; letter-spacing: .01em; color: var(--ith-ink); margin-top: .4em; }
+.markdown-rendered h2 { font-family: var(--ith-title); font-weight: 400; font-size: 1.45em; color: var(--ith-ink); margin-top: 1.8em; display: flex; align-items: baseline; gap: .5em; }
+.markdown-rendered h3 { font-family: var(--ith-voice); font-weight: 600; font-size: 1.15em; color: var(--ith-ink); }
+.markdown-rendered :is(h4, h5, h6) { font: 400 .72em/1.6 var(--ith-label); letter-spacing: .34em; text-transform: uppercase; color: var(--ith-mute); }
+body:not(.ith-no-counter) .markdown-preview-view .markdown-preview-sizer { counter-reset: ith-h2; }
+body:not(.ith-no-counter) .markdown-preview-view h2::before { counter-increment: ith-h2; content: counter(ith-h2, upper-roman) "."; font: italic 400 .8em/1 var(--ith-disp); color: var(--ith-acc); letter-spacing: .06em; }
+.markdown-rendered :is(h1, h2) .heading-collapse-indicator { display: none; }
+.markdown-rendered strong { color: var(--ith-ink); font-weight: 600; }
+.markdown-rendered em { font-family: var(--ith-voice); }
+
+/* A note whose first line is an H1 doesn't repeat the inline title */
+.markdown-preview-sizer:has(> .mod-header + .el-h1) .inline-title,
+.markdown-preview-sizer:has(> .mod-header + .el-pre.mod-frontmatter + .el-h1) .inline-title { display: none; }
+
+/* Links: internal red underline, external grey, unresolved dashed */
+.markdown-rendered a.internal-link { color: var(--ith-ink); text-decoration: none; background: linear-gradient(var(--ith-acc), var(--ith-acc)) 0 92% / 100% 1.5px no-repeat; }
+.markdown-rendered a.internal-link.is-unresolved { opacity: 1; color: var(--ith-mute); background-image: linear-gradient(90deg, var(--ith-acc) 50%, transparent 50%); background-size: 6px 1.5px; }
+.markdown-rendered a.external-link { color: var(--ith-mute); text-decoration: none; background: linear-gradient(var(--ith-mute), var(--ith-mute)) 0 92% / 100% 1px no-repeat; padding-right: 0; }
+.markdown-rendered a.external-link::after { content: " ↗"; font-size: .8em; }
+.markdown-rendered a:hover { background-color: transparent; color: var(--ith-ink); }
+
+/* Tags: ticket stubs */
+.markdown-rendered a.tag, .cm-s-obsidian .cm-hashtag {
+  font: 400 11px/1 var(--ith-label); letter-spacing: .16em; text-transform: uppercase; color: var(--ith-slipink); background: var(--ith-slip);
+  padding: 6px 10px; border-radius: 0; display: inline-block; transform: rotate(-2deg); text-decoration: none; margin: 0 6px 0 2px;
+  -webkit-mask: radial-gradient(circle at 0 50%, transparent 4px, #000 4.5px), radial-gradient(circle at 100% 50%, transparent 4px, #000 4.5px);
+  mask: radial-gradient(circle at 0 50%, transparent 4px, #000 4.5px), radial-gradient(circle at 100% 50%, transparent 4px, #000 4.5px);
+  -webkit-mask-composite: source-in; mask-composite: intersect;
+}
+.markdown-rendered a.tag:nth-of-type(even) { transform: rotate(1.5deg); }
+.markdown-rendered a.tag { max-width: 100%; overflow-wrap: anywhere; line-height: 1.3; }
+
+/* Tasks and lists: red pen */
+.markdown-rendered input[type="checkbox"] { border-width: 1.5px; }
+.markdown-rendered .task-list-item.is-checked { color: var(--ith-mute); text-decoration: line-through; text-decoration-color: var(--ith-acc); }
+.markdown-rendered ul > li::marker { color: var(--ith-acc); }
+.markdown-rendered ol > li::marker { font: italic 400 1em var(--ith-disp); color: var(--ith-acc); }
+
+.markdown-rendered blockquote { border-left: 2px solid var(--ith-acc); padding: 2px 0 2px 16px; margin: 1.2em 0; font-family: var(--ith-voice); font-size: 1.05em; color: var(--ith-ink); }
+
+.markdown-rendered hr { border: 0; height: auto; text-align: center; margin: 2.2em 0; }
+.markdown-rendered hr::after { content: "❧"; font: italic 15px/1 var(--ith-disp); color: var(--ith-mute); }
+
+.markdown-rendered table { border-collapse: collapse; font-size: .92em; }
+.markdown-rendered th { font: 400 11px/1.6 var(--ith-label); letter-spacing: .24em; text-transform: uppercase; color: var(--ith-acc); border: 0; border-bottom: 1.5px solid var(--ith-acc); padding: 6px 10px 6px 0; text-align: left; background: transparent; }
+.markdown-rendered td { border: 0; border-bottom: 1px dashed color-mix(in srgb, var(--ith-ink) 18%, transparent); padding: 7px 10px 7px 0; }
+.markdown-rendered td:first-child { color: var(--ith-ink); }
+
+.markdown-rendered pre { border-radius: 4px; border: 0; }
+.markdown-rendered code { border-radius: 3px; }
+.markdown-rendered .internal-embed.image-embed img { border-radius: 2px; box-shadow: 0 10px 26px rgb(0 0 0 / .28); }
+
+/* Properties: hidden in reading view; flat small type in the editor */
+.markdown-preview-view.markdown-rendered .mod-header .metadata-container { display: none; }
+.metadata-container { --metadata-background: transparent; --metadata-border-color: transparent; --metadata-label-background-hover: transparent; --metadata-label-background-active: transparent; --metadata-input-background: transparent; --metadata-input-background-hover: color-mix(in srgb, var(--ith-ink) 5%, transparent); --metadata-input-background-active: color-mix(in srgb, var(--ith-ink) 7%, transparent); --metadata-label-text-color: var(--ith-mute); --metadata-input-text-color: var(--ith-body); --metadata-divider-color: transparent; --metadata-label-width: 7.5em; --pill-background: transparent; --pill-background-hover: transparent; --pill-border-width: 0; --pill-color: var(--ith-ink); --pill-radius: 0; padding: 0; margin: 2px 0 20px; }
+.metadata-properties-heading, .metadata-property-icon { display: none; }
+.metadata-property-key-input { font: 400 11px/2.2 var(--ith-label); letter-spacing: .24em; text-transform: uppercase; color: var(--ith-mute); }
+.metadata-property-value { font-size: 13px; }
+.metadata-container .multi-select-pill { padding: 0; }
+.metadata-container .multi-select-pill + .multi-select-pill::before { content: "·"; color: var(--ith-mute); margin: 0 8px; }
+.metadata-container .multi-select-pill-remove-button { opacity: .35; }
+.metadata-add-button { opacity: .5; font-size: 12px; }
+
+/* Signature (Style Settings) */
+body.ith-sign .markdown-preview-view .markdown-preview-sizer::after { content: var(--ith-sign-text); display: block; text-align: right; font: italic 26px/1 var(--ith-sign); color: var(--ith-mute); margin: 48px 0 10px; transform: rotate(-6deg); }
+@media (prefers-reduced-motion: no-preference) {
+  body.ith-sign .markdown-preview-view .markdown-preview-sizer::after { animation: ith-write 1.1s cubic-bezier(.4, 0, .2, 1) .4s both; }
+  @keyframes ith-write { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } }
+}
+
+/* =====================================================================
+   5. Callouts: paper slips
+   ===================================================================== */
+.markdown-rendered .callout { --callout-color: 0, 0, 0; border: 0; border-radius: 2px; background: var(--ith-slip); color: var(--ith-slipink); padding: 14px 18px 12px; margin: 1.4em 4px 1.4em 10px; position: relative; box-shadow: 0 8px 22px rgb(0 0 0 / .22); mix-blend-mode: normal; }
+.markdown-rendered .callout .callout-title { padding: 0; margin-bottom: 4px; color: inherit; }
+.markdown-rendered .callout .callout-icon { display: none; }
+.markdown-rendered .callout .callout-title-inner { font: 400 11px/1.6 var(--ith-label); letter-spacing: .24em; text-transform: uppercase; color: #5d5a55; }
+.markdown-rendered .callout .callout-content { font-size: .95em; line-height: 1.7; }
+.markdown-rendered .callout .callout-content p { margin: .3em 0; }
+.markdown-rendered .callout a.internal-link { color: inherit; }
+.markdown-rendered .callout.is-collapsible .callout-fold { color: inherit; opacity: .5; }
+/* example, quote, cite: taped paper */
+.markdown-rendered .callout:is([data-callout="example"], [data-callout="quote"], [data-callout="cite"]) { transform: rotate(-.7deg); }
+.markdown-rendered .callout:is([data-callout="example"], [data-callout="quote"], [data-callout="cite"])::before { content: ""; position: absolute; left: 20px; top: -9px; width: 56px; height: 15px; background: var(--ith-tape); transform: rotate(-4deg); }
+.markdown-rendered .callout[data-callout="quote"] .callout-content { font-family: var(--ith-voice); font-size: 1.08em; }
+/* important, warning, danger, bug…: black paper */
+.markdown-rendered .callout:is([data-callout="important"], [data-callout="warning"], [data-callout="caution"], [data-callout="attention"], [data-callout="danger"], [data-callout="error"], [data-callout="bug"], [data-callout="failure"], [data-callout="fail"], [data-callout="missing"]) { background: #111; color: #f1ece2; transform: rotate(.6deg); }
+.theme-dark .markdown-rendered .callout:is([data-callout="important"], [data-callout="warning"], [data-callout="caution"], [data-callout="attention"], [data-callout="danger"], [data-callout="error"], [data-callout="bug"], [data-callout="failure"], [data-callout="fail"], [data-callout="missing"]) { background: #26262b; box-shadow: 0 0 0 1px rgb(255 255 255 / .06), 0 10px 26px rgb(0 0 0 / .5); }
+.markdown-rendered .callout:is([data-callout="important"], [data-callout="warning"], [data-callout="caution"], [data-callout="attention"], [data-callout="danger"], [data-callout="error"], [data-callout="bug"], [data-callout="failure"], [data-callout="fail"], [data-callout="missing"]) .callout-title-inner { color: #f3a03a; }
+/* tip, hint, todo, question…: sticky notes */
+.markdown-rendered .callout:is([data-callout="tip"], [data-callout="hint"], [data-callout="thought"], [data-callout="todo"], [data-callout="question"], [data-callout="help"], [data-callout="faq"]) { background: var(--ith-sticky); color: #2b2620; font-family: var(--ith-hand); transform: rotate(1.2deg); box-shadow: 0 5px 14px rgb(0 0 0 / .22); }
+.markdown-rendered .callout:is([data-callout="tip"], [data-callout="hint"], [data-callout="thought"], [data-callout="todo"], [data-callout="question"], [data-callout="help"], [data-callout="faq"]) .callout-content { font-size: 1.02em; }
+.markdown-rendered .callout:is([data-callout="tip"], [data-callout="hint"], [data-callout="thought"], [data-callout="todo"], [data-callout="question"], [data-callout="help"], [data-callout="faq"]) .callout-title-inner { color: #4a4330; }
+/* info, note, summary, success…: plain, one red rule, so a page isn't all slips */
+.markdown-rendered .callout:is([data-callout="info"], [data-callout="summary"], [data-callout="tldr"], [data-callout="abstract"], [data-callout="note"], [data-callout="success"], [data-callout="check"], [data-callout="done"]) { background: transparent; color: var(--ith-body); box-shadow: none; border-left: 2px solid var(--ith-acc); border-radius: 0; padding: 4px 0 4px 16px; margin-left: 4px; transform: none; }
+.markdown-rendered .callout:is([data-callout="info"], [data-callout="summary"], [data-callout="tldr"], [data-callout="abstract"], [data-callout="note"], [data-callout="success"], [data-callout="check"], [data-callout="done"]) .callout-title-inner { color: var(--ith-acc); }
+
+/* receipt: thermal paper, monospace, torn edge, a barcode at the bottom */
+.markdown-rendered .callout[data-callout="receipt"] { background: #fbfaf6; color: #2b2620; font-family: var(--ith-mono); font-size: 13px; line-height: 1.75; max-width: 360px; margin: 1.6em auto; padding: 18px 22px 30px; box-shadow: 0 8px 22px rgb(0 0 0 / .2); transform: rotate(-.4deg); clip-path: polygon(0 0, 100% 0, 100% calc(100% - 8px), 95% 100%, 90% calc(100% - 8px), 85% 100%, 80% calc(100% - 8px), 75% 100%, 70% calc(100% - 8px), 65% 100%, 60% calc(100% - 8px), 55% 100%, 50% calc(100% - 8px), 45% 100%, 40% calc(100% - 8px), 35% 100%, 30% calc(100% - 8px), 25% 100%, 20% calc(100% - 8px), 15% 100%, 10% calc(100% - 8px), 5% 100%, 0 calc(100% - 8px)); }
+.markdown-rendered .callout[data-callout="receipt"] .callout-title { justify-content: center; border-bottom: 1px dashed rgb(0 0 0 / .3); padding-bottom: 8px; margin-bottom: 8px; }
+.markdown-rendered .callout[data-callout="receipt"] .callout-title-inner { font: 400 10px/1.6 var(--ith-mono); letter-spacing: .3em; color: #b8251e; text-align: center; width: 100%; }
+.markdown-rendered .callout[data-callout="receipt"] .callout-content::after { content: ""; display: block; height: 28px; margin-top: 12px; border-top: 1px dashed rgb(0 0 0 / .3); background: repeating-linear-gradient(90deg, #2b2620 0 1px, transparent 1px 3px, #2b2620 3px 5px, transparent 5px 6px, #2b2620 6px 7px, transparent 7px 10px) 50% 8px / 70% 20px no-repeat; }
+.markdown-rendered .callout[data-callout="receipt"] li::marker { content: "· "; color: #b8251e; }
+
+/* Journal callouts ---------------------------------------------------
+   letter   lined letter paper with tape
+   lined    ruled lines to write on
+   ledger   one item per line, dashed rules, no bullets
+   slips    each list item a paper slip, in a grid
+   stickies each list item a sticky note, in a grid
+   tickets  each list item a ticket stub, in a row
+   ------------------------------------------------------------------- */
+.markdown-rendered .callout:is([data-callout="letter"], [data-callout="lined"], [data-callout="ledger"], [data-callout="slips"], [data-callout="stickies"], [data-callout="tickets"]) :is(ul, ol) { list-style: none; padding-left: 0; margin: 0; }
+.markdown-rendered .callout:is([data-callout="letter"], [data-callout="lined"], [data-callout="ledger"], [data-callout="slips"], [data-callout="stickies"], [data-callout="tickets"]) li { margin-inline-start: 0; padding-inline-start: 0; }
+.markdown-rendered .callout:is([data-callout="letter"], [data-callout="lined"], [data-callout="ledger"], [data-callout="slips"], [data-callout="stickies"], [data-callout="tickets"]) li::marker { content: ""; }
+.markdown-rendered .callout:is([data-callout="letter"], [data-callout="lined"], [data-callout="ledger"], [data-callout="slips"], [data-callout="stickies"], [data-callout="tickets"]) :is(.list-bullet, .list-collapse-indicator) { display: none; }
+
+.markdown-rendered .callout[data-callout="letter"] { background: #fff; color: #2b2620; padding: 12px 22px 14px; font-family: var(--ith-hand); transform: rotate(-.4deg); box-shadow: 0 8px 20px rgb(0 0 0 / .14); }
+.markdown-rendered .callout[data-callout="letter"]::before { content: ""; position: absolute; left: 46%; top: -8px; width: 58px; height: 14px; background: var(--ith-tape); transform: rotate(3deg); }
+.markdown-rendered .callout:is([data-callout="letter"], [data-callout="lined"]) .callout-content { background: repeating-linear-gradient(180deg, transparent 0 27px, var(--ith-rule) 27px 28px); padding: 0; }
+.markdown-rendered .callout[data-callout="letter"] { --ith-rule: rgb(125 147 171 / .3); }
+.markdown-rendered .callout[data-callout="lined"] { --ith-rule: color-mix(in srgb, var(--ith-ink) 14%, transparent); }
+.markdown-rendered .callout:is([data-callout="letter"], [data-callout="lined"]) .callout-content :is(p, li, ul, ol) { line-height: 28px; margin: 0; padding-bottom: 0; }
+.markdown-rendered .callout:is([data-callout="letter"], [data-callout="lined"]) .callout-content > :last-child { min-height: 56px; }
+
+.markdown-rendered .callout[data-callout="lined"] { background: transparent; color: var(--ith-body); box-shadow: none; transform: none; padding: 4px 0 6px; margin-left: 0; font-family: var(--ith-hand); }
+.markdown-rendered .callout[data-callout="lined"] .callout-title-inner { color: var(--ith-acc); }
+
+.markdown-rendered .callout:is([data-callout="ledger"], [data-callout="slips"], [data-callout="stickies"], [data-callout="tickets"]) { background: transparent; color: var(--ith-body); box-shadow: none; transform: none; padding: 4px 0; margin-left: 0; }
+.markdown-rendered .callout:is([data-callout="ledger"], [data-callout="slips"], [data-callout="stickies"], [data-callout="tickets"]) .callout-title-inner { color: var(--ith-mute); }
+.markdown-rendered .callout[data-callout="ledger"] li { padding: 6px 0; border-bottom: 1px dashed color-mix(in srgb, var(--ith-ink) 14%, transparent); }
+
+.markdown-rendered .callout:is([data-callout="slips"], [data-callout="stickies"]) .callout-content > :is(ul, ol) { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 180px), 1fr)); gap: 18px 20px; padding: 6px 2px 10px; }
+.markdown-rendered .callout[data-callout="slips"] li { background: #fbfaf6; color: #2b2620; padding: 10px 14px; font-family: var(--ith-voice); font-size: .95em; line-height: 1.6; box-shadow: 0 1px 2px rgb(0 0 0 / .08), 0 4px 10px rgb(0 0 0 / .1); transform: rotate(-.8deg); overflow-wrap: anywhere; }
+.markdown-rendered .callout[data-callout="slips"] li:nth-child(2n) { transform: rotate(.7deg); }
+.markdown-rendered .callout[data-callout="stickies"] li { background: var(--ith-sticky); color: #2b2620; padding: 10px 12px; font-family: var(--ith-hand); line-height: 1.5; box-shadow: 0 1px 2px rgb(0 0 0 / .1), 0 4px 10px rgb(0 0 0 / .12); transform: rotate(-1.4deg); overflow-wrap: anywhere; }
+.markdown-rendered .callout[data-callout="stickies"] li:nth-child(2n) { transform: rotate(1.2deg); }
+.markdown-rendered .callout:is([data-callout="slips"], [data-callout="stickies"]) li a.internal-link { color: #a51f19; }
+
+.markdown-rendered .callout[data-callout="tickets"] .callout-content > :is(ul, ol) { display: flex; flex-wrap: wrap; gap: 10px; padding: 6px 2px; }
+.markdown-rendered .callout[data-callout="tickets"] li { background: #fbfaf6; color: #2b2620; padding: 8px 16px; font-family: var(--ith-hand); font-size: .9em; max-width: 100%; overflow-wrap: anywhere; transform: rotate(-1.5deg);
+  -webkit-mask: radial-gradient(circle at 0 50%, transparent 6px, #000 6.5px), radial-gradient(circle at 100% 50%, transparent 6px, #000 6.5px); -webkit-mask-composite: source-in;
+  mask: radial-gradient(circle at 0 50%, transparent 6px, #000 6.5px), radial-gradient(circle at 100% 50%, transparent 6px, #000 6.5px); mask-composite: intersect; }
+.markdown-rendered .callout[data-callout="tickets"] li:nth-child(2n) { transform: rotate(1.2deg); }
+.markdown-preview-view.ih-card .callout[data-callout="tickets"] li, .theme-dark .markdown-rendered .callout[data-callout="tickets"] li { background: #ece4d3; }
+
+/* =====================================================================
+   6. Popovers, switcher, menus, modals
+   ===================================================================== */
+.popover.hover-popover { background: var(--ith-slip); color: var(--ith-slipink); border: 0; border-radius: 2px; box-shadow: 0 14px 34px rgb(0 0 0 / .35); transform: rotate(.8deg); }
+.popover.hover-popover::before { content: ""; position: absolute; left: 18px; top: -8px; width: 46px; height: 13px; background: var(--ith-tape); transform: rotate(-5deg); z-index: 1; }
+.popover.hover-popover .markdown-preview-view { background: transparent; color: inherit; --text-normal: var(--ith-slipink); }
+.prompt { background: var(--ith-slip); color: var(--ith-slipink); border: 0; border-radius: 0; box-shadow: 0 30px 70px rgb(0 0 0 / .45); padding: 22px 26px 18px;
+  clip-path: polygon(0 0,100% 0,100% 97%,96% 100%,92% 97.5%,88% 100%,84% 97.5%,80% 100%,76% 97.5%,72% 100%,68% 97.5%,64% 100%,60% 97.5%,56% 100%,52% 97.5%,48% 100%,44% 97.5%,40% 100%,36% 97.5%,32% 100%,28% 97.5%,24% 100%,20% 97.5%,16% 100%,12% 97.5%,8% 100%,4% 97.5%,0 100%); }
+.prompt .prompt-input-container { padding: 0; }
+.prompt .prompt-input, .prompt .prompt-input:focus { font: 400 24px/1.3 var(--ith-title); color: var(--ith-slipink); background: transparent; border: 0; border-bottom: 1.5px solid #b8251e; border-radius: 0; box-shadow: none; padding: 4px 0 8px; }
+.prompt .prompt-results { padding: 12px 0 0; counter-reset: ith-sug; }
+.prompt .suggestion-item { border-radius: 4px; padding: 8px 6px; font-size: 15px; color: var(--ith-slipink); display: flex; gap: 12px; align-items: baseline; counter-increment: ith-sug; }
+.prompt .suggestion-item::before { content: counter(ith-sug); font: italic 400 13px/1 var(--ith-disp); color: #b8251e; width: 20px; flex: none; }
+.prompt .suggestion-item .suggestion-content { flex: 1 1 auto; min-width: 0; color: var(--ith-slipink); }
+.prompt .suggestion-item :is(.suggestion-aux, .suggestion-note) { flex: none; margin-left: auto; white-space: nowrap; }
+.prompt .suggestion-item.is-selected { background: rgb(184 37 30 / .09); }
+.prompt .suggestion-highlight { font-weight: 600; background: linear-gradient(#b8251e, #b8251e) 0 90% / 100% 1.5px no-repeat; }
+.prompt :is(.suggestion-note, .suggestion-flair) { font: 400 10px/1 var(--ith-label); letter-spacing: .14em; color: #5d5a55; }
+.prompt .prompt-instructions { font-family: var(--ith-hand); color: #5d5a55; }
+.modal { background: var(--ith-slip); color: var(--ith-slipink); border: 0; border-radius: 2px; box-shadow: 0 30px 70px rgb(0 0 0 / .45); }
+.modal-bg { backdrop-filter: blur(2px); }
+.menu { background: var(--ith-slip); color: var(--ith-slipink); border: 0; border-radius: 2px; box-shadow: 0 14px 34px rgb(0 0 0 / .35); }
+.menu-item { color: var(--ith-slipink); }
+.menu-item.selected, .menu-item:hover { background: rgb(184 37 30 / .09); }
+
+/* =====================================================================
+   7. Buttons, inputs, scrollbars
+   ===================================================================== */
+button:not(.clickable-icon) { border-radius: 999px; box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--ith-ink) 30%, transparent); background: transparent; color: var(--ith-ink); font-weight: 500; }
+button.mod-cta { background: var(--ith-ink); color: var(--ith-bg); box-shadow: none; }
+input[type="text"], input[type="search"], textarea { border-radius: 999px; background: color-mix(in srgb, var(--ith-ink) 5%, transparent); border: 0; box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--ith-ink) 14%, transparent); color: var(--ith-ink); }
+:is(input[type="text"], input[type="search"], textarea):focus { box-shadow: inset 0 0 0 1.5px var(--ith-acc); }
+.metadata-container :is(input, .metadata-property-key-input, .metadata-input-longtext), .metadata-container input:focus { border-radius: 0; background: transparent; box-shadow: none; }
+textarea { border-radius: 8px; }
+:is(button, a, .clickable-icon, [role="button"]):focus-visible { outline: 2px solid var(--ith-acc); outline-offset: 2px; }
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-thumb { border-radius: 2px; background: var(--scrollbar-thumb-bg); border: 0; }
+::-webkit-scrollbar-thumb:is(:hover, :active) { background: var(--scrollbar-active-thumb-bg); }
+::-webkit-scrollbar-track { background: transparent; }
+.markdown-preview-view::-webkit-scrollbar:horizontal { display: none; height: 0; }
+
+/* =====================================================================
+   8. Motion: a small press, panels fading in. All off with reduced motion.
+   ===================================================================== */
+@media (prefers-reduced-motion: no-preference) {
+  .workspace-ribbon.mod-left, .workspace-tab-header-container, .view-actions, .nav-buttons-container, .status-bar, .metadata-container { transition: opacity 180ms ease, transform 220ms cubic-bezier(.23, 1, .32, 1); }
+  button:not(.clickable-icon) { transition: transform 160ms cubic-bezier(.23, 1, .32, 1); }
+  button:not(.clickable-icon):active { transform: scale(.97); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .callout, .callout li, .popover.hover-popover, a.tag, .cm-hashtag, .markdown-preview-sizer::after, .ih-mg, .ih-circ::before, .markdown-preview-view[class*="ih-stamp-"]::before, .markdown-preview-view.ih-card .markdown-preview-sizer, .image-embed { transform: none !important; }
+}
+
+/* =====================================================================
+   9. Notebook marks (type them by hand, or let a companion plugin insert them)
+   ===================================================================== */
+/* 9a. Margin notes.
+   Footnotes move from the bottom into the right margin when the pane is at least
+   1000px wide and "Readable line length" is on. <span class="ih-mg">note</span> sits
+   beside its own paragraph. Narrow columns put both back into the text. */
+.markdown-preview-view { container-type: inline-size; container-name: ihpv; }
+.markdown-preview-view :is(.footnote-ref a, sup.footnote-ref) { font: italic 400 .78em/1 var(--ith-disp); color: var(--ith-acc); text-decoration: none; background: none; }
+.markdown-preview-view .footnotes { border: 0; margin-top: 2.5em; font: 400 13.5px/1.5 var(--ith-hand); color: var(--ith-ink); }
+.markdown-preview-view .footnotes hr, .markdown-preview-view .footnotes .footnote-backref { display: none; }
+.markdown-preview-view .footnotes ol { padding-left: 1.4em; }
+.markdown-preview-view .footnotes li::marker { font: italic 400 11px/1 var(--ith-disp); color: var(--ith-acc); }
+.markdown-preview-view .footnotes p { margin: 0 0 .6em; font-size: inherit; line-height: inherit; }
+
+.markdown-preview-view :is(p, li, h2, h3, blockquote):has(> .ih-mg) { position: relative; }
+.markdown-preview-view .ih-mg { display: block; margin: 4px 0 0; font: 400 13.5px/1.45 var(--ith-hand); color: var(--ith-mute); }
+.markdown-preview-view .ih-mg.is-red { color: var(--ith-acc); }
+.markdown-preview-view .ih-sticky { background: var(--ith-sticky); color: #2b2620; padding: 1px 6px; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
+.markdown-preview-view .ih-mg.ih-sticky { display: inline-block; max-width: 280px; padding: 6px 10px; }
+.markdown-preview-view .callout .ih-mg.ih-sticky { display: inline; padding: 1px 6px; max-width: none; margin: 0; }
+
+@container ihpv (min-width: 1000px) {
+  body:not(.ith-no-margin) .markdown-preview-view.is-readable-line-width .markdown-preview-sizer { position: relative; margin-left: max(0px, calc(50% - var(--file-line-width) / 2 - 120px)); margin-right: auto; }
+  body:not(.ith-no-margin) .markdown-preview-view.is-readable-line-width .footnotes { position: absolute; left: 100%; top: auto; width: 190px; margin: -2.4em 0 0 36px; }
+  body:not(.ith-no-margin) .markdown-preview-view.is-readable-line-width .footnotes ol { padding: 0; list-style: none; }
+  body:not(.ith-no-margin) .markdown-preview-view.is-readable-line-width .footnotes li { position: relative; margin-bottom: 14px; }
+  body:not(.ith-no-margin) .markdown-preview-view.is-readable-line-width .footnotes li::before { content: counter(list-item); font: italic 400 11px/1 var(--ith-disp); color: var(--ith-acc); display: block; margin-bottom: 2px; }
+  body:not(.ith-no-margin) .markdown-preview-view.is-readable-line-width .footnotes li::after { content: ""; position: absolute; left: -28px; top: 8px; width: 18px; height: 1px; background: var(--ith-acc); opacity: .6; }
+  .markdown-preview-view.is-readable-line-width .ih-mg:not(.callout .ih-mg) { position: absolute; left: 100%; top: 0; margin: 0 0 0 36px; width: 180px; color: var(--ith-ink); transform: rotate(-1.5deg); }
+  .markdown-preview-view.is-readable-line-width .ih-mg:not(.callout .ih-mg, .ih-sticky)::before { content: "←"; color: var(--ith-acc); margin-right: 6px; }
+  .markdown-preview-view.is-readable-line-width .ih-mg.ih-sticky:not(.callout .ih-mg) { width: 160px; padding: 10px 12px; box-shadow: 0 5px 14px rgb(0 0 0 / .22); transform: rotate(2.5deg); font-size: 13px; color: #2b2620; }
+  /* With footnotes on the right, inline notes move to the left margin */
+  body:not(.ith-no-margin) .markdown-preview-view.is-readable-line-width .markdown-preview-sizer:has(.footnotes) .ih-mg:not(.callout .ih-mg) { left: auto; right: 100%; margin: 0 36px 0 0; text-align: right; }
+  body:not(.ith-no-margin) .markdown-preview-view.is-readable-line-width .markdown-preview-sizer:has(.footnotes) .ih-mg:not(.callout .ih-mg, .ih-sticky)::before { content: none; }
+  body:not(.ith-no-margin) .markdown-preview-view.is-readable-line-width .markdown-preview-sizer:has(.footnotes) .ih-mg:not(.callout .ih-mg, .ih-sticky)::after { content: " →"; color: var(--ith-acc); }
+}
+
+/* 9b. Red-pen circle: <span class="ih-circ">the few words that matter</span> */
+.markdown-rendered .ih-circ { position: relative; display: inline-block; max-width: 100%; padding: 0 4px; margin: 0 6px; text-indent: 0; color: var(--ith-ink); }
+.markdown-rendered .ih-circ::before { content: ""; position: absolute; inset: -4px -8px; border: 1.5px solid var(--ith-acc); border-radius: 48% 52% 50% 50% / 60% 44% 56% 40%; transform: rotate(-2deg); pointer-events: none; }
+.markdown-rendered :is(.callout, .ih-sticky) .ih-circ { color: inherit; }
+
+/* 9c. Stamps: cssclasses ih-stamp-draft / -final / -sent / -wait / -done */
+.markdown-preview-view[class*="ih-stamp-"] { position: relative; }
+.markdown-preview-view[class*="ih-stamp-"]::before {
+  position: absolute; right: 84px; top: 54px; z-index: 5; pointer-events: none;
+  font: 700 15px/1 var(--ith-title); letter-spacing: .32em; color: var(--ith-stamp); border: 3px double var(--ith-stamp); padding: 7px 8px 6px 13px; border-radius: 3px;
+  transform: rotate(-12deg); opacity: .82;
+  -webkit-mask: radial-gradient(rgb(0 0 0 / .95) 60%, transparent 61%) 0 0 / 3px 3px; mask: radial-gradient(rgb(0 0 0 / .95) 60%, transparent 61%) 0 0 / 3px 3px;
+}
+.theme-dark .markdown-preview-view[class*="ih-stamp-"]::before { opacity: .92; -webkit-mask: radial-gradient(rgb(0 0 0) 68%, transparent 70%) 0 0 / 3px 3px; mask: radial-gradient(rgb(0 0 0) 68%, transparent 70%) 0 0 / 3px 3px; }
+.markdown-preview-view.ih-stamp-draft::before { content: var(--ith-stamp-draft); }
+.markdown-preview-view.ih-stamp-final::before { content: var(--ith-stamp-final); }
+.markdown-preview-view.ih-stamp-sent::before { content: var(--ith-stamp-sent); }
+.markdown-preview-view.ih-stamp-wait::before { content: var(--ith-stamp-wait); color: var(--ith-stamp-blue); border-color: var(--ith-stamp-blue); }
+.markdown-preview-view.ih-stamp-done::before { content: var(--ith-stamp-done); padding: 8px 10px 7px 12px; letter-spacing: 0; }
+
+/* 9d. Bookmark ribbon: cssclasses ih-bm */
+.markdown-preview-view.ih-bm { position: relative; }
+.markdown-preview-view.ih-bm::after { content: ""; position: absolute; right: 36px; top: -6px; width: 20px; height: 140px; z-index: 5; pointer-events: none; background: var(--ith-acc); clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 84%, 0 100%); box-shadow: 2px 4px 8px rgb(0 0 0 / .25); }
+
+/* 9e. Subtitle: first line <span class="ih-sub">…</span>, red italic */
+.markdown-rendered .ih-sub, .markdown-source-view .ih-sub { display: block; font: italic 400 15px/1.4 var(--ith-disp); color: var(--ith-acc); }
+.markdown-rendered .ih-sub { margin: -.6em 0 1.4em; }
+
+/* 9f. Photos: alt text containing "photo" (or 照片) becomes a white-bordered print; add left / right to float */
+.markdown-rendered .image-embed:is([alt~="照片"], [alt~="photo"]) { display: inline-block; background: #fff; padding: 8px 8px 26px; box-shadow: 0 10px 24px rgb(0 0 0 / .3); transform: rotate(-2deg); margin: 10px 14px 6px 0; max-width: 46%; position: relative; }
+.markdown-rendered .image-embed:is([alt~="照片"], [alt~="photo"]) img { display: block; box-shadow: none; border-radius: 0; max-width: 100%; }
+.markdown-rendered .image-embed:is([alt~="照片"], [alt~="photo"])::after { content: attr(alt); position: absolute; left: 10px; bottom: 6px; right: 10px; font: 400 11px/1.3 var(--ith-hand); color: #2b2620; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.markdown-rendered .image-embed:is([alt~="照片"], [alt~="photo"]):nth-of-type(even) { transform: rotate(1.5deg); }
+.markdown-rendered .image-embed[alt~="right"] { float: right; margin: 6px 0 10px 18px; transform: rotate(2deg); }
+.markdown-rendered .image-embed[alt~="left"] { float: left; margin: 6px 18px 10px 0; }
+
+/* 9g. Index card: cssclasses ih-card turns the note into a ruled index card */
+.markdown-preview-view.ih-card .markdown-preview-sizer { max-width: 620px; margin: 40px auto; padding: 26px 34px 40px; background: var(--ith-slip) repeating-linear-gradient(180deg, transparent 0 31px, color-mix(in srgb, #7d93ab 32%, transparent) 31px 32px) 0 70px; color: var(--ith-slipink); --text-normal: var(--ith-slipink); border-radius: 3px; box-shadow: 0 14px 34px rgb(0 0 0 / .28); transform: rotate(-.6deg); position: relative; }
+.markdown-preview-view.ih-card .markdown-preview-sizer::before { content: ""; position: absolute; left: 0; right: 0; top: 62px; height: 1.5px; background: rgb(200 60 50 / .6); }
+.markdown-preview-view.ih-card .markdown-preview-sizer > .mod-header::before { content: ""; position: absolute; left: 50%; top: -7px; width: 14px; height: 14px; margin-left: -7px; border-radius: 50%; background: var(--ith-acc); box-shadow: 0 2px 4px rgb(0 0 0 / .5), inset -2px -2px 3px rgb(0 0 0 / .3); }
+.markdown-preview-view.ih-card .inline-title { font-size: 1.7em; line-height: 32px; margin: 0; color: var(--ith-slipink); }
+.markdown-preview-view.ih-card .markdown-preview-sizer :is(p, li) { line-height: 32px; font-family: var(--ith-hand); font-size: 15px; }
+.markdown-preview-view.ih-card .markdown-preview-sizer :is(h1, h2, h3, strong) { color: var(--ith-slipink); }
+.markdown-preview-view.ih-card .markdown-preview-sizer h2 { line-height: 32px; margin: 32px 0 0; font-size: 1.1em; }
+.markdown-preview-view.ih-card .ih-sub { margin: 0; line-height: 32px; }
+body.ith-sign .markdown-preview-view.ih-card .markdown-preview-sizer::after { color: #8a857b; }
+
+/* 9h. Old pages: cssclasses ih-aged (a year+) or ih-aged-2 (three years+) */
+.markdown-preview-view.ih-aged { --ith-tape: rgb(196 160 92 / .55); }
+.markdown-preview-view.ih-aged-2 { --ith-tape: rgb(176 128 60 / .6); }
+.markdown-preview-view:is(.ih-aged, .ih-aged-2) .callout:not([data-callout="info"], [data-callout="summary"], [data-callout="note"], [data-callout="abstract"], [data-callout="tldr"], [data-callout="success"], [data-callout="lined"], [data-callout="ledger"], [data-callout="slips"], [data-callout="stickies"], [data-callout="tickets"]) { background-image: linear-gradient(225deg, var(--ith-bg) 0 10px, rgb(0 0 0 / .08) 10px 12px, transparent 12px); }
+.markdown-preview-view.ih-aged-2 .callout:not([data-callout="info"], [data-callout="summary"], [data-callout="note"], [data-callout="abstract"], [data-callout="tldr"], [data-callout="success"]) { filter: sepia(.18); }
+.markdown-preview-view:is(.ih-aged, .ih-aged-2):not(.ih-card) .mod-header { position: relative; }
+.markdown-preview-view:is(.ih-aged, .ih-aged-2) .mod-header::after { content: var(--ith-aged-label); position: absolute; right: -6px; top: 60px; font: 700 12px/1 var(--ith-title); color: var(--ith-mute); border: 1.5px solid var(--ith-mute); padding: 4px 5px; border-radius: 2px; transform: rotate(8deg); opacity: .55; }
+
+/* 9i. Desk lamp (Style Settings) */
+@media (hover: hover) and (pointer: fine) { body.ith-lamp .markdown-preview-sizer:hover > div:not(:hover, .mod-header, .mod-footer) { opacity: .45; } }
+@media (prefers-reduced-motion: no-preference) { body.ith-lamp .markdown-preview-sizer > div { transition: opacity 260ms ease; } }
+
+/* =====================================================================
+   10. Editing (Live Preview): same type and paper as reading
+   ===================================================================== */
+.markdown-source-view.mod-cm6 .cm-editor { font-size: 15.5px; line-height: 1.85; }
+.markdown-source-view.mod-cm6 .cm-content { padding-top: 24px; }
+.cm-s-obsidian .HyperMD-header .cm-header { color: var(--ith-ink); }
+.cm-s-obsidian .cm-header-1 { font-family: var(--ith-title); font-weight: 400; font-size: 2.1em; letter-spacing: .01em; }
+.cm-s-obsidian .cm-header-2 { font-family: var(--ith-title); font-weight: 400; font-size: 1.45em; }
+.cm-s-obsidian .cm-header-3 { font-family: var(--ith-voice); font-weight: 600; font-size: 1.15em; }
+.cm-s-obsidian :is(.cm-header-4, .cm-header-5, .cm-header-6) { font: 400 .72em/1.6 var(--ith-label); letter-spacing: .34em; text-transform: uppercase; color: var(--ith-mute); }
+.cm-s-obsidian .cm-formatting-header { color: var(--ith-acc); font: italic 400 .6em/1 var(--ith-disp); letter-spacing: 0; text-transform: none; opacity: .8; }
+.cm-s-obsidian .cm-strong { color: var(--ith-ink); font-weight: 600; }
+.cm-s-obsidian .cm-em { font-family: var(--ith-voice); }
+.cm-s-obsidian :is(.cm-hmd-internal-link, .cm-hmd-internal-link .cm-underline) { color: var(--ith-ink); text-decoration: none; background: linear-gradient(var(--ith-acc), var(--ith-acc)) 0 92% / 100% 1.5px no-repeat; }
+.cm-s-obsidian .cm-hmd-internal-link.is-unresolved .cm-underline { color: var(--ith-mute); background-image: linear-gradient(90deg, var(--ith-acc) 50%, transparent 50%); background-size: 6px 1.5px; }
+.cm-s-obsidian :is(.cm-link, .cm-url) { color: var(--ith-mute); }
+.cm-s-obsidian .cm-hashtag { padding: 5px 7px; margin: 0 4px 0 2px; transform: none; -webkit-mask: none; mask: none; border-radius: 2px; }
+.cm-s-obsidian .cm-hashtag-begin { padding-right: 0; margin-right: 0; opacity: .5; }
+.cm-s-obsidian .cm-hashtag-end { padding-left: 0; margin-left: 0; }
+.cm-s-obsidian .HyperMD-quote { border-left: 2px solid var(--ith-acc); padding-left: 16px; font-family: var(--ith-voice); font-size: 1.05em; color: var(--ith-ink); background: transparent; }
+.cm-s-obsidian .cm-formatting-quote { color: var(--ith-acc); opacity: .5; }
+.cm-s-obsidian :is(.cm-hr, .HyperMD-hr) { color: var(--ith-mute); }
+.cm-s-obsidian .cm-inline-code { background: var(--code-background); border-radius: 3px; }
+.cm-s-obsidian .HyperMD-codeblock { background: var(--code-background); border-radius: 0; }
+.cm-s-obsidian .HyperMD-codeblock-begin { border-radius: 4px 4px 0 0; }
+.cm-s-obsidian .HyperMD-codeblock-end { border-radius: 0 0 4px 4px; }
+.cm-s-obsidian .HyperMD-list-line .list-bullet::after { background-color: var(--ith-acc); }
+.cm-s-obsidian .HyperMD-task-line:is([data-task="x"], [data-task="X"]) { color: var(--ith-mute); text-decoration: line-through; text-decoration-color: var(--ith-acc); }
+.cm-s-obsidian :is(.cm-footref, .cm-hmd-footref) { font: italic 400 .78em/1 var(--ith-disp); color: var(--ith-acc); }
+.markdown-source-view.mod-cm6 .cm-embed-block.cm-callout { background: transparent; border: 0; box-shadow: none; overflow: visible; padding: 2px 0; }
+.markdown-source-view.mod-cm6 .cm-embed-block .edit-block-button { background: var(--ith-slip); color: var(--ith-slipink); border-radius: 999px; box-shadow: 0 4px 12px rgb(0 0 0 / .2); }
+/* Active line: no fill, a short red mark on the left */
+.cm-s-obsidian .cm-line { position: relative; }
+.cm-s-obsidian .cm-active.cm-line { background: transparent; }
+.cm-s-obsidian .cm-active.cm-line::before { content: ""; position: absolute; left: -14px; top: .55em; width: 6px; height: 2px; background: var(--ith-acc); opacity: .7; }
+.cm-s-obsidian :is(.cm-cursor, .cm-dropCursor) { border-left-color: var(--ith-acc); border-left-width: 2px; }
+/* First line is an H1: hide the inline title here too */
+.markdown-source-view .cm-sizer:has(.cm-content > :is(.HyperMD-header-1:first-child, :first-child:not(.cm-line) + .HyperMD-header-1)) .inline-title { display: none; }
+/* Empty note hint (Style Settings; blank by default) */
+.markdown-source-view.mod-cm6 .cm-content:has(> .cm-line:only-child > br:only-child) .cm-line:only-child::after { content: var(--ith-empty-hint); position: absolute; left: 0; top: 0; font: 400 15px/1.85 var(--ith-hand); color: var(--ith-mute); opacity: .7; pointer-events: none; white-space: nowrap; }
+
+/* =====================================================================
+   11. Small extras
+   ===================================================================== */
+/* Reading progress: a 1.5px red line along the top edge of the scroller */
+@supports (animation-timeline: scroll()) {
+  .markdown-reading-view > .markdown-preview-view { background-image: linear-gradient(var(--ith-acc), var(--ith-acc)); background-repeat: no-repeat; background-position: left top; background-size: 0% 1.5px; animation: ith-progress linear both; animation-timeline: scroll(self); }
+  @keyframes ith-progress { from { background-size: 0% 1.5px; } to { background-size: 100% 1.5px; } }
+  @media (prefers-reduced-motion: reduce) { .markdown-reading-view > .markdown-preview-view { animation: none; background-image: none; } }
+}
+/* Code blocks: the language in the top-right corner */
+.markdown-rendered pre:has(> code[class*="language-"]) { position: relative; padding-top: 22px; }
+.markdown-rendered pre:has(> code[class*="language-"])::before { position: absolute; right: 56px; top: 10px; font: 400 10px/1 var(--ith-label); letter-spacing: .24em; color: var(--ith-mute); text-transform: uppercase; }
+.markdown-rendered pre:has(> code.language-python)::before { content: "python"; }
+.markdown-rendered pre:has(> code:is(.language-js, .language-javascript))::before { content: "javascript"; }
+.markdown-rendered pre:has(> code:is(.language-ts, .language-typescript))::before { content: "typescript"; }
+.markdown-rendered pre:has(> code.language-css)::before { content: "css"; }
+.markdown-rendered pre:has(> code:is(.language-bash, .language-sh, .language-zsh, .language-shell))::before { content: "shell"; }
+.markdown-rendered pre:has(> code.language-json)::before { content: "json"; }
+.markdown-rendered pre:has(> code:is(.language-yaml, .language-yml))::before { content: "yaml"; }
+.markdown-rendered pre:has(> code.language-html)::before { content: "html"; }
+.markdown-rendered pre:has(> code:is(.language-md, .language-markdown))::before { content: "markdown"; }
+.markdown-rendered pre:has(> code.language-sql)::before { content: "sql"; }
+.markdown-rendered pre:has(> code.language-latex)::before { content: "latex"; }
+.markdown-rendered pre .copy-code-button { z-index: 2; }
+/* Embedded backlinks (Settings → Backlinks → Show in document): one handwritten line */
+.embedded-backlinks { margin-top: 44px; border: 0; }
+.embedded-backlinks .nav-header, .embedded-backlinks .backlink-pane > .tree-item-self { display: none; }
+.embedded-backlinks .backlink-pane .search-result-container { margin: 0; padding: 0; }
+.embedded-backlinks .backlink-pane .search-result-container::before { content: var(--ith-backlinks-label); font: 400 13px/1.6 var(--ith-hand); color: var(--ith-mute); display: block; margin-bottom: 4px; }
+.embedded-backlinks .search-result-file-title { background: transparent; padding: 2px 0; }
+.embedded-backlinks .search-result-file-title .tree-item-inner { font: 400 13.5px/1.6 var(--ith-hand); color: var(--ith-ink); background: linear-gradient(var(--ith-acc), var(--ith-acc)) 0 92% / 100% 1px no-repeat; }
+.embedded-backlinks .tree-item-flair { font: italic 400 12px/1 var(--ith-disp); color: var(--ith-acc); background: transparent; }
+.embedded-backlinks .search-result-file-matches { display: none; }
+.embedded-backlinks .search-result-container:is(:hover, :focus-within) .search-result-file-matches { display: block; font-size: 12.5px; color: var(--ith-mute); border: 0; box-shadow: none; padding: 2px 0 6px 14px; }
+
+/* =====================================================================
+   12. Mobile
+   ===================================================================== */
+body.is-mobile .workspace-ribbon, body.is-mobile .workspace-tab-header-container { position: static; opacity: 1; transform: none; }
+body.is-mobile .view-header { height: 44px; }
+body.is-mobile .view-header :is(.view-actions, .view-header-nav-buttons), body.is-mobile .nav-buttons-container { opacity: 1; }
+body.is-mobile .nav-header { display: block; position: static; }
+body.is-mobile .markdown-preview-view[class*="ih-stamp-"]::before { top: 120px; right: 18px; font-size: 12px; padding: 5px 6px 4px 9px; }
+body.is-mobile .markdown-preview-view.ih-bm::after { top: 96px; right: 6px; height: 70px; width: 12px; }
+body.is-mobile .markdown-rendered pre { padding-right: 52px; }
+body.is-mobile .prompt .suggestion-item { font-size: 15px; }
+body.is-mobile .prompt .prompt-input { font-size: 20px; }
+body.is-mobile .markdown-preview-view.ih-card .markdown-preview-sizer { margin: 16px auto; padding: 22px 20px 32px; }
