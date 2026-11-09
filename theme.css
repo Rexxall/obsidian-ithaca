@@ -323,7 +323,7 @@ body:not(.ith-show-ribbon):not(.is-mobile) .workspace-ribbon:is(:hover, :focus-w
 .view-header .view-action { color: var(--ith-mute); }
 .view-header-icon { display: none; }
 
-.status-bar { background: transparent; border: 0; font-size: 11px; color: var(--ith-mute); }
+.status-bar { --status-bar-background: var(--ith-bg); background: color-mix(in srgb, var(--ith-bg) 94%, transparent); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); border: 0; border-radius: 6px 0 0 0; box-shadow: 0 0 0 1px color-mix(in srgb, var(--ith-ink) 6%, transparent); font-size: 11px; color: var(--ith-mute); }
 .status-bar-item { color: var(--ith-mute); }
 .workspace-sidedock-vault-profile { border: 0; background: transparent; }
 
