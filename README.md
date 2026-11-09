@@ -41,6 +41,10 @@ Install the [Style Settings](https://github.com/mgmeyers/obsidian-style-settings
 
 Without Style Settings you get the defaults.
 
+![Style Settings panel](docs/style-settings.png)
+
+Titles follow Obsidian's language (English, 中文, 日本語).
+
 ### Notebook marks
 
 Add these by hand, or let a companion plugin insert them (coming later).

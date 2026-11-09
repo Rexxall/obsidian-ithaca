@@ -4,9 +4,12 @@
    red-pen accents, paper slips for callouts, tickets for tags.
 
    MIT License. Copyright (c) 2026 Rexxall.
-   Bundled fonts (Bodoni Moda, Jost, Pinyon Script) are SIL Open Font License 1.1;
-   see fonts/licenses in the repository. Fonts are subset to Latin and embedded,
-   so the theme makes no network requests.
+   Bundled fonts, subset to Latin and embedded so the theme makes no network requests,
+   each licensed under the SIL Open Font License 1.1 (https://openfontlicense.org):
+     Bodoni Moda   Copyright 2020 The Bodoni Moda Project Authors (https://github.com/indestructible-type/Bodoni)
+     Jost          Copyright 2020 The Jost Project Authors (https://github.com/indestructible-type)
+     Pinyon Script Copyright 2024 The Pinyon Project Authors (https://github.com/SorkinType/Pinyon)
+   Full license texts: fonts/licenses in the repository.
    ===================================================================== */
 
 /* @settings
@@ -16,12 +19,14 @@ settings:
   - id: ith-paper-heading
     title: Paper
     title.zh: 纸色
+    title.ja: 紙
     type: heading
     level: 2
     collapsed: false
   - id: ith-light-paper
     title: Light mode paper
     title.zh: 浅色模式的纸
+    title.ja: ライトモードの紙
     type: class-select
     allowEmpty: false
     default: ith-light-quiet
@@ -33,6 +38,7 @@ settings:
   - id: ith-dark-paper
     title: Dark mode paper
     title.zh: 深色模式的纸
+    title.ja: ダークモードの紙
     type: class-select
     allowEmpty: false
     default: ith-dark-tense
@@ -47,89 +53,110 @@ settings:
         value: ith-dark-happy
   - id: ith-paper-info
     title: Per-note paper
+    title.zh: 每篇笔记自己的纸
+    title.ja: ノートごとの紙
     type: info-text
     description: "Add ih-mood-quiet, ih-mood-tense, ih-mood-night or ih-mood-happy to a note's cssclasses to give that note its own paper."
+    description.zh: "在笔记的 cssclasses 里写 ih-mood-quiet、ih-mood-tense、ih-mood-night 或 ih-mood-happy，这一篇就用自己的纸。"
+    description.ja: "ノートの cssclasses に ih-mood-quiet・ih-mood-tense・ih-mood-night・ih-mood-happy のいずれかを書くと、そのノートだけ紙が変わります。"
     markdown: false
   - id: ith-window-heading
     title: Window
     title.zh: 窗口
+    title.ja: ウィンドウ
     type: heading
     level: 2
     collapsed: true
   - id: ith-hide-tabs
     title: Hide the tab bar until the pointer reaches the top edge
     title.zh: 藏起标签栏（鼠标移到顶边才出）
+    title.ja: タブバーを隠す（上端に近づくと表示）
     type: class-toggle
     default: false
   - id: ith-show-ribbon
     title: Always show ribbon icons
     title.zh: 左侧工具条图标一直显示
+    title.ja: リボンのアイコンを常に表示
     type: class-toggle
     default: false
   - id: ith-nav-title
     title: Handwritten title above the file list
     title.zh: 文件列表顶上的手写题字
+    title.ja: ファイル一覧の上に手書きタイトル
     type: class-toggle
     default: false
   - id: ith-nav-title-text
     title: Title text
     title.zh: 题字内容
+    title.ja: タイトルの文字
     type: variable-text
     default: ''
     quotes: true
   - id: ith-type-heading
     title: Typography
     title.zh: 排版
+    title.ja: 文字組み
     type: heading
     level: 2
     collapsed: true
   - id: ith-open-fonts
     title: Use the bundled open fonts everywhere
     title.zh: 西文一律用主题自带的开源字体
+    title.ja: 欧文は常に同梱のオープンフォントを使う
     description: "Off: Didot, Futura and Snell Roundhand when installed (macOS), bundled fonts otherwise."
+    description.zh: "关：装了 Didot、Futura、Snell Roundhand（macOS）就用它们，否则用自带字体。"
+    description.ja: "オフ：Didot・Futura・Snell Roundhand があればそれを使い、なければ同梱フォントを使います（macOS）。"
     type: class-toggle
     default: false
   - id: ith-no-counter
     title: No Roman numerals before H2
     title.zh: 二级标题前不要罗马数字
+    title.ja: H2 の前にローマ数字を付けない
     type: class-toggle
     default: false
   - id: ith-no-margin
     title: Keep footnotes at the bottom instead of the right margin
     title.zh: 脚注留在页底，不搬到右页边
+    title.ja: 脚注を右余白に移さず、ページ下に残す
     type: class-toggle
     default: false
   - id: ith-lamp
     title: "Desk lamp: dim every paragraph except the one under the pointer"
     title.zh: 台灯：鼠标停在哪段哪段亮
+    title.ja: デスクランプ：ポインタのある段落だけ明るく
     type: class-toggle
     default: false
   - id: ith-sign
     title: Signature at the end of each note
     title.zh: 笔记末尾的签名
+    title.ja: ノート末尾の署名
     type: class-toggle
     default: false
   - id: ith-sign-text
     title: Signature text
     title.zh: 签名内容
+    title.ja: 署名の文字
     type: variable-text
     default: ''
     quotes: true
   - id: ith-labels-heading
     title: Labels
     title.zh: 文字
+    title.ja: ラベル
     type: heading
     level: 2
     collapsed: true
   - id: ith-empty-hint
     title: Hint on an empty new note (blank = none)
     title.zh: 空白新笔记里的提示（留空不显示）
+    title.ja: 空のノートのヒント（空欄なら表示しない）
     type: variable-text
     default: ''
     quotes: true
   - id: ith-backlinks-label
     title: Label before embedded backlinks
     title.zh: 文末反向链接前的一句
+    title.ja: 埋め込みバックリンクの前の一文
     type: variable-text
     default: '← Mentioned in'
     quotes: true
@@ -493,7 +520,8 @@ body.ith-sign .markdown-preview-view .markdown-preview-sizer::after { content: v
 .prompt .suggestion-highlight { font-weight: 600; background: linear-gradient(#b8251e, #b8251e) 0 90% / 100% 1.5px no-repeat; }
 .prompt :is(.suggestion-note, .suggestion-flair) { font: 400 10px/1 var(--ith-label); letter-spacing: .14em; color: #5d5a55; }
 .prompt .prompt-instructions { font-family: var(--ith-hand); color: #5d5a55; }
-.modal { background: var(--ith-slip); color: var(--ith-slipink); border: 0; border-radius: 2px; box-shadow: 0 30px 70px rgb(0 0 0 / .45); }
+.modal:not(.mod-settings) { background: var(--ith-slip); color: var(--ith-slipink); border: 0; border-radius: 2px; box-shadow: 0 30px 70px rgb(0 0 0 / .45); }
+.modal.mod-settings { border: 0; border-radius: 2px; }
 .modal-bg { backdrop-filter: blur(2px); }
 .menu { background: var(--ith-slip); color: var(--ith-slipink); border: 0; border-radius: 2px; box-shadow: 0 14px 34px rgb(0 0 0 / .35); }
 .menu-item { color: var(--ith-slipink); }
@@ -508,6 +536,8 @@ input[type="text"], input[type="search"], textarea { border-radius: 999px; backg
 :is(input[type="text"], input[type="search"], textarea):focus { box-shadow: inset 0 0 0 1.5px var(--ith-acc); }
 .metadata-container :is(input, .metadata-property-key-input, .metadata-input-longtext), .metadata-container input:focus { border-radius: 0; background: transparent; box-shadow: none; }
 textarea { border-radius: 8px; }
+.checkbox-container { background-color: color-mix(in srgb, var(--ith-ink) 20%, transparent); }
+.checkbox-container.is-enabled { background-color: var(--ith-acc); }
 :is(button, a, .clickable-icon, [role="button"]):focus-visible { outline: 2px solid var(--ith-acc); outline-offset: 2px; }
 ::-webkit-scrollbar { width: 4px; height: 4px; }
 ::-webkit-scrollbar-thumb { border-radius: 2px; background: var(--scrollbar-thumb-bg); border: 0; }
