@@ -233,7 +233,7 @@ body.ith-open-fonts {
   --ith-slip: #fbfaf6; --ith-tape: rgb(214 196 160 / .6);
 }
 .theme-light.ith-light-happy {
-  --ith-bg: #fbf4e6; --ith-ink: #111; --ith-body: #2a2620; --ith-mute: #6e665a; --ith-acc: #e0156a; --ith-acc2: #2b5cff;
+  --ith-bg: #fbf4e6; --ith-ink: #111; --ith-body: #2a2620; --ith-mute: #6e665a; --ith-acc: #c8105c; --ith-acc2: #2b5cff;
   --ith-slip: #ffffff; --ith-tape: rgb(255 45 122 / .35);
 }
 /* Dark: tense (default), night, quiet, happy. */
@@ -243,16 +243,16 @@ body.ith-open-fonts {
 }
 .theme-dark.ith-dark-night {
   --ith-bg: #060c1f; --ith-ink: #e6eefc; --ith-body: #aabbdc; --ith-mute: #8296bf; --ith-acc: #8ec5ff; --ith-acc2: #8ec5ff;
-  --ith-slip: #b9c3d6; --ith-slipink: #0f1d4a; --ith-tape: rgb(180 200 240 / .4);
+  --ith-slip: #d0d8e6; --ith-slipink: #0f1d4a; --ith-tape: rgb(180 200 240 / .4);
 }
 .theme-dark.ith-dark-quiet { --ith-bg: #1b1c1e; --ith-ink: #ece9e2; --ith-body: #bdb8b0; --ith-mute: #948f87; --ith-acc: #e5583f; --ith-acc2: #8fa9c6; --ith-slip: #fbfaf6; --ith-tape: rgb(214 196 160 / .5); }
 .theme-dark.ith-dark-happy { --ith-bg: #15130f; --ith-ink: #fbf4e6; --ith-body: #ddd5c6; --ith-mute: #a39b8e; --ith-acc: #ff4f93; --ith-acc2: #7d9bff; --ith-slip: #ffffff; --ith-tape: rgb(255 45 122 / .35); }
 
 /* Per-note paper: cssclasses ih-mood-*. Only the note's own pane changes; the window keeps the global paper. */
 :is(.markdown-preview-view, .markdown-source-view).ih-mood-quiet { --ith-bg: #f3f2ee; --ith-ink: #2c2a27; --ith-body: #4a4742; --ith-mute: #6f6b64; --ith-acc: #b8251e; --ith-acc2: #4f6b88; --ith-slip: #fbfaf6; --ith-slipink: #2b2620; --ith-tape: rgb(214 196 160 / .6); }
-:is(.markdown-preview-view, .markdown-source-view).ih-mood-happy { --ith-bg: #fbf4e6; --ith-ink: #111; --ith-body: #2a2620; --ith-mute: #6e665a; --ith-acc: #e0156a; --ith-acc2: #2b5cff; --ith-slip: #ffffff; --ith-slipink: #111; --ith-tape: rgb(255 45 122 / .35); }
+:is(.markdown-preview-view, .markdown-source-view).ih-mood-happy { --ith-bg: #fbf4e6; --ith-ink: #111; --ith-body: #2a2620; --ith-mute: #6e665a; --ith-acc: #c8105c; --ith-acc2: #2b5cff; --ith-slip: #ffffff; --ith-slipink: #111; --ith-tape: rgb(255 45 122 / .35); }
 :is(.markdown-preview-view, .markdown-source-view).ih-mood-tense { --ith-bg: #121014; --ith-ink: #efe9dd; --ith-body: #cdc6ba; --ith-mute: #8d867b; --ith-acc: #e0442f; --ith-acc2: #f3a03a; --ith-slip: #e9e1cf; --ith-slipink: #2b2620; --ith-tape: rgb(226 214 186 / .55); }
-:is(.markdown-preview-view, .markdown-source-view).ih-mood-night { --ith-bg: #060c1f; --ith-ink: #e6eefc; --ith-body: #aabbdc; --ith-mute: #8296bf; --ith-acc: #8ec5ff; --ith-acc2: #8ec5ff; --ith-slip: #b9c3d6; --ith-slipink: #0f1d4a; --ith-tape: rgb(180 200 240 / .4); }
+:is(.markdown-preview-view, .markdown-source-view).ih-mood-night { --ith-bg: #060c1f; --ith-ink: #e6eefc; --ith-body: #aabbdc; --ith-mute: #8296bf; --ith-acc: #8ec5ff; --ith-acc2: #8ec5ff; --ith-slip: #d0d8e6; --ith-slipink: #0f1d4a; --ith-tape: rgb(180 200 240 / .4); }
 /* In dark mode the two light moods switch to same-hue dark paper, so a note never flashes white. */
 .theme-dark :is(.markdown-preview-view, .markdown-source-view).ih-mood-quiet { --ith-bg: #1b1c1e; --ith-ink: #ece9e2; --ith-body: #bdb8b0; --ith-mute: #948f87; --ith-acc: #e5583f; --ith-slip: #fbfaf6; }
 .theme-dark :is(.markdown-preview-view, .markdown-source-view).ih-mood-happy { --ith-bg: #15130f; --ith-ink: #fbf4e6; --ith-body: #ddd5c6; --ith-mute: #a39b8e; --ith-acc: #ff4f93; --ith-slip: #ffffff; }
@@ -743,3 +743,24 @@ body.is-mobile .markdown-rendered pre { padding-right: 52px; }
 body.is-mobile .prompt .suggestion-item { font-size: 15px; }
 body.is-mobile .prompt .prompt-input { font-size: 20px; }
 body.is-mobile .markdown-preview-view.ih-card .markdown-preview-sizer { margin: 16px auto; padding: 22px 20px 32px; }
+
+/* ===== 纸上的字跟纸走（2026-11-10）=====
+   浅色纸片（引用、示例、便利贴、悬停预览、索引卡、小票）在深色皮里还是浅纸：
+   里面的加粗、标题、表格、外链、代码原来用窗口的浅字色，压在浅纸上看不见。
+   这里把纸片内部的墨色整套换成纸上的深墨；黑纸反过来换成浅墨。 */
+.markdown-rendered .callout:not([data-callout="info"], [data-callout="summary"], [data-callout="tldr"], [data-callout="abstract"], [data-callout="note"], [data-callout="success"], [data-callout="check"], [data-callout="done"], [data-callout="lined"], [data-callout="ledger"], [data-callout="slips"], [data-callout="stickies"], [data-callout="tickets"]),
+.markdown-rendered .callout:is([data-callout="slips"], [data-callout="stickies"], [data-callout="tickets"]) li,
+.popover.hover-popover,
+.markdown-preview-view.ih-card .markdown-preview-sizer {
+  --ith-ink: var(--ith-slipink); --ith-body: var(--ith-slipink); --ith-mute: #5d5a55; --ith-acc: #a51f19; --ith-acc2: #3f5a78;
+  --text-normal: var(--ith-slipink); --text-muted: #5d5a55; --text-faint: #6f6b64; --text-accent: #a51f19;
+  --link-color: var(--ith-slipink); --link-color-hover: var(--ith-slipink); --link-external-color: #5d5a55; --link-unresolved-color: #5d5a55;
+  --code-normal: var(--ith-slipink); --code-background: rgb(0 0 0 / .06); --code-comment: #6f6b64; --code-punctuation: #6f6b64; --code-keyword: #a51f19; --code-function: var(--ith-slipink); --code-string: #7a3a2a; --code-value: #3f3a33; --code-property: var(--ith-slipink); --code-tag: var(--ith-slipink); --code-operator: #3f3a33;
+  --checkbox-border-color: #6f6b64; --blockquote-border-color: #a51f19;
+}
+.markdown-rendered .callout:is([data-callout="important"], [data-callout="warning"], [data-callout="caution"], [data-callout="attention"], [data-callout="danger"], [data-callout="error"], [data-callout="bug"], [data-callout="failure"], [data-callout="fail"], [data-callout="missing"]) {
+  --ith-ink: #f1ece2; --ith-body: #f1ece2; --ith-mute: #b9b2a6; --ith-acc: #f3a03a;
+  --text-normal: #f1ece2; --text-muted: #b9b2a6; --text-faint: #a39b8e; --text-accent: #f3a03a;
+  --link-color: #f1ece2; --link-color-hover: #f1ece2; --link-external-color: #b9b2a6; --link-unresolved-color: #b9b2a6;
+  --code-normal: #f1ece2; --code-background: rgb(255 255 255 / .08); --code-comment: #a39b8e; --code-punctuation: #a39b8e; --code-keyword: #f3a03a; --code-function: #f1ece2; --code-string: #f0c27a; --code-value: #ddd5c6; --code-property: #f1ece2; --code-tag: #f1ece2; --code-operator: #ddd5c6;
+}
