@@ -9,6 +9,7 @@
      Bodoni Moda   Copyright 2020 The Bodoni Moda Project Authors (https://github.com/indestructible-type/Bodoni)
      Jost          Copyright 2020 The Jost Project Authors (https://github.com/indestructible-type)
      Pinyon Script Copyright 2024 The Pinyon Project Authors (https://github.com/SorkinType/Pinyon)
+     Patrick Hand  Copyright (c) 2010-2012 Patrick Wagesreiter
    Full license texts: fonts/licenses in the repository.
    ===================================================================== */
 
@@ -56,10 +57,19 @@ settings:
     title.zh: 每篇笔记自己的纸
     title.ja: ノートごとの紙
     type: info-text
-    description: "Add ih-mood-quiet, ih-mood-tense, ih-mood-night or ih-mood-happy to a note's cssclasses to give that note its own paper."
-    description.zh: "在笔记的 cssclasses 里写 ih-mood-quiet、ih-mood-tense、ih-mood-night 或 ih-mood-happy，这一篇就用自己的纸。"
-    description.ja: "ノートの cssclasses に ih-mood-quiet・ih-mood-tense・ih-mood-night・ih-mood-happy のいずれかを書くと、そのノートだけ紙が変わります。"
+    description: "Add ih-mood-quiet, ih-mood-tense, ih-mood-night or ih-mood-happy to a note's cssclasses to give that note its own paper. A companion plugin can put ith-v-quiet, ith-v-tense, ith-v-night or ith-v-happy on the window so the whole window follows the open note."
+    description.zh: "在笔记的 cssclasses 里写 ih-mood-quiet、ih-mood-tense、ih-mood-night 或 ih-mood-happy，这一篇就用自己的纸。配套插件可以在窗口上挂 ith-v-quiet / tense / night / happy，让整扇窗跟着当前笔记换纸。"
+    description.ja: "ノートの cssclasses に ih-mood-quiet・ih-mood-tense・ih-mood-night・ih-mood-happy のいずれかを書くと、そのノートだけ紙が変わります。コンパニオンプラグインがウィンドウに ith-v-quiet / tense / night / happy を付けると、ウィンドウ全体が開いているノートの紙になります。"
     markdown: false
+  - id: ith-flat
+    title: Lay every slip straight (no tilted paper)
+    title.zh: 纸片都放正（不歪斜）
+    title.ja: 紙をまっすぐ置く（傾けない）
+    description: "Reduced motion in your system settings does the same."
+    description.zh: "系统里打开“减少动态效果”时也会放正。"
+    description.ja: "システムの「視差効果を減らす」がオンのときも同じです。"
+    type: class-toggle
+    default: false
   - id: ith-window-heading
     title: Window
     title.zh: 窗口
@@ -146,13 +156,6 @@ settings:
     type: heading
     level: 2
     collapsed: true
-  - id: ith-empty-hint
-    title: Hint on an empty new note (blank = none)
-    title.zh: 空白新笔记里的提示（留空不显示）
-    title.ja: 空のノートのヒント（空欄なら表示しない）
-    type: variable-text
-    default: ''
-    quotes: true
   - id: ith-backlinks-label
     title: Label before embedded backlinks
     title.zh: 文末反向链接前的一句
@@ -162,33 +165,45 @@ settings:
     quotes: true
   - id: ith-stamp-draft
     title: "Stamp text: ih-stamp-draft"
+    title.zh: "印章上的字：ih-stamp-draft（草稿）"
+    title.ja: "スタンプの文字：ih-stamp-draft（下書き）"
     type: variable-text
-    default: '草 稿'
+    default: 'DRAFT'
     quotes: true
   - id: ith-stamp-final
     title: "Stamp text: ih-stamp-final"
+    title.zh: "印章上的字：ih-stamp-final（定稿）"
+    title.ja: "スタンプの文字：ih-stamp-final（確定）"
     type: variable-text
-    default: '定 稿'
+    default: 'FINAL'
     quotes: true
   - id: ith-stamp-sent
     title: "Stamp text: ih-stamp-sent"
+    title.zh: "印章上的字：ih-stamp-sent（已寄出）"
+    title.ja: "スタンプの文字：ih-stamp-sent（送信済み）"
     type: variable-text
-    default: '已 寄'
+    default: 'SENT'
     quotes: true
   - id: ith-stamp-wait
     title: "Stamp text: ih-stamp-wait"
+    title.zh: "印章上的字：ih-stamp-wait（等回信）"
+    title.ja: "スタンプの文字：ih-stamp-wait（返信待ち）"
     type: variable-text
-    default: '等回信'
+    default: 'AWAITING'
     quotes: true
   - id: ith-stamp-done
     title: "Stamp text: ih-stamp-done"
+    title.zh: "印章上的字：ih-stamp-done（完成）"
+    title.ja: "スタンプの文字：ih-stamp-done（完了）"
     type: variable-text
-    default: '完'
+    default: 'DONE'
     quotes: true
   - id: ith-aged-label
     title: "Corner mark: ih-aged"
+    title.zh: 旧页角标：ih-aged
+    title.ja: 古いページの印：ih-aged
     type: variable-text
-    default: '旧'
+    default: 'OLD'
     quotes: true
 */
 
@@ -202,25 +217,29 @@ settings:
 body {
   --ith-disp: "Didot", "Bodoni 72", "Ithaca Display", Georgia, "Times New Roman", serif;
   --ith-label: "Futura", "Avenir Next", "Ithaca Label", "Helvetica Neue", Arial, sans-serif;
-  --ith-sign: "Snell Roundhand", "Ithaca Script", "Zapfino", cursive;
-  --ith-title: "Weibei SC", "Source Han Serif SC", "Noto Serif SC", "Noto Serif CJK SC", "Songti SC", "STSong", "SimSun", serif;
-  --ith-hand: "HanziPen SC", "Hannotate SC", "LXGW WenKai", "LXGW WenKai Screen", "Kaiti SC", "STKaiti", "KaiTi", cursive;
-  --ith-voice: "Songti SC", "Hiragino Mincho ProN", "Source Han Serif SC", "Noto Serif SC", "Noto Serif JP", "Yu Mincho", "SimSun", serif;
+  --ith-sign: "Snell Roundhand", "Ithaca Script", serif;
+  --ith-title: "Ithaca Display", "Weibei SC", "Source Han Serif SC", "Noto Serif SC", "Noto Serif CJK SC", "Songti SC", "STSong", "SimSun", serif;
+  --ith-hand: "HanziPen SC", "Hannotate SC", "Ithaca Hand", "LXGW WenKai", "LXGW WenKai Screen", "Kaiti SC", "STKaiti", "KaiTi", "AR PL UKai CN", serif;
+  --ith-voice: "Songti SC", "Hiragino Mincho ProN", "Source Han Serif SC", "Noto Serif SC", "Noto Serif CJK SC", "Noto Serif JP", Georgia, "Yu Mincho", "SimSun", serif;
   --ith-mono: ui-monospace, "SF Mono", Menlo, Consolas, "Courier New", monospace;
   --ith-sign-text: "";
   --ith-nav-title-text: "";
-  --ith-empty-hint: "";
   --ith-backlinks-label: "← Mentioned in";
-  --ith-stamp-draft: "草 稿"; --ith-stamp-final: "定 稿"; --ith-stamp-sent: "已 寄"; --ith-stamp-wait: "等回信"; --ith-stamp-done: "完";
-  --ith-aged-label: "旧";
+  --ith-stamp-draft: "DRAFT"; --ith-stamp-final: "FINAL"; --ith-stamp-sent: "SENT"; --ith-stamp-wait: "AWAITING"; --ith-stamp-done: "DONE";
+  --ith-aged-label: "OLD";
+  /* Paper tilt multiplier: 1 = slips sit at a slight angle, 0 = straight (Style Settings or reduced motion) */
+  --ith-tilt: 1;
   --ith-slipink: #2b2620; --ith-sticky: #f2dc72; --ith-stamp: #b8251e; --ith-stamp-blue: #24467f;
-  --font-interface-theme: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans", "Microsoft YaHei", sans-serif;
+  --font-interface-theme: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans", "Microsoft YaHei", "Noto Sans CJK SC", system-ui, sans-serif;
   --file-line-width: 680px;
 }
+body.ith-flat { --ith-tilt: 0; }
+@media (prefers-reduced-motion: reduce) { body { --ith-tilt: 0; } }
 body.ith-open-fonts {
   --ith-disp: "Ithaca Display", Georgia, serif;
   --ith-label: "Ithaca Label", "Helvetica Neue", Arial, sans-serif;
-  --ith-sign: "Ithaca Script", cursive;
+  --ith-sign: "Ithaca Script", serif;
+  --ith-hand: "Ithaca Hand", "HanziPen SC", "Hannotate SC", "LXGW WenKai", "LXGW WenKai Screen", "Kaiti SC", "STKaiti", "KaiTi", "AR PL UKai CN", serif;
 }
 
 /* Paper palettes. Light: quiet (default) or happy. */
@@ -252,6 +271,14 @@ body.ith-open-fonts {
 /* In dark mode the two light moods switch to same-hue dark paper, so a note never flashes white. */
 .theme-dark :is(.markdown-preview-view, .markdown-source-view).ih-mood-quiet { --ith-bg: #1b1c1e; --ith-ink: #ece9e2; --ith-body: #bdb8b0; --ith-mute: #948f87; --ith-acc: #e5583f; --ith-slip: #fbfaf6; }
 .theme-dark :is(.markdown-preview-view, .markdown-source-view).ih-mood-happy { --ith-bg: #15130f; --ith-ink: #fbf4e6; --ith-body: #ddd5c6; --ith-mute: #a39b8e; --ith-acc: #ff4f93; --ith-slip: #ffffff; }
+
+/* Whole-window paper set by a companion plugin (body class ith-v-*). Beats the Style Settings choice. */
+:is(.theme-light, .theme-dark).ith-v-quiet { --ith-bg: #f3f2ee; --ith-ink: #2c2a27; --ith-body: #4a4742; --ith-mute: #6f6b64; --ith-acc: #b8251e; --ith-acc2: #4f6b88; --ith-slip: #fbfaf6; --ith-slipink: #2b2620; --ith-tape: rgb(214 196 160 / .6); --ith-stamp: #b8251e; --ith-stamp-blue: #24467f; }
+:is(.theme-light, .theme-dark).ith-v-happy { --ith-bg: #fbf4e6; --ith-ink: #111; --ith-body: #2a2620; --ith-mute: #6e665a; --ith-acc: #c8105c; --ith-acc2: #2b5cff; --ith-slip: #ffffff; --ith-slipink: #111; --ith-tape: rgb(255 45 122 / .35); --ith-stamp: #b8251e; --ith-stamp-blue: #24467f; }
+:is(.theme-light, .theme-dark).ith-v-tense { --ith-bg: #121014; --ith-ink: #efe9dd; --ith-body: #cdc6ba; --ith-mute: #8d867b; --ith-acc: #e0442f; --ith-acc2: #f3a03a; --ith-slip: #e9e1cf; --ith-slipink: #2b2620; --ith-tape: rgb(226 214 186 / .55); --ith-stamp: #ef5a42; --ith-stamp-blue: #7ea4e6; }
+:is(.theme-light, .theme-dark).ith-v-night { --ith-bg: #060c1f; --ith-ink: #e6eefc; --ith-body: #aabbdc; --ith-mute: #8296bf; --ith-acc: #8ec5ff; --ith-acc2: #8ec5ff; --ith-slip: #d0d8e6; --ith-slipink: #0f1d4a; --ith-tape: rgb(180 200 240 / .4); --ith-stamp: #ef5a42; --ith-stamp-blue: #7ea4e6; }
+.theme-dark.ith-v-quiet { --ith-bg: #1b1c1e; --ith-ink: #ece9e2; --ith-body: #bdb8b0; --ith-mute: #948f87; --ith-acc: #e5583f; --ith-stamp: #ef5a42; --ith-stamp-blue: #7ea4e6; }
+.theme-dark.ith-v-happy { --ith-bg: #15130f; --ith-ink: #fbf4e6; --ith-body: #ddd5c6; --ith-mute: #a39b8e; --ith-acc: #ff4f93; --ith-stamp: #ef5a42; --ith-stamp-blue: #7ea4e6; }
 
 /* Palette -> Obsidian. Re-declared on per-note paper so derived variables follow it. */
 body.theme-light, body.theme-dark, :is(.markdown-preview-view, .markdown-source-view)[class*="ih-mood-"] {
@@ -311,7 +338,9 @@ body:not(.ith-show-ribbon):not(.is-mobile) .workspace-ribbon:is(:hover, :focus-w
 .side-dock-ribbon-action { color: var(--ith-mute); }
 
 .view-header { background: transparent; border: 0; height: 36px; padding: 0 18px; }
-.view-header-title-container { justify-content: flex-start; }
+.view-header-title-container { justify-content: flex-start; align-items: center; }
+.view-header-title-parent { align-items: center; }
+:is(.view-header-breadcrumb, .view-header-breadcrumb-separator, .view-header-title) { padding-block: 0; line-height: 1; }
 .view-header-title, .view-header-breadcrumb { font: 400 11px/1 var(--ith-label); letter-spacing: .32em; text-transform: uppercase; color: var(--ith-mute); }
 .view-header-breadcrumb-separator { color: var(--ith-mute); margin: 0 .4em; }
 .view-header .view-actions, .view-header .view-header-nav-buttons { opacity: .55; }
@@ -361,13 +390,9 @@ body:not(.ith-no-counter) .markdown-preview-view h2::before { counter-increment:
 .markdown-rendered strong { color: var(--ith-ink); font-weight: 600; }
 .markdown-rendered em { font-family: var(--ith-voice); }
 
-/* A note whose first line is an H1 doesn't repeat the inline title */
-.markdown-preview-sizer:has(> .mod-header + .el-h1) .inline-title,
-.markdown-preview-sizer:has(> .mod-header + .el-pre.mod-frontmatter + .el-h1) .inline-title { display: none; }
-
 /* Links: internal red underline, external grey, unresolved dashed */
 .markdown-rendered a.internal-link { color: var(--ith-ink); text-decoration: none; background: linear-gradient(var(--ith-acc), var(--ith-acc)) 0 92% / 100% 1.5px no-repeat; }
-.markdown-rendered a.internal-link.is-unresolved { opacity: 1; color: var(--ith-mute); background-image: linear-gradient(90deg, var(--ith-acc) 50%, transparent 50%); background-size: 6px 1.5px; }
+.markdown-rendered a.internal-link.is-unresolved { opacity: 1; color: var(--ith-mute); background-image: linear-gradient(90deg, var(--ith-acc) 50%, transparent 50%); background-size: 6px 1.5px; background-repeat: repeat-x; }
 .markdown-rendered a.external-link { color: var(--ith-mute); text-decoration: none; background: linear-gradient(var(--ith-mute), var(--ith-mute)) 0 92% / 100% 1px no-repeat; padding-right: 0; }
 .markdown-rendered a.external-link::after { content: " ↗"; font-size: .8em; }
 .markdown-rendered a:hover { background-color: transparent; color: var(--ith-ink); }
@@ -375,12 +400,12 @@ body:not(.ith-no-counter) .markdown-preview-view h2::before { counter-increment:
 /* Tags: ticket stubs */
 .markdown-rendered a.tag, .cm-s-obsidian .cm-hashtag {
   font: 400 11px/1 var(--ith-label); letter-spacing: .16em; text-transform: uppercase; color: var(--ith-slipink); background: var(--ith-slip);
-  padding: 6px 10px; border-radius: 0; display: inline-block; transform: rotate(-2deg); text-decoration: none; margin: 0 6px 0 2px;
+  padding: 6px 10px; border-radius: 0; display: inline-block; transform: rotate(calc(-2deg * var(--ith-tilt))); text-decoration: none; margin: 0 6px 0 2px;
   -webkit-mask: radial-gradient(circle at 0 50%, transparent 4px, #000 4.5px), radial-gradient(circle at 100% 50%, transparent 4px, #000 4.5px);
   mask: radial-gradient(circle at 0 50%, transparent 4px, #000 4.5px), radial-gradient(circle at 100% 50%, transparent 4px, #000 4.5px);
   -webkit-mask-composite: source-in; mask-composite: intersect;
 }
-.markdown-rendered a.tag:nth-of-type(even) { transform: rotate(1.5deg); }
+.markdown-rendered a.tag:nth-of-type(even) { transform: rotate(calc(1.5deg * var(--ith-tilt))); }
 .markdown-rendered a.tag { max-width: 100%; overflow-wrap: anywhere; line-height: 1.3; }
 
 /* Tasks and lists: red pen */
@@ -416,7 +441,7 @@ body:not(.ith-no-counter) .markdown-preview-view h2::before { counter-increment:
 .metadata-add-button { opacity: .5; font-size: 12px; }
 
 /* Signature (Style Settings) */
-body.ith-sign .markdown-preview-view .markdown-preview-sizer::after { content: var(--ith-sign-text); display: block; text-align: right; font: italic 26px/1 var(--ith-sign); color: var(--ith-mute); margin: 48px 0 10px; transform: rotate(-6deg); }
+body.ith-sign .markdown-preview-view .markdown-preview-sizer::after { content: var(--ith-sign-text); display: block; text-align: right; font: italic 26px/1 var(--ith-sign); color: var(--ith-mute); margin: 48px 0 10px; transform: rotate(calc(-6deg * var(--ith-tilt))); }
 @media (prefers-reduced-motion: no-preference) {
   body.ith-sign .markdown-preview-view .markdown-preview-sizer::after { animation: ith-write 1.1s cubic-bezier(.4, 0, .2, 1) .4s both; }
   @keyframes ith-write { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } }
@@ -434,15 +459,15 @@ body.ith-sign .markdown-preview-view .markdown-preview-sizer::after { content: v
 .markdown-rendered .callout a.internal-link { color: inherit; }
 .markdown-rendered .callout.is-collapsible .callout-fold { color: inherit; opacity: .5; }
 /* example, quote, cite: taped paper */
-.markdown-rendered .callout:is([data-callout="example"], [data-callout="quote"], [data-callout="cite"]) { transform: rotate(-.7deg); }
-.markdown-rendered .callout:is([data-callout="example"], [data-callout="quote"], [data-callout="cite"])::before { content: ""; position: absolute; left: 20px; top: -9px; width: 56px; height: 15px; background: var(--ith-tape); transform: rotate(-4deg); }
+.markdown-rendered .callout:is([data-callout="example"], [data-callout="quote"], [data-callout="cite"]) { transform: rotate(calc(-.7deg * var(--ith-tilt))); }
+.markdown-rendered .callout:is([data-callout="example"], [data-callout="quote"], [data-callout="cite"])::before { content: ""; position: absolute; left: 20px; top: -9px; width: 56px; height: 15px; background: var(--ith-tape); transform: rotate(calc(-4deg * var(--ith-tilt))); }
 .markdown-rendered .callout[data-callout="quote"] .callout-content { font-family: var(--ith-voice); font-size: 1.08em; }
 /* important, warning, danger, bug…: black paper */
-.markdown-rendered .callout:is([data-callout="important"], [data-callout="warning"], [data-callout="caution"], [data-callout="attention"], [data-callout="danger"], [data-callout="error"], [data-callout="bug"], [data-callout="failure"], [data-callout="fail"], [data-callout="missing"]) { background: #111; color: #f1ece2; transform: rotate(.6deg); }
+.markdown-rendered .callout:is([data-callout="important"], [data-callout="warning"], [data-callout="caution"], [data-callout="attention"], [data-callout="danger"], [data-callout="error"], [data-callout="bug"], [data-callout="failure"], [data-callout="fail"], [data-callout="missing"]) { background: #111; color: #f1ece2; transform: rotate(calc(.6deg * var(--ith-tilt))); }
 .theme-dark .markdown-rendered .callout:is([data-callout="important"], [data-callout="warning"], [data-callout="caution"], [data-callout="attention"], [data-callout="danger"], [data-callout="error"], [data-callout="bug"], [data-callout="failure"], [data-callout="fail"], [data-callout="missing"]) { background: #26262b; box-shadow: 0 0 0 1px rgb(255 255 255 / .06), 0 10px 26px rgb(0 0 0 / .5); }
 .markdown-rendered .callout:is([data-callout="important"], [data-callout="warning"], [data-callout="caution"], [data-callout="attention"], [data-callout="danger"], [data-callout="error"], [data-callout="bug"], [data-callout="failure"], [data-callout="fail"], [data-callout="missing"]) .callout-title-inner { color: #f3a03a; }
 /* tip, hint, todo, question…: sticky notes */
-.markdown-rendered .callout:is([data-callout="tip"], [data-callout="hint"], [data-callout="thought"], [data-callout="todo"], [data-callout="question"], [data-callout="help"], [data-callout="faq"]) { background: var(--ith-sticky); color: #2b2620; font-family: var(--ith-hand); transform: rotate(1.2deg); box-shadow: 0 5px 14px rgb(0 0 0 / .22); }
+.markdown-rendered .callout:is([data-callout="tip"], [data-callout="hint"], [data-callout="thought"], [data-callout="todo"], [data-callout="question"], [data-callout="help"], [data-callout="faq"]) { background: var(--ith-sticky); color: #2b2620; font-family: var(--ith-hand); transform: rotate(calc(1.2deg * var(--ith-tilt))); box-shadow: 0 5px 14px rgb(0 0 0 / .22); }
 .markdown-rendered .callout:is([data-callout="tip"], [data-callout="hint"], [data-callout="thought"], [data-callout="todo"], [data-callout="question"], [data-callout="help"], [data-callout="faq"]) .callout-content { font-size: 1.02em; }
 .markdown-rendered .callout:is([data-callout="tip"], [data-callout="hint"], [data-callout="thought"], [data-callout="todo"], [data-callout="question"], [data-callout="help"], [data-callout="faq"]) .callout-title-inner { color: #4a4330; }
 /* info, note, summary, success…: plain, one red rule, so a page isn't all slips */
@@ -450,7 +475,7 @@ body.ith-sign .markdown-preview-view .markdown-preview-sizer::after { content: v
 .markdown-rendered .callout:is([data-callout="info"], [data-callout="summary"], [data-callout="tldr"], [data-callout="abstract"], [data-callout="note"], [data-callout="success"], [data-callout="check"], [data-callout="done"]) .callout-title-inner { color: var(--ith-acc); }
 
 /* receipt: thermal paper, monospace, torn edge, a barcode at the bottom */
-.markdown-rendered .callout[data-callout="receipt"] { background: #fbfaf6; color: #2b2620; font-family: var(--ith-mono); font-size: 13px; line-height: 1.75; max-width: 360px; margin: 1.6em auto; padding: 18px 22px 30px; box-shadow: 0 8px 22px rgb(0 0 0 / .2); transform: rotate(-.4deg); clip-path: polygon(0 0, 100% 0, 100% calc(100% - 8px), 95% 100%, 90% calc(100% - 8px), 85% 100%, 80% calc(100% - 8px), 75% 100%, 70% calc(100% - 8px), 65% 100%, 60% calc(100% - 8px), 55% 100%, 50% calc(100% - 8px), 45% 100%, 40% calc(100% - 8px), 35% 100%, 30% calc(100% - 8px), 25% 100%, 20% calc(100% - 8px), 15% 100%, 10% calc(100% - 8px), 5% 100%, 0 calc(100% - 8px)); }
+.markdown-rendered .callout[data-callout="receipt"] { background: #fbfaf6; color: #2b2620; font-family: var(--ith-mono); font-size: 13px; line-height: 1.75; max-width: 360px; margin: 1.6em auto; padding: 18px 22px 30px; box-shadow: 0 8px 22px rgb(0 0 0 / .2); transform: rotate(calc(-.4deg * var(--ith-tilt))); clip-path: polygon(0 0, 100% 0, 100% calc(100% - 8px), 95% 100%, 90% calc(100% - 8px), 85% 100%, 80% calc(100% - 8px), 75% 100%, 70% calc(100% - 8px), 65% 100%, 60% calc(100% - 8px), 55% 100%, 50% calc(100% - 8px), 45% 100%, 40% calc(100% - 8px), 35% 100%, 30% calc(100% - 8px), 25% 100%, 20% calc(100% - 8px), 15% 100%, 10% calc(100% - 8px), 5% 100%, 0 calc(100% - 8px)); }
 .markdown-rendered .callout[data-callout="receipt"] .callout-title { justify-content: center; border-bottom: 1px dashed rgb(0 0 0 / .3); padding-bottom: 8px; margin-bottom: 8px; }
 .markdown-rendered .callout[data-callout="receipt"] .callout-title-inner { font: 400 10px/1.6 var(--ith-mono); letter-spacing: .3em; color: #b8251e; text-align: center; width: 100%; }
 .markdown-rendered .callout[data-callout="receipt"] .callout-content::after { content: ""; display: block; height: 28px; margin-top: 12px; border-top: 1px dashed rgb(0 0 0 / .3); background: repeating-linear-gradient(90deg, #2b2620 0 1px, transparent 1px 3px, #2b2620 3px 5px, transparent 5px 6px, #2b2620 6px 7px, transparent 7px 10px) 50% 8px / 70% 20px no-repeat; }
@@ -469,8 +494,8 @@ body.ith-sign .markdown-preview-view .markdown-preview-sizer::after { content: v
 .markdown-rendered .callout:is([data-callout="letter"], [data-callout="lined"], [data-callout="ledger"], [data-callout="slips"], [data-callout="stickies"], [data-callout="tickets"]) li::marker { content: ""; }
 .markdown-rendered .callout:is([data-callout="letter"], [data-callout="lined"], [data-callout="ledger"], [data-callout="slips"], [data-callout="stickies"], [data-callout="tickets"]) :is(.list-bullet, .list-collapse-indicator) { display: none; }
 
-.markdown-rendered .callout[data-callout="letter"] { background: #fff; color: #2b2620; padding: 12px 22px 14px; font-family: var(--ith-hand); transform: rotate(-.4deg); box-shadow: 0 8px 20px rgb(0 0 0 / .14); }
-.markdown-rendered .callout[data-callout="letter"]::before { content: ""; position: absolute; left: 46%; top: -8px; width: 58px; height: 14px; background: var(--ith-tape); transform: rotate(3deg); }
+.markdown-rendered .callout[data-callout="letter"] { background: #fff; color: #2b2620; padding: 12px 22px 14px; font-family: var(--ith-hand); transform: rotate(calc(-.4deg * var(--ith-tilt))); box-shadow: 0 8px 20px rgb(0 0 0 / .14); }
+.markdown-rendered .callout[data-callout="letter"]::before { content: ""; position: absolute; left: 46%; top: -8px; width: 58px; height: 14px; background: var(--ith-tape); transform: rotate(calc(3deg * var(--ith-tilt))); }
 .markdown-rendered .callout:is([data-callout="letter"], [data-callout="lined"]) .callout-content { background: repeating-linear-gradient(180deg, transparent 0 27px, var(--ith-rule) 27px 28px); padding: 0; }
 .markdown-rendered .callout[data-callout="letter"] { --ith-rule: rgb(125 147 171 / .3); }
 .markdown-rendered .callout[data-callout="lined"] { --ith-rule: color-mix(in srgb, var(--ith-ink) 14%, transparent); }
@@ -485,24 +510,24 @@ body.ith-sign .markdown-preview-view .markdown-preview-sizer::after { content: v
 .markdown-rendered .callout[data-callout="ledger"] li { padding: 6px 0; border-bottom: 1px dashed color-mix(in srgb, var(--ith-ink) 14%, transparent); }
 
 .markdown-rendered .callout:is([data-callout="slips"], [data-callout="stickies"]) .callout-content > :is(ul, ol) { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 180px), 1fr)); gap: 18px 20px; padding: 6px 2px 10px; }
-.markdown-rendered .callout[data-callout="slips"] li { background: #fbfaf6; color: #2b2620; padding: 10px 14px; font-family: var(--ith-voice); font-size: .95em; line-height: 1.6; box-shadow: 0 1px 2px rgb(0 0 0 / .08), 0 4px 10px rgb(0 0 0 / .1); transform: rotate(-.8deg); overflow-wrap: anywhere; }
-.markdown-rendered .callout[data-callout="slips"] li:nth-child(2n) { transform: rotate(.7deg); }
-.markdown-rendered .callout[data-callout="stickies"] li { background: var(--ith-sticky); color: #2b2620; padding: 10px 12px; font-family: var(--ith-hand); line-height: 1.5; box-shadow: 0 1px 2px rgb(0 0 0 / .1), 0 4px 10px rgb(0 0 0 / .12); transform: rotate(-1.4deg); overflow-wrap: anywhere; }
-.markdown-rendered .callout[data-callout="stickies"] li:nth-child(2n) { transform: rotate(1.2deg); }
+.markdown-rendered .callout[data-callout="slips"] li { background: #fbfaf6; color: #2b2620; padding: 10px 14px; font-family: var(--ith-voice); font-size: .95em; line-height: 1.6; box-shadow: 0 1px 2px rgb(0 0 0 / .08), 0 4px 10px rgb(0 0 0 / .1); transform: rotate(calc(-.8deg * var(--ith-tilt))); overflow-wrap: anywhere; }
+.markdown-rendered .callout[data-callout="slips"] li:nth-child(2n) { transform: rotate(calc(.7deg * var(--ith-tilt))); }
+.markdown-rendered .callout[data-callout="stickies"] li { background: var(--ith-sticky); color: #2b2620; padding: 10px 12px; font-family: var(--ith-hand); line-height: 1.5; box-shadow: 0 1px 2px rgb(0 0 0 / .1), 0 4px 10px rgb(0 0 0 / .12); transform: rotate(calc(-1.4deg * var(--ith-tilt))); overflow-wrap: anywhere; }
+.markdown-rendered .callout[data-callout="stickies"] li:nth-child(2n) { transform: rotate(calc(1.2deg * var(--ith-tilt))); }
 .markdown-rendered .callout:is([data-callout="slips"], [data-callout="stickies"]) li a.internal-link { color: #a51f19; }
 
 .markdown-rendered .callout[data-callout="tickets"] .callout-content > :is(ul, ol) { display: flex; flex-wrap: wrap; gap: 10px; padding: 6px 2px; }
-.markdown-rendered .callout[data-callout="tickets"] li { background: #fbfaf6; color: #2b2620; padding: 8px 16px; font-family: var(--ith-hand); font-size: .9em; max-width: 100%; overflow-wrap: anywhere; transform: rotate(-1.5deg);
+.markdown-rendered .callout[data-callout="tickets"] li { background: #fbfaf6; color: #2b2620; padding: 8px 16px; font-family: var(--ith-hand); font-size: .9em; max-width: 100%; overflow-wrap: anywhere; transform: rotate(calc(-1.5deg * var(--ith-tilt)));
   -webkit-mask: radial-gradient(circle at 0 50%, transparent 6px, #000 6.5px), radial-gradient(circle at 100% 50%, transparent 6px, #000 6.5px); -webkit-mask-composite: source-in;
   mask: radial-gradient(circle at 0 50%, transparent 6px, #000 6.5px), radial-gradient(circle at 100% 50%, transparent 6px, #000 6.5px); mask-composite: intersect; }
-.markdown-rendered .callout[data-callout="tickets"] li:nth-child(2n) { transform: rotate(1.2deg); }
+.markdown-rendered .callout[data-callout="tickets"] li:nth-child(2n) { transform: rotate(calc(1.2deg * var(--ith-tilt))); }
 .markdown-preview-view.ih-card .callout[data-callout="tickets"] li, .theme-dark .markdown-rendered .callout[data-callout="tickets"] li { background: #ece4d3; }
 
 /* =====================================================================
    6. Popovers, switcher, menus, modals
    ===================================================================== */
-.popover.hover-popover { background: var(--ith-slip); color: var(--ith-slipink); border: 0; border-radius: 2px; box-shadow: 0 14px 34px rgb(0 0 0 / .35); transform: rotate(.8deg); }
-.popover.hover-popover::before { content: ""; position: absolute; left: 18px; top: -8px; width: 46px; height: 13px; background: var(--ith-tape); transform: rotate(-5deg); z-index: 1; }
+.popover.hover-popover { background: var(--ith-slip); color: var(--ith-slipink); border: 0; border-radius: 2px; box-shadow: 0 14px 34px rgb(0 0 0 / .35); transform: rotate(calc(.8deg * var(--ith-tilt))); }
+.popover.hover-popover::before { content: ""; position: absolute; left: 18px; top: -8px; width: 46px; height: 13px; background: var(--ith-tape); transform: rotate(calc(-5deg * var(--ith-tilt))); z-index: 1; }
 .popover.hover-popover .markdown-preview-view { background: transparent; color: inherit; --text-normal: var(--ith-slipink); }
 .prompt { background: var(--ith-slip); color: var(--ith-slipink); border: 0; border-radius: 0; box-shadow: 0 30px 70px rgb(0 0 0 / .45); padding: 22px 26px 18px;
   clip-path: polygon(0 0,100% 0,100% 97%,96% 100%,92% 97.5%,88% 100%,84% 97.5%,80% 100%,76% 97.5%,72% 100%,68% 97.5%,64% 100%,60% 97.5%,56% 100%,52% 97.5%,48% 100%,44% 97.5%,40% 100%,36% 97.5%,32% 100%,28% 97.5%,24% 100%,20% 97.5%,16% 100%,12% 97.5%,8% 100%,4% 97.5%,0 100%); }
@@ -550,9 +575,7 @@ textarea { border-radius: 8px; }
   button:not(.clickable-icon) { transition: transform 160ms cubic-bezier(.23, 1, .32, 1); }
   button:not(.clickable-icon):active { transform: scale(.97); }
 }
-@media (prefers-reduced-motion: reduce) {
-  .callout, .callout li, .popover.hover-popover, a.tag, .cm-hashtag, .markdown-preview-sizer::after, .ih-mg, .ih-circ::before, .markdown-preview-view[class*="ih-stamp-"]::before, .markdown-preview-view.ih-card .markdown-preview-sizer, .image-embed { transform: none !important; }
-}
+/* Reduced motion: --ith-tilt is 0 (section 1), so every rotate() below lies flat. */
 
 /* =====================================================================
    9. Notebook marks (type them by hand, or let a companion plugin insert them)
@@ -569,7 +592,8 @@ textarea { border-radius: 8px; }
 .markdown-preview-view .footnotes li::marker { font: italic 400 11px/1 var(--ith-disp); color: var(--ith-acc); }
 .markdown-preview-view .footnotes p { margin: 0 0 .6em; font-size: inherit; line-height: inherit; }
 
-.markdown-preview-view :is(p, li, h2, h3, blockquote):has(> .ih-mg) { position: relative; }
+/* Anchor for margin notes. Set on every text block rather than detecting the ones that hold a note, which would cost a check on every render. */
+.markdown-preview-view :is(p, li, h2, h3, blockquote) { position: relative; }
 .markdown-preview-view .ih-mg { display: block; margin: 4px 0 0; font: 400 13.5px/1.45 var(--ith-hand); color: var(--ith-mute); }
 .markdown-preview-view .ih-mg.is-red { color: var(--ith-acc); }
 .markdown-preview-view .ih-sticky { background: var(--ith-sticky); color: #2b2620; padding: 1px 6px; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
@@ -583,26 +607,22 @@ textarea { border-radius: 8px; }
   body:not(.ith-no-margin) .markdown-preview-view.is-readable-line-width .footnotes li { position: relative; margin-bottom: 14px; }
   body:not(.ith-no-margin) .markdown-preview-view.is-readable-line-width .footnotes li::before { content: counter(list-item); font: italic 400 11px/1 var(--ith-disp); color: var(--ith-acc); display: block; margin-bottom: 2px; }
   body:not(.ith-no-margin) .markdown-preview-view.is-readable-line-width .footnotes li::after { content: ""; position: absolute; left: -28px; top: 8px; width: 18px; height: 1px; background: var(--ith-acc); opacity: .6; }
-  .markdown-preview-view.is-readable-line-width .ih-mg:not(.callout .ih-mg) { position: absolute; left: 100%; top: 0; margin: 0 0 0 36px; width: 180px; color: var(--ith-ink); transform: rotate(-1.5deg); }
+  .markdown-preview-view.is-readable-line-width .ih-mg:not(.callout .ih-mg) { position: absolute; left: 100%; top: 0; margin: 0 0 0 36px; width: 180px; color: var(--ith-ink); transform: rotate(calc(-1.5deg * var(--ith-tilt))); }
   .markdown-preview-view.is-readable-line-width .ih-mg:not(.callout .ih-mg, .ih-sticky)::before { content: "←"; color: var(--ith-acc); margin-right: 6px; }
-  .markdown-preview-view.is-readable-line-width .ih-mg.ih-sticky:not(.callout .ih-mg) { width: 160px; padding: 10px 12px; box-shadow: 0 5px 14px rgb(0 0 0 / .22); transform: rotate(2.5deg); font-size: 13px; color: #2b2620; }
-  /* With footnotes on the right, inline notes move to the left margin */
-  body:not(.ith-no-margin) .markdown-preview-view.is-readable-line-width .markdown-preview-sizer:has(.footnotes) .ih-mg:not(.callout .ih-mg) { left: auto; right: 100%; margin: 0 36px 0 0; text-align: right; }
-  body:not(.ith-no-margin) .markdown-preview-view.is-readable-line-width .markdown-preview-sizer:has(.footnotes) .ih-mg:not(.callout .ih-mg, .ih-sticky)::before { content: none; }
-  body:not(.ith-no-margin) .markdown-preview-view.is-readable-line-width .markdown-preview-sizer:has(.footnotes) .ih-mg:not(.callout .ih-mg, .ih-sticky)::after { content: " →"; color: var(--ith-acc); }
+  .markdown-preview-view.is-readable-line-width .ih-mg.ih-sticky:not(.callout .ih-mg) { width: 160px; padding: 10px 12px; box-shadow: 0 5px 14px rgb(0 0 0 / .22); transform: rotate(calc(2.5deg * var(--ith-tilt))); font-size: 13px; color: #2b2620; }
 }
 
 /* 9b. Red-pen circle: <span class="ih-circ">the few words that matter</span> */
 .markdown-rendered .ih-circ { position: relative; display: inline-block; max-width: 100%; padding: 0 4px; margin: 0 6px; text-indent: 0; color: var(--ith-ink); }
-.markdown-rendered .ih-circ::before { content: ""; position: absolute; inset: -4px -8px; border: 1.5px solid var(--ith-acc); border-radius: 48% 52% 50% 50% / 60% 44% 56% 40%; transform: rotate(-2deg); pointer-events: none; }
+.markdown-rendered .ih-circ::before { content: ""; position: absolute; inset: -4px -8px; border: 1.5px solid var(--ith-acc); border-radius: 48% 52% 50% 50% / 60% 44% 56% 40%; transform: rotate(calc(-2deg * var(--ith-tilt))); pointer-events: none; }
 .markdown-rendered :is(.callout, .ih-sticky) .ih-circ { color: inherit; }
 
 /* 9c. Stamps: cssclasses ih-stamp-draft / -final / -sent / -wait / -done */
 .markdown-preview-view[class*="ih-stamp-"] { position: relative; }
 .markdown-preview-view[class*="ih-stamp-"]::before {
   position: absolute; right: 84px; top: 54px; z-index: 5; pointer-events: none;
-  font: 700 15px/1 var(--ith-title); letter-spacing: .32em; color: var(--ith-stamp); border: 3px double var(--ith-stamp); padding: 7px 8px 6px 13px; border-radius: 3px;
-  transform: rotate(-12deg); opacity: .82;
+  font: 600 14px/1 var(--ith-label); letter-spacing: .28em; color: var(--ith-stamp); border: 3px double var(--ith-stamp); padding: 7px 8px 6px 13px; border-radius: 3px;
+  transform: rotate(calc(-12deg * var(--ith-tilt))); opacity: .82;
   -webkit-mask: radial-gradient(rgb(0 0 0 / .95) 60%, transparent 61%) 0 0 / 3px 3px; mask: radial-gradient(rgb(0 0 0 / .95) 60%, transparent 61%) 0 0 / 3px 3px;
 }
 .theme-dark .markdown-preview-view[class*="ih-stamp-"]::before { opacity: .92; -webkit-mask: radial-gradient(rgb(0 0 0) 68%, transparent 70%) 0 0 / 3px 3px; mask: radial-gradient(rgb(0 0 0) 68%, transparent 70%) 0 0 / 3px 3px; }
@@ -621,15 +641,15 @@ textarea { border-radius: 8px; }
 .markdown-rendered .ih-sub { margin: -.6em 0 1.4em; }
 
 /* 9f. Photos: alt text containing "photo" (or 照片) becomes a white-bordered print; add left / right to float */
-.markdown-rendered .image-embed:is([alt~="照片"], [alt~="photo"]) { display: inline-block; background: #fff; padding: 8px 8px 26px; box-shadow: 0 10px 24px rgb(0 0 0 / .3); transform: rotate(-2deg); margin: 10px 14px 6px 0; max-width: 46%; position: relative; }
+.markdown-rendered .image-embed:is([alt~="照片"], [alt~="photo"]) { display: inline-block; background: #fff; padding: 8px 8px 26px; box-shadow: 0 10px 24px rgb(0 0 0 / .3); transform: rotate(calc(-2deg * var(--ith-tilt))); margin: 10px 14px 6px 0; max-width: 46%; position: relative; }
 .markdown-rendered .image-embed:is([alt~="照片"], [alt~="photo"]) img { display: block; box-shadow: none; border-radius: 0; max-width: 100%; }
 .markdown-rendered .image-embed:is([alt~="照片"], [alt~="photo"])::after { content: attr(alt); position: absolute; left: 10px; bottom: 6px; right: 10px; font: 400 11px/1.3 var(--ith-hand); color: #2b2620; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.markdown-rendered .image-embed:is([alt~="照片"], [alt~="photo"]):nth-of-type(even) { transform: rotate(1.5deg); }
-.markdown-rendered .image-embed[alt~="right"] { float: right; margin: 6px 0 10px 18px; transform: rotate(2deg); }
+.markdown-rendered .image-embed:is([alt~="照片"], [alt~="photo"]):nth-of-type(even) { transform: rotate(calc(1.5deg * var(--ith-tilt))); }
+.markdown-rendered .image-embed[alt~="right"] { float: right; margin: 6px 0 10px 18px; transform: rotate(calc(2deg * var(--ith-tilt))); }
 .markdown-rendered .image-embed[alt~="left"] { float: left; margin: 6px 18px 10px 0; }
 
 /* 9g. Index card: cssclasses ih-card turns the note into a ruled index card */
-.markdown-preview-view.ih-card .markdown-preview-sizer { max-width: 620px; margin: 40px auto; padding: 26px 34px 40px; background: var(--ith-slip) repeating-linear-gradient(180deg, transparent 0 31px, color-mix(in srgb, #7d93ab 32%, transparent) 31px 32px) 0 70px; color: var(--ith-slipink); --text-normal: var(--ith-slipink); border-radius: 3px; box-shadow: 0 14px 34px rgb(0 0 0 / .28); transform: rotate(-.6deg); position: relative; }
+.markdown-preview-view.ih-card .markdown-preview-sizer { max-width: 620px; margin: 40px auto; padding: 26px 34px 40px; background: var(--ith-slip) repeating-linear-gradient(180deg, transparent 0 31px, color-mix(in srgb, #7d93ab 32%, transparent) 31px 32px) 0 70px; color: var(--ith-slipink); --text-normal: var(--ith-slipink); border-radius: 3px; box-shadow: 0 14px 34px rgb(0 0 0 / .28); transform: rotate(calc(-.6deg * var(--ith-tilt))); position: relative; }
 .markdown-preview-view.ih-card .markdown-preview-sizer::before { content: ""; position: absolute; left: 0; right: 0; top: 62px; height: 1.5px; background: rgb(200 60 50 / .6); }
 .markdown-preview-view.ih-card .markdown-preview-sizer > .mod-header::before { content: ""; position: absolute; left: 50%; top: -7px; width: 14px; height: 14px; margin-left: -7px; border-radius: 50%; background: var(--ith-acc); box-shadow: 0 2px 4px rgb(0 0 0 / .5), inset -2px -2px 3px rgb(0 0 0 / .3); }
 .markdown-preview-view.ih-card .inline-title { font-size: 1.7em; line-height: 32px; margin: 0; color: var(--ith-slipink); }
@@ -645,7 +665,7 @@ body.ith-sign .markdown-preview-view.ih-card .markdown-preview-sizer::after { co
 .markdown-preview-view:is(.ih-aged, .ih-aged-2) .callout:not([data-callout="info"], [data-callout="summary"], [data-callout="note"], [data-callout="abstract"], [data-callout="tldr"], [data-callout="success"], [data-callout="lined"], [data-callout="ledger"], [data-callout="slips"], [data-callout="stickies"], [data-callout="tickets"]) { background-image: linear-gradient(225deg, var(--ith-bg) 0 10px, rgb(0 0 0 / .08) 10px 12px, transparent 12px); }
 .markdown-preview-view.ih-aged-2 .callout:not([data-callout="info"], [data-callout="summary"], [data-callout="note"], [data-callout="abstract"], [data-callout="tldr"], [data-callout="success"]) { filter: sepia(.18); }
 .markdown-preview-view:is(.ih-aged, .ih-aged-2):not(.ih-card) .mod-header { position: relative; }
-.markdown-preview-view:is(.ih-aged, .ih-aged-2) .mod-header::after { content: var(--ith-aged-label); position: absolute; right: -6px; top: 60px; font: 700 12px/1 var(--ith-title); color: var(--ith-mute); border: 1.5px solid var(--ith-mute); padding: 4px 5px; border-radius: 2px; transform: rotate(8deg); opacity: .55; }
+.markdown-preview-view:is(.ih-aged, .ih-aged-2) .mod-header::after { content: var(--ith-aged-label); position: absolute; right: -6px; top: 60px; font: 600 11px/1 var(--ith-label); letter-spacing: .18em; color: var(--ith-mute); border: 1.5px solid var(--ith-mute); padding: 4px 5px; border-radius: 2px; transform: rotate(calc(8deg * var(--ith-tilt))); opacity: .55; }
 
 /* 9i. Desk lamp (Style Settings) */
 @media (hover: hover) and (pointer: fine) { body.ith-lamp .markdown-preview-sizer:hover > div:not(:hover, .mod-header, .mod-footer) { opacity: .45; } }
@@ -665,10 +685,10 @@ body.ith-sign .markdown-preview-view.ih-card .markdown-preview-sizer::after { co
 .cm-s-obsidian .cm-strong { color: var(--ith-ink); font-weight: 600; }
 .cm-s-obsidian .cm-em { font-family: var(--ith-voice); }
 .cm-s-obsidian :is(.cm-hmd-internal-link, .cm-hmd-internal-link .cm-underline) { color: var(--ith-ink); text-decoration: none; background: linear-gradient(var(--ith-acc), var(--ith-acc)) 0 92% / 100% 1.5px no-repeat; }
-.cm-s-obsidian .cm-hmd-internal-link.is-unresolved .cm-underline { color: var(--ith-mute); background-image: linear-gradient(90deg, var(--ith-acc) 50%, transparent 50%); background-size: 6px 1.5px; }
+.cm-s-obsidian .cm-hmd-internal-link.is-unresolved .cm-underline { color: var(--ith-mute); background-image: linear-gradient(90deg, var(--ith-acc) 50%, transparent 50%); background-size: 6px 1.5px; background-repeat: repeat-x; }
 .cm-s-obsidian :is(.cm-link, .cm-url) { color: var(--ith-mute); }
 .cm-s-obsidian .cm-hashtag { padding: 5px 7px; margin: 0 4px 0 2px; transform: none; -webkit-mask: none; mask: none; border-radius: 2px; }
-.cm-s-obsidian .cm-hashtag-begin { padding-right: 0; margin-right: 0; opacity: .5; }
+.cm-s-obsidian .cm-hashtag-begin { padding-right: 0; margin-right: 0; color: color-mix(in srgb, var(--ith-slipink) 50%, var(--ith-slip)); }
 .cm-s-obsidian .cm-hashtag-end { padding-left: 0; margin-left: 0; }
 .cm-s-obsidian .HyperMD-quote { border-left: 2px solid var(--ith-acc); padding-left: 16px; font-family: var(--ith-voice); font-size: 1.05em; color: var(--ith-ink); background: transparent; }
 .cm-s-obsidian .cm-formatting-quote { color: var(--ith-acc); opacity: .5; }
@@ -681,16 +701,15 @@ body.ith-sign .markdown-preview-view.ih-card .markdown-preview-sizer::after { co
 .cm-s-obsidian .HyperMD-task-line:is([data-task="x"], [data-task="X"]) { color: var(--ith-mute); text-decoration: line-through; text-decoration-color: var(--ith-acc); }
 .cm-s-obsidian :is(.cm-footref, .cm-hmd-footref) { font: italic 400 .78em/1 var(--ith-disp); color: var(--ith-acc); }
 .markdown-source-view.mod-cm6 .cm-embed-block.cm-callout { background: transparent; border: 0; box-shadow: none; overflow: visible; padding: 2px 0; }
+/* The theme's only !important. app.css sets `contain: paint !important` on every editor widget, which cuts a slip's
+   shadow into a hard straight line along the widget's edge. Only an !important can lift it; it is limited to callouts. */
+.markdown-source-view.mod-cm6 .cm-content > .cm-embed-block.cm-callout[contenteditable="false"] { contain: none !important; }
 .markdown-source-view.mod-cm6 .cm-embed-block .edit-block-button { background: var(--ith-slip); color: var(--ith-slipink); border-radius: 999px; box-shadow: 0 4px 12px rgb(0 0 0 / .2); }
 /* Active line: no fill, a short red mark on the left */
 .cm-s-obsidian .cm-line { position: relative; }
 .cm-s-obsidian .cm-active.cm-line { background: transparent; }
 .cm-s-obsidian .cm-active.cm-line::before { content: ""; position: absolute; left: -14px; top: .55em; width: 6px; height: 2px; background: var(--ith-acc); opacity: .7; }
 .cm-s-obsidian :is(.cm-cursor, .cm-dropCursor) { border-left-color: var(--ith-acc); border-left-width: 2px; }
-/* First line is an H1: hide the inline title here too */
-.markdown-source-view .cm-sizer:has(.cm-content > :is(.HyperMD-header-1:first-child, :first-child:not(.cm-line) + .HyperMD-header-1)) .inline-title { display: none; }
-/* Empty note hint (Style Settings; blank by default) */
-.markdown-source-view.mod-cm6 .cm-content:has(> .cm-line:only-child > br:only-child) .cm-line:only-child::after { content: var(--ith-empty-hint); position: absolute; left: 0; top: 0; font: 400 15px/1.85 var(--ith-hand); color: var(--ith-mute); opacity: .7; pointer-events: none; white-space: nowrap; }
 
 /* =====================================================================
    11. Small extras
@@ -701,20 +720,20 @@ body.ith-sign .markdown-preview-view.ih-card .markdown-preview-sizer::after { co
   @keyframes ith-progress { from { background-size: 0% 1.5px; } to { background-size: 100% 1.5px; } }
   @media (prefers-reduced-motion: reduce) { .markdown-reading-view > .markdown-preview-view { animation: none; background-image: none; } }
 }
-/* Code blocks: the language in the top-right corner */
-.markdown-rendered pre:has(> code[class*="language-"]) { position: relative; padding-top: 22px; }
-.markdown-rendered pre:has(> code[class*="language-"])::before { position: absolute; right: 56px; top: 10px; font: 400 10px/1 var(--ith-label); letter-spacing: .24em; color: var(--ith-mute); text-transform: uppercase; }
-.markdown-rendered pre:has(> code.language-python)::before { content: "python"; }
-.markdown-rendered pre:has(> code:is(.language-js, .language-javascript))::before { content: "javascript"; }
-.markdown-rendered pre:has(> code:is(.language-ts, .language-typescript))::before { content: "typescript"; }
-.markdown-rendered pre:has(> code.language-css)::before { content: "css"; }
-.markdown-rendered pre:has(> code:is(.language-bash, .language-sh, .language-zsh, .language-shell))::before { content: "shell"; }
-.markdown-rendered pre:has(> code.language-json)::before { content: "json"; }
-.markdown-rendered pre:has(> code:is(.language-yaml, .language-yml))::before { content: "yaml"; }
-.markdown-rendered pre:has(> code.language-html)::before { content: "html"; }
-.markdown-rendered pre:has(> code:is(.language-md, .language-markdown))::before { content: "markdown"; }
-.markdown-rendered pre:has(> code.language-sql)::before { content: "sql"; }
-.markdown-rendered pre:has(> code.language-latex)::before { content: "latex"; }
+/* Code blocks: the language in the top-right corner (Prism puts language-* on the <pre> itself) */
+.markdown-rendered pre[class*="language-"] { position: relative; padding-top: 22px; }
+.markdown-rendered pre[class*="language-"]::before { position: absolute; right: 56px; top: 10px; font: 400 10px/1 var(--ith-label); letter-spacing: .24em; color: var(--ith-mute); text-transform: uppercase; }
+.markdown-rendered pre.language-python::before { content: "python"; }
+.markdown-rendered pre:is(.language-js, .language-javascript)::before { content: "javascript"; }
+.markdown-rendered pre:is(.language-ts, .language-typescript)::before { content: "typescript"; }
+.markdown-rendered pre.language-css::before { content: "css"; }
+.markdown-rendered pre:is(.language-bash, .language-sh, .language-zsh, .language-shell)::before { content: "shell"; }
+.markdown-rendered pre.language-json::before { content: "json"; }
+.markdown-rendered pre:is(.language-yaml, .language-yml)::before { content: "yaml"; }
+.markdown-rendered pre.language-html::before { content: "html"; }
+.markdown-rendered pre:is(.language-md, .language-markdown)::before { content: "markdown"; }
+.markdown-rendered pre.language-sql::before { content: "sql"; }
+.markdown-rendered pre.language-latex::before { content: "latex"; }
 .markdown-rendered pre .copy-code-button { z-index: 2; }
 /* Embedded backlinks (Settings → Backlinks → Show in document): one handwritten line */
 .embedded-backlinks { margin-top: 44px; border: 0; }
@@ -741,11 +760,13 @@ body.is-mobile .prompt .suggestion-item { font-size: 15px; }
 body.is-mobile .prompt .prompt-input { font-size: 20px; }
 body.is-mobile .markdown-preview-view.ih-card .markdown-preview-sizer { margin: 16px auto; padding: 22px 20px 32px; }
 
-/* ===== 纸上的字跟纸走（2026-11-10）=====
-   浅色纸片（引用、示例、便利贴、悬停预览、索引卡、小票）在深色皮里还是浅纸：
-   里面的加粗、标题、表格、外链、代码原来用窗口的浅字色，压在浅纸上看不见。
-   这里把纸片内部的墨色整套换成纸上的深墨；黑纸反过来换成浅墨。 */
-.markdown-rendered .callout:not([data-callout="info"], [data-callout="summary"], [data-callout="tldr"], [data-callout="abstract"], [data-callout="note"], [data-callout="success"], [data-callout="check"], [data-callout="done"], [data-callout="lined"], [data-callout="ledger"], [data-callout="slips"], [data-callout="stickies"], [data-callout="tickets"]),
+/* =====================================================================
+   13. Ink follows the paper
+   Light slips (quote, example, sticky notes, hover preview, index card, receipt) stay light
+   in dark mode, so everything inside them switches to the slip's dark ink. Black paper does
+   the opposite. Container callouts (lists of slips, photos, timeline…) are left out.
+   ===================================================================== */
+.markdown-rendered .callout:not([data-callout="info"], [data-callout="summary"], [data-callout="tldr"], [data-callout="abstract"], [data-callout="note"], [data-callout="success"], [data-callout="check"], [data-callout="done"], [data-callout="lined"], [data-callout="ledger"], [data-callout="slips"], [data-callout="stickies"], [data-callout="tickets"], [data-callout="photos"], [data-callout="timeline"], [data-callout="pinned"], [data-callout="chat"], [data-callout="receipts"]),
 .markdown-rendered .callout:is([data-callout="slips"], [data-callout="stickies"], [data-callout="tickets"]) li,
 .popover.hover-popover,
 .markdown-preview-view.ih-card .markdown-preview-sizer {
@@ -761,3 +782,302 @@ body.is-mobile .markdown-preview-view.ih-card .markdown-preview-sizer { margin: 
   --link-color: #f1ece2; --link-color-hover: #f1ece2; --link-external-color: #b9b2a6; --link-unresolved-color: #b9b2a6;
   --code-normal: #f1ece2; --code-background: rgb(255 255 255 / .08); --code-comment: #a39b8e; --code-punctuation: #a39b8e; --code-keyword: #f3a03a; --code-function: #f1ece2; --code-string: #f0c27a; --code-value: #ddd5c6; --code-property: #f1ece2; --code-tag: #f1ece2; --code-operator: #ddd5c6;
 }
+
+/* =====================================================================
+   14. Notebook pieces: callouts and spans that follow the text flow
+   photos · sticker · postmark · barcode · timeline · pinned · old · chat · arrow · receipts
+   Paper is a physical object, so it stays light in dark mode. Red is only for stickers,
+   postmarks and the years on timeline cards; arrows are pencil grey.
+   ===================================================================== */
+/* Container callouts: no slip, no shadow, no tilt, just a box for the pieces inside */
+.markdown-rendered .callout:is([data-callout="photos"], [data-callout="timeline"], [data-callout="pinned"], [data-callout="chat"], [data-callout="receipts"]) {
+  background: transparent; box-shadow: none; transform: none; border: 0; border-radius: 0;
+  padding: 4px 0 8px; margin: 1.6em 0; color: var(--ith-ink); overflow: visible;
+}
+.markdown-rendered .callout:is([data-callout="photos"], [data-callout="timeline"], [data-callout="pinned"], [data-callout="chat"], [data-callout="receipts"])::before { content: none; }
+.markdown-rendered .callout:is([data-callout="photos"], [data-callout="timeline"], [data-callout="pinned"], [data-callout="chat"]) .callout-content { padding: 0; overflow: visible; }
+.markdown-rendered .callout:is([data-callout="photos"], [data-callout="timeline"], [data-callout="pinned"], [data-callout="chat"]) .callout-content > ul { list-style: none; margin: 0; padding: 0; }
+.markdown-rendered .callout:is([data-callout="photos"], [data-callout="timeline"], [data-callout="pinned"], [data-callout="chat"]) .callout-content > ul > li { margin: 0; margin-inline-start: 0; }
+.markdown-rendered .callout:is([data-callout="photos"], [data-callout="timeline"], [data-callout="pinned"], [data-callout="chat"]) .callout-content > ul > li::marker { content: ""; }
+.markdown-rendered .callout:is([data-callout="photos"], [data-callout="timeline"], [data-callout="pinned"], [data-callout="chat"]) .callout-content > ul > li > :is(.list-bullet, .list-collapse-indicator) { display: none; }
+.markdown-rendered .callout:is([data-callout="timeline"], [data-callout="chat"]) .callout-title { justify-content: center; margin-bottom: 12px; }
+.markdown-rendered .callout:is([data-callout="timeline"], [data-callout="chat"]) .callout-title-inner { color: var(--ith-mute); }
+.markdown-rendered .callout:is([data-callout="photos"], [data-callout="pinned"], [data-callout="receipts"]) > .callout-title { display: none; }
+
+/* 14a. Photo wall: > [!photos], one "- ![[pic.jpg]] caption" per line */
+.markdown-rendered .callout[data-callout="photos"] .callout-content > ul { display: flex; flex-wrap: wrap; justify-content: center; align-items: flex-start; gap: 20px 14px; }
+.markdown-rendered .callout[data-callout="photos"] .callout-content > ul > li {
+  position: relative; flex: 0 1 178px; box-sizing: border-box; background: #f4efe6; color: #3b362f;
+  padding: 8px 8px 7px; box-shadow: 0 9px 16px rgb(0 0 0 / .24); transform: rotate(calc(-2.5deg * var(--ith-tilt)));
+  font: 14px/1.3 var(--ith-hand); text-align: center; overflow-wrap: anywhere;
+}
+.markdown-rendered .callout[data-callout="photos"] .callout-content > ul > li:nth-child(even) { transform: rotate(calc(2deg * var(--ith-tilt))); margin-top: 14px; }
+.markdown-rendered .callout[data-callout="photos"] .callout-content > ul > li:nth-child(3n) { transform: rotate(calc(-.8deg * var(--ith-tilt))); }
+.markdown-rendered .callout[data-callout="photos"] .callout-content > ul > li:only-child { flex-basis: 420px; transform: rotate(calc(-1.2deg * var(--ith-tilt))); }
+.markdown-rendered .callout[data-callout="photos"] li .internal-embed { display: block; margin: 0; }
+.markdown-rendered .callout[data-callout="photos"] li img { display: block; width: 100%; max-width: none; aspect-ratio: 4 / 3; object-fit: cover; margin: 0 0 6px; border-radius: 0; box-shadow: none; }
+.markdown-rendered .callout[data-callout="photos"] li a.external-link::after { content: none; }
+.markdown-rendered .callout[data-callout="photos"] li a { color: inherit; background: none; }
+
+/* 14b. Round sticker: <span class="ih-sticker">worth it</span> floats right of its paragraph; add is-red for red */
+.markdown-rendered .ih-sticker {
+  float: right; display: grid; place-items: center; box-sizing: border-box;
+  /* grows with its words (66–112px) and stays round, so a longer label is never cut off */
+  width: fit-content; min-width: 66px; max-width: 112px; height: auto; aspect-ratio: 1; margin: -2px 0 10px 16px; padding: 10px; border-radius: 50%;
+  background: var(--ith-slip); color: var(--ith-slipink); font: 400 12.5px/1.15 var(--ith-hand); text-align: center; hyphens: auto;
+  box-shadow: inset 0 0 0 2px var(--ith-slip), inset 0 0 0 3.5px var(--ith-acc), 0 5px 10px rgb(0 0 0 / .24);
+  transform: rotate(calc(-10deg * var(--ith-tilt))); overflow: hidden; overflow-wrap: anywhere;
+}
+.markdown-rendered .ih-sticker.is-red { background: var(--ith-acc); color: #fff; box-shadow: inset 0 0 0 2px var(--ith-acc), inset 0 0 0 3.5px rgb(255 255 255 / .6), 0 5px 10px rgb(0 0 0 / .24); }
+
+/* 14c. Postmark: <span class="ih-postmark">Channel<br>2026.11.11</span> floats right of its paragraph */
+.markdown-rendered .ih-postmark {
+  float: right; position: relative; display: grid; place-items: center; box-sizing: border-box;
+  width: 92px; height: 92px; margin: -4px 30px 10px 14px; padding: 14px 9px; border-radius: 50%;
+  border: 1.5px solid var(--ith-acc); box-shadow: inset 0 0 0 4px var(--ith-bg), inset 0 0 0 5.5px var(--ith-acc);
+  color: var(--ith-acc); font: 500 8.5px/1.4 var(--ith-label); letter-spacing: .12em; text-transform: uppercase; text-align: center;
+  opacity: .75; transform: rotate(calc(-8deg * var(--ith-tilt))); overflow-wrap: anywhere;
+}
+.markdown-rendered .ih-postmark::after { content: ""; position: absolute; left: 88px; top: 30px; width: 34px; height: 30px; background: repeating-linear-gradient(0deg, var(--ith-acc) 0 1.5px, transparent 1.5px 7px); }
+
+/* 14d. Barcode: <span class="ih-barcode">14:38 · h7YTPuEMgaE</span> at the end of a note, on the right */
+.markdown-rendered .ih-barcode {
+  display: block; width: fit-content; max-width: 70%; margin: 2.4em 76px .4em auto; padding: 8px 12px 6px;
+  background: var(--ith-slip); color: var(--ith-slipink); font: 10px/1.4 var(--ith-mono); letter-spacing: .2em; text-align: center;
+  box-shadow: 0 4px 10px rgb(0 0 0 / .24); transform: rotate(calc(1.5deg * var(--ith-tilt))); overflow-wrap: anywhere;
+}
+.markdown-rendered .ih-barcode::before {
+  content: ""; display: block; width: 124px; max-width: 100%; height: 30px; margin: 0 auto 4px;
+  background: repeating-linear-gradient(90deg, currentColor 0 2px, transparent 2px 4px, currentColor 4px 5px, transparent 5px 8px, currentColor 8px 11px, transparent 11px 13px, currentColor 13px 14px, transparent 14px 17px);
+}
+
+/* 14e. Timeline: > [!timeline] Title, one "- **1776** what happened" per line, cards alternate left and right */
+.markdown-rendered .callout[data-callout="timeline"] .callout-content > ul { position: relative; display: flex; flex-direction: column; padding: 2px 0 6px; }
+.markdown-rendered .callout[data-callout="timeline"] .callout-content > ul::before { content: ""; position: absolute; left: 50%; top: 0; bottom: 0; border-left: 1.5px dashed color-mix(in srgb, var(--ith-mute) 70%, transparent); }
+.markdown-rendered .callout[data-callout="timeline"] .callout-content > ul > li {
+  position: relative; z-index: 1; box-sizing: border-box; width: calc(50% - 26px); background: var(--ith-slip); color: var(--ith-slipink);
+  padding: 10px 15px 11px; margin: 0 0 -4px; font: 15px/1.55 var(--ith-voice); box-shadow: 0 8px 16px rgb(0 0 0 / .24);
+}
+.markdown-rendered .callout[data-callout="timeline"] .callout-content > ul > li:nth-child(odd) { align-self: flex-start; transform: rotate(calc(-1deg * var(--ith-tilt))); }
+.markdown-rendered .callout[data-callout="timeline"] .callout-content > ul > li:nth-child(even) { align-self: flex-end; transform: rotate(calc(1deg * var(--ith-tilt))); }
+.markdown-rendered .callout[data-callout="timeline"] .callout-content > ul > li::after { content: ""; position: absolute; top: 15px; width: 9px; height: 9px; border-radius: 50%; background: var(--ith-mute); box-shadow: 0 0 0 3px var(--ith-bg); }
+.markdown-rendered .callout[data-callout="timeline"] .callout-content > ul > li:nth-child(odd)::after { right: -31px; }
+.markdown-rendered .callout[data-callout="timeline"] .callout-content > ul > li:nth-child(even)::after { left: -31px; }
+.markdown-rendered .callout[data-callout="timeline"] li > :is(strong:first-child, .list-bullet + strong) { display: block; font: italic 400 15px/1.25 var(--ith-disp); color: #a51f19; margin-bottom: 3px; }
+.markdown-rendered .callout[data-callout="timeline"] li :is(a.internal-link, strong) { color: inherit; }
+.markdown-rendered .callout[data-callout="timeline"] li > :is(strong:first-child, .list-bullet + strong) { color: #a51f19; }
+
+/* 14f. Pinned notes: > [!pinned], one "- idea" per line; plain text without a list is one note */
+.markdown-rendered .callout[data-callout="pinned"] .callout-content > ul { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); gap: 24px 26px; align-items: stretch; padding: 10px 0 0; }
+.markdown-rendered .callout[data-callout="pinned"] .callout-content > ul > li,
+.markdown-rendered .callout[data-callout="pinned"] .callout-content > p {
+  position: relative; box-sizing: border-box; background: #f2d36b; color: #2b2620; font: 15.5px/1.5 var(--ith-hand);
+  padding: 22px 16px 14px; box-shadow: 0 10px 18px rgb(0 0 0 / .3);
+}
+.markdown-rendered .callout[data-callout="pinned"] .callout-content > ul > li { min-height: 104px; display: flex; flex-direction: column; justify-content: center; text-align: center; text-wrap: balance; transform: rotate(calc(-1.6deg * var(--ith-tilt))); }
+.markdown-rendered .callout[data-callout="pinned"] .callout-content > ul > li:nth-child(even) { transform: rotate(calc(1.4deg * var(--ith-tilt))); }
+.markdown-rendered .callout[data-callout="pinned"] .callout-content > ul > li:nth-child(3n+2) { background: #f4efe6; }
+.markdown-rendered .callout[data-callout="pinned"] .callout-content > ul > li:nth-child(3n) { background: #eba395; }
+.markdown-rendered .callout[data-callout="pinned"] .callout-content > p { max-width: 340px; margin: 10px 0 0; transform: rotate(calc(-1.2deg * var(--ith-tilt))); }
+.markdown-rendered .callout[data-callout="pinned"] .callout-content > ul > li::before,
+.markdown-rendered .callout[data-callout="pinned"] .callout-content > p::before {
+  content: ""; position: absolute; top: -8px; left: 50%; width: 18px; height: 18px; margin-left: -9px; border-radius: 50%; z-index: 2;
+  background: radial-gradient(circle at 35% 35%, #ff8a7a, #b7261a 60%, #5b0f08); box-shadow: 0 3px 4px rgb(0 0 0 / .5);
+}
+.markdown-rendered .callout[data-callout="pinned"] :is(p, li, strong, a.internal-link) { color: #2b2620; }
+
+/* 14g. Yellowed old slip: > [!old] 1776 */
+.markdown-rendered .callout[data-callout="old"] {
+  background: #e9dcc0; color: #4a3f2c; border: 1px dashed rgb(90 70 40 / .35); border-radius: 0;
+  padding: 26px 20px 14px; margin: 1.6em 6px; max-width: 560px; font: 15px/1.65 var(--ith-voice);
+  box-shadow: 0 8px 14px rgb(0 0 0 / .24); transform: rotate(calc(-1.2deg * var(--ith-tilt))); filter: sepia(.15);
+  --ith-ink: #4a3f2c; --ith-body: #4a3f2c; --text-normal: #4a3f2c;
+}
+.markdown-rendered .callout[data-callout="old"] .callout-title { position: absolute; left: 18px; top: 9px; margin: 0; }
+.markdown-rendered .callout[data-callout="old"] .callout-title-inner { font-weight: 600; color: #8a5a22; }
+.markdown-rendered .callout[data-callout="old"] :is(p, li, strong) { color: inherit; }
+.markdown-rendered .callout[data-callout="old"] a.internal-link { color: #8a5a22; }
+
+/* 14h. Chat: > [!chat] Title, one "- **Host:** line" per line; odd lines left, even lines right */
+.markdown-rendered .callout[data-callout="chat"] .callout-content > ul { display: flex; flex-direction: column; gap: 12px; }
+.markdown-rendered .callout[data-callout="chat"] .callout-content > ul > li {
+  position: relative; box-sizing: border-box; max-width: 78%; padding: 8px 13px 9px; border-radius: 8px;
+  font: 14.5px/1.55 var(--font-interface); box-shadow: 0 3px 8px rgb(0 0 0 / .14); color: #111;
+}
+.markdown-rendered .callout[data-callout="chat"] .callout-content > ul > li:nth-child(odd) { align-self: flex-start; margin-left: 8px; background: #fff; }
+.markdown-rendered .callout[data-callout="chat"] .callout-content > ul > li:nth-child(even) { align-self: flex-end; margin-right: 8px; background: #95ec69; }
+.markdown-rendered .callout[data-callout="chat"] .callout-content > ul > li::after { content: ""; position: absolute; top: 12px; border: 6px solid transparent; }
+.markdown-rendered .callout[data-callout="chat"] .callout-content > ul > li:nth-child(odd)::after { left: -11px; border-right-color: #fff; }
+.markdown-rendered .callout[data-callout="chat"] .callout-content > ul > li:nth-child(even)::after { right: -11px; border-left-color: #95ec69; }
+.markdown-rendered .callout[data-callout="chat"] li :is(strong, a, code) { color: inherit; }
+.markdown-rendered .callout[data-callout="chat"] li > :is(strong:first-child, .list-bullet + strong) { font-weight: 600; color: #576b95; margin-right: 2px; }
+.markdown-rendered .callout[data-callout="chat"] li a.external-link { color: #576b95; }
+
+/* 14i. Hand-drawn arrow: <span class="ih-arrow">leads to</span> alone on a line, joining the blocks above and below */
+.markdown-rendered .ih-arrow {
+  display: block; position: relative; width: fit-content; min-height: 48px; margin: -2px auto; padding: 14px 0 0 46px; box-sizing: border-box;
+  font: 14px/1.3 var(--ith-hand); color: var(--ith-mute);
+}
+.markdown-rendered .ih-arrow::before {
+  content: ""; position: absolute; left: 0; top: 0; width: 40px; height: 48px; background: color-mix(in srgb, var(--ith-ink) 75%, transparent);
+  -webkit-mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 48' fill='none' stroke='black' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'><path d='M22 3c-10 6-11 15-3 21 7 6 6 13-2 20'/><path d='M10 37l7 8 6-9'/></svg>") center / contain no-repeat;
+  mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 48' fill='none' stroke='black' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'><path d='M22 3c-10 6-11 15-3 21 7 6 6 13-2 20'/><path d='M10 37l7 8 6-9'/></svg>") center / contain no-repeat;
+}
+
+/* 14j. External images as photos too: ![photo right caption|260](https://…) */
+.markdown-rendered :is(p, li) > img:is([alt~="照片"], [alt~="photo"]),
+.markdown-source-view .cm-content img:is([alt~="照片"], [alt~="photo"]) {
+  display: inline-block; box-sizing: content-box; height: auto; background: #fff; padding: 8px 8px 22px; margin: 10px 14px 6px 0;
+  max-width: 46%; border-radius: 0; box-shadow: 0 10px 24px rgb(0 0 0 / .3); transform: rotate(calc(-2deg * var(--ith-tilt)));
+}
+.markdown-rendered :is(p, li) > img:is([alt~="照片"], [alt~="photo"])[alt~="right"] { float: right; margin: 6px 0 10px 18px; transform: rotate(calc(2deg * var(--ith-tilt))); }
+.markdown-rendered :is(p, li) > img:is([alt~="照片"], [alt~="photo"])[alt~="left"] { float: left; margin: 6px 18px 10px 0; }
+
+/* 14k. A row of receipts: > [!receipts] holding several > > [!receipt] */
+.markdown-rendered .callout[data-callout="receipts"] > .callout-content { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); gap: 22px 26px; align-items: stretch; padding: 0; overflow: visible; }
+.markdown-rendered .callout[data-callout="receipts"] > .callout-content > .callout[data-callout="receipt"] { max-width: none; margin: 0; padding-bottom: 22px; }
+.markdown-rendered .callout[data-callout="receipts"] > .callout-content > .callout[data-callout="receipt"]:nth-child(3n+2) { transform: rotate(calc(.5deg * var(--ith-tilt))); }
+.markdown-rendered .callout[data-callout="receipts"] > .callout-content > .callout[data-callout="receipt"]:nth-child(3n) { transform: rotate(calc(-.2deg * var(--ith-tilt))); }
+.markdown-rendered .callout[data-callout="receipts"] > .callout-content > :not(.callout) { grid-column: 1 / -1; }
+.markdown-rendered .callout[data-callout="receipts"] > .callout-content > .callout[data-callout="receipt"] .callout-content::after { content: none; }
+
+/* While editing (Live Preview): floating pieces sit inline so they never cover the line being typed */
+.markdown-source-view .markdown-rendered :is(.ih-sticker, .ih-postmark) { float: none; display: inline-grid; vertical-align: middle; margin: 4px 30px 4px 0; }
+.markdown-source-view .cm-line .ih-sticker { display: inline-grid; place-items: center; box-sizing: border-box; width: 56px; height: 56px; padding: 7px; border-radius: 50%; background: var(--ith-slip); color: var(--ith-slipink); font: 11px/1.15 var(--ith-hand); text-align: center; vertical-align: middle; box-shadow: inset 0 0 0 2px var(--ith-slip), inset 0 0 0 3.5px var(--ith-acc); overflow: hidden; }
+.markdown-source-view .cm-line .ih-sticker.is-red { background: var(--ith-acc); color: #fff; }
+.markdown-source-view .cm-line .ih-postmark { display: inline-grid; place-items: center; box-sizing: border-box; width: 76px; height: 76px; padding: 10px 7px; border-radius: 50%; vertical-align: middle; border: 1.5px solid var(--ith-acc); color: var(--ith-acc); font: 500 8px/1.35 var(--ith-label); letter-spacing: .1em; text-transform: uppercase; text-align: center; opacity: .8; }
+.markdown-source-view .cm-line .ih-barcode { display: inline-block; padding: 2px 8px; background: var(--ith-slip); color: var(--ith-slipink); font: 10px/1.6 var(--ith-mono); letter-spacing: .2em; }
+.markdown-source-view .cm-line .ih-arrow { font-family: var(--ith-hand); color: var(--ith-mute); }
+.markdown-source-view .cm-line .ih-arrow::before { content: "↓ "; color: var(--ith-acc); }
+
+/* Narrow panes and phones: photos two to a row, timeline in one column, wider bubbles */
+@media (max-width: 640px) {
+  .markdown-rendered .callout[data-callout="photos"] .callout-content > ul > li { flex-basis: calc(50% - 8px); }
+  .markdown-rendered .callout[data-callout="photos"] .callout-content > ul > li:only-child { flex-basis: 100%; }
+  .markdown-rendered .callout[data-callout="timeline"] .callout-content > ul::before { left: 6px; }
+  .markdown-rendered .callout[data-callout="timeline"] .callout-content > ul > li:nth-child(n) { width: calc(100% - 26px); align-self: flex-end; margin-bottom: 10px; }
+  .markdown-rendered .callout[data-callout="timeline"] .callout-content > ul > li:nth-child(n)::after { left: -25px; right: auto; }
+  .markdown-rendered .callout[data-callout="chat"] .callout-content > ul > li { max-width: 88%; }
+  .markdown-rendered .callout[data-callout="pinned"] .callout-content > ul { grid-template-columns: repeat(2, 1fr); gap: 20px 12px; }
+  .markdown-rendered .callout[data-callout="pinned"] .callout-content > ul > li { min-height: 0; }
+  .markdown-rendered .ih-postmark { width: 78px; height: 78px; margin-right: 26px; padding: 11px 7px; font-size: 8px; }
+  .markdown-rendered .ih-postmark::after { left: 74px; width: 24px; }
+  .markdown-rendered .ih-sticker { min-width: 58px; max-width: 96px; font-size: 11.5px; }
+}
+
+/* =====================================================================
+   15. Notes written by companion plugins
+   Each plugin only adds a cssclass (or callout metadata) to the notes it writes; the look lives here.
+     ih-film     Video Summary: a strip of film under the header, timestamps in red italic
+     ih-receipt  AI Accounting: the monthly ledger as a thermal receipt
+     ih-clip     Polyglot Helper: word entries as clippings
+     said-today  Said Today: callouts marked [!abstract|said-today …]
+   ===================================================================== */
+:is(.markdown-preview-view, .markdown-source-view):is(.ih-film, .ih-clip) { --ith-rule: 1px dashed color-mix(in srgb, var(--ith-ink) 22%, transparent); }
+.markdown-preview-view:is(.ih-film, .ih-clip):not(.ih-card) .mod-header::before,
+.markdown-source-view:is(.ih-film, .ih-clip) .cm-sizer::before { display: block; font: 400 9.5px/1.6 var(--ith-label); letter-spacing: .4em; text-transform: uppercase; color: var(--ith-mute); margin-bottom: 16px; }
+
+/* 15a. Video Summary: film base with two rows of sprocket holes and one red frame */
+:is(.markdown-preview-view, .markdown-source-view).ih-film { --ith-film-base: #141316; --ith-film-frame: #2e2c31; --ith-film-hole: #77736d; }
+.theme-dark :is(.markdown-preview-view, .markdown-source-view).ih-film { --ith-film-base: #050506; --ith-film-frame: #29272c; --ith-film-hole: #8d867b; }
+.markdown-preview-view.ih-film:not(.ih-card) .mod-header::before,
+.markdown-source-view.ih-film .cm-sizer::before {
+  content: "Video Summary"; padding-bottom: 40px; margin-bottom: 22px;
+  background:
+    repeating-linear-gradient(90deg, var(--ith-film-hole) 0 6px, transparent 6px 12px) left 4px bottom 21px / calc(100% - 8px) 2px no-repeat,
+    repeating-linear-gradient(90deg, var(--ith-film-hole) 0 6px, transparent 6px 12px) left 4px bottom 3px / calc(100% - 8px) 2px no-repeat,
+    linear-gradient(var(--ith-acc), var(--ith-acc)) left 80px bottom 8px / 34px 10px no-repeat,
+    repeating-linear-gradient(90deg, var(--ith-film-frame) 0 34px, transparent 34px 38px) left 4px bottom 8px / calc(100% - 8px) 10px no-repeat,
+    linear-gradient(var(--ith-film-base), var(--ith-film-base)) left bottom / 100% 26px no-repeat;
+}
+:is(.markdown-rendered.ih-film, .ih-film .markdown-rendered) a.external-link:is([href*="?t="], [href*="&t="]) { font: italic 700 1em/1 var(--ith-disp); font-variant-numeric: lining-nums; letter-spacing: -.01em; color: var(--ith-acc); background: none; text-decoration: none; }
+:is(.markdown-rendered.ih-film, .ih-film .markdown-rendered) a.external-link:is([href*="?t="], [href*="&t="])::after { content: none; }
+:is(.markdown-rendered.ih-film, .ih-film .markdown-rendered) a.external-link:is([href*="?t="], [href*="&t="]):hover { text-decoration: underline 1px; text-underline-offset: 3px; }
+
+/* 15b. AI Accounting: file name as the page header, the summary as a thermal receipt, tabular figures */
+.markdown-preview-view.ih-receipt:not(.ih-card) .inline-title,
+.markdown-source-view.ih-receipt .inline-title { font: 400 9.5px/1.6 var(--ith-label); letter-spacing: .4em; text-transform: uppercase; color: var(--ith-mute); margin: 0 0 16px; }
+.markdown-preview-view.ih-receipt:not(.ih-card) .inline-title::before,
+.markdown-source-view.ih-receipt .inline-title::before { content: "Ledger · "; }
+:is(.markdown-rendered.ih-receipt, .ih-receipt .markdown-rendered) h1::after { content: ""; display: block; width: 40px; height: 1.5px; margin-top: .4em; background: var(--ith-acc); }
+:is(.markdown-rendered.ih-receipt, .ih-receipt .markdown-rendered) .callout[data-callout="stats"] {
+  background: var(--ith-slip); color: var(--ith-slipink); font: 400 13px/1.75 var(--ith-mono); max-width: 340px; margin: 1.6em auto; padding: 16px 22px 30px;
+  border: 0; border-radius: 0; box-shadow: 0 8px 22px rgb(0 0 0 / .2); transform: rotate(calc(-.4deg * var(--ith-tilt)));
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 8px), 95% 100%, 90% calc(100% - 8px), 85% 100%, 80% calc(100% - 8px), 75% 100%, 70% calc(100% - 8px), 65% 100%, 60% calc(100% - 8px), 55% 100%, 50% calc(100% - 8px), 45% 100%, 40% calc(100% - 8px), 35% 100%, 30% calc(100% - 8px), 25% 100%, 20% calc(100% - 8px), 15% 100%, 10% calc(100% - 8px), 5% 100%, 0 calc(100% - 8px));
+}
+:is(.markdown-rendered.ih-receipt, .ih-receipt .markdown-rendered) .callout[data-callout="stats"] .callout-title { justify-content: center; border-bottom: 1px dashed rgb(0 0 0 / .3); padding-bottom: 8px; margin-bottom: 8px; }
+:is(.markdown-rendered.ih-receipt, .ih-receipt .markdown-rendered) .callout[data-callout="stats"] .callout-title-inner { font: 400 10px/1.6 var(--ith-mono); letter-spacing: .3em; color: #a51f19; text-align: center; }
+:is(.markdown-rendered.ih-receipt, .ih-receipt .markdown-rendered) .callout[data-callout="stats"] ul { list-style: none; padding-left: 0; margin: 0; }
+:is(.markdown-rendered.ih-receipt, .ih-receipt .markdown-rendered) .callout[data-callout="stats"] li { margin: .1em 0; }
+:is(.markdown-rendered.ih-receipt, .ih-receipt .markdown-rendered) .callout[data-callout="stats"] li::marker { content: ""; }
+:is(.markdown-rendered.ih-receipt, .ih-receipt .markdown-rendered) .callout[data-callout="stats"] .list-bullet { display: none; }
+:is(.markdown-rendered.ih-receipt, .ih-receipt .markdown-rendered) .callout[data-callout="stats"] :is(strong, code) { color: inherit; font-weight: 400; background: none; padding: 0; font-family: inherit; }
+:is(.markdown-rendered.ih-receipt, .ih-receipt .markdown-rendered) .callout[data-callout="stats"] li:first-child :is(*, code) { font-weight: 700; }
+:is(.markdown-rendered.ih-receipt, .ih-receipt .markdown-rendered) .callout[data-callout="stats"] li:first-child { font-weight: 700; font-size: 1.12em; }
+:is(.markdown-rendered.ih-receipt, .ih-receipt .markdown-rendered) .callout[data-callout="stats"] .callout-content::after { content: ""; display: block; height: 28px; margin-top: 12px; border-top: 1px dashed rgb(0 0 0 / .3); background: repeating-linear-gradient(90deg, currentColor 0 1px, transparent 1px 3px, currentColor 3px 5px, transparent 5px 6px, currentColor 6px 7px, transparent 7px 10px) 50% 8px / 70% 20px no-repeat; }
+/* Category breakdown (> [!info] …): readable monospace, a grey dashed rule instead of nine red ones */
+:is(.markdown-rendered.ih-receipt, .ih-receipt .markdown-rendered) .callout.callout[data-callout="info"] { border-left: 1px dashed color-mix(in srgb, var(--ith-ink) 30%, transparent); padding: 2px 0 2px 12px; margin: .3em 0 .8em 2px; }
+:is(.markdown-rendered.ih-receipt, .ih-receipt .markdown-rendered) .callout.callout[data-callout="info"] .callout-title-inner { font: 400 12.5px/1.6 var(--ith-mono); letter-spacing: 0; text-transform: none; color: var(--ith-mute); }
+:is(.markdown-rendered.ih-receipt, .ih-receipt .markdown-rendered) .callout[data-callout="info"] code { background: none; padding: 0; color: var(--ith-ink); font: inherit; }
+:is(.markdown-rendered.ih-receipt, .ih-receipt .markdown-rendered) li > code { background: none; padding: 0; font-family: var(--ith-mono); color: var(--ith-ink); }
+:is(.markdown-rendered.ih-receipt, .ih-receipt .markdown-rendered) .mermaid {
+  --pele-bg: var(--ith-bg); --pele-fg: var(--ith-ink); --pele-muted: var(--ith-mute); --pele-line: var(--ith-ink); --pele-border: color-mix(in srgb, var(--ith-ink) 30%, transparent);
+  --pele-accent: var(--ith-acc); --pele-surface: color-mix(in srgb, var(--ith-ink) 5%, transparent); --pele-font-mono: var(--ith-mono);
+  --pele-series-1: var(--ith-acc); --pele-series-2: var(--ith-ink); --pele-series-3: color-mix(in srgb, var(--ith-ink) 58%, var(--pele-bg)); --pele-series-4: var(--ith-acc2);
+  --pele-series-5: color-mix(in srgb, var(--ith-acc) 55%, var(--pele-bg)); --pele-series-6: color-mix(in srgb, var(--ith-ink) 34%, var(--pele-bg)); --pele-series-7: color-mix(in srgb, var(--ith-acc2) 55%, var(--pele-bg));
+  --pele-series-8: color-mix(in srgb, var(--ith-ink) 18%, var(--pele-bg)); --pele-series-9: color-mix(in srgb, var(--ith-acc) 28%, var(--pele-bg));
+}
+:is(.markdown-rendered.ih-receipt, .ih-receipt .markdown-rendered) .el-table { overflow-x: auto; }
+:is(.markdown-rendered.ih-receipt, .ih-receipt .markdown-rendered) table td { font-family: var(--ith-mono); font-size: .86em; font-variant-numeric: tabular-nums; padding-right: 14px; }
+:is(.markdown-rendered.ih-receipt, .ih-receipt .markdown-rendered) table :is(td, th):is(:nth-child(4), :nth-child(6), :nth-child(7)) { text-align: right; }
+:is(.markdown-rendered.ih-receipt, .ih-receipt .markdown-rendered) table td:is(:nth-child(1), :nth-child(4), :nth-child(6), :nth-child(7)) { white-space: nowrap; }
+:is(.markdown-rendered.ih-receipt, .ih-receipt .markdown-rendered) table td:nth-child(2) { min-width: 8em; }
+:is(.markdown-rendered.ih-receipt, .ih-receipt .markdown-rendered) table td:nth-child(6) { color: var(--ith-mute); }
+:is(.markdown-rendered.ih-receipt, .ih-receipt .markdown-rendered) table td:nth-child(7) { color: var(--ith-ink); font-weight: 700; }
+body.is-mobile :is(.markdown-rendered.ih-receipt, .ih-receipt .markdown-rendered) .callout[data-callout="stats"] { max-width: none; margin: 1.4em 4px; }
+
+/* 15c. Polyglot Helper: entries as clippings. The plugin's helper callouts become small grey notes; examples stay taped paper. */
+.markdown-preview-view.ih-clip:not(.ih-card) .mod-header::before,
+.markdown-source-view.ih-clip .cm-sizer::before { content: "Polyglot · Clippings"; }
+:is(.markdown-rendered.ih-clip, .ih-clip .markdown-rendered) h2, .markdown-source-view.ih-clip .HyperMD-header-2 .cm-header-2 { font-family: var(--ith-voice); font-weight: 600; letter-spacing: .01em; }
+:is(.markdown-rendered.ih-clip, .ih-clip .markdown-rendered) .callout.callout:is([data-callout="success"], [data-callout="info"], [data-callout="abstract"], [data-callout="question"], [data-callout="quote"], [data-callout="tip"], [data-callout="cite"], [data-callout="bug"], [data-callout="note"]) {
+  /* back to the window's ink: these sit on the page, not on a slip */
+  --ith-ink: inherit; --ith-body: inherit; --ith-mute: inherit; --ith-acc: inherit; --text-normal: inherit; --text-muted: inherit; --text-faint: inherit; --text-accent: inherit;
+  --link-color: inherit; --link-external-color: inherit; --code-normal: inherit; --code-background: inherit;
+  background: transparent; color: var(--ith-body); font-family: inherit; font-size: .94em;
+  border: 0; border-left: 1px solid color-mix(in srgb, var(--ith-ink) 26%, transparent); border-radius: 0; box-shadow: none;
+  padding: 2px 0 2px 14px; margin: .9em 0 .9em 2px; transform: none;
+}
+:is(.markdown-rendered.ih-clip, .ih-clip .markdown-rendered) .callout.callout:is([data-callout="success"], [data-callout="info"], [data-callout="abstract"], [data-callout="question"], [data-callout="quote"], [data-callout="tip"], [data-callout="cite"], [data-callout="bug"], [data-callout="note"])::before { content: none; }
+:is(.markdown-rendered.ih-clip, .ih-clip .markdown-rendered) .callout.callout:is([data-callout="success"], [data-callout="info"], [data-callout="abstract"], [data-callout="question"], [data-callout="quote"], [data-callout="tip"], [data-callout="cite"], [data-callout="bug"], [data-callout="note"]) .callout-title-inner { color: var(--ith-mute); }
+:is(.markdown-rendered.ih-clip, .ih-clip .markdown-rendered) .callout.callout:is([data-callout="quote"], [data-callout="tip"], [data-callout="question"]) .callout-content { font-family: inherit; font-size: inherit; }
+:is(.markdown-rendered.ih-clip, .ih-clip .markdown-rendered) .callout .callout-content > :first-child { margin-top: .25em; }
+:is(.markdown-rendered.ih-clip, .ih-clip .markdown-rendered) .callout .callout-content > :last-child { margin-bottom: .1em; }
+:is(.markdown-rendered.ih-clip, .ih-clip .markdown-rendered) .callout[data-callout="example"] .callout-content { font-size: .92em; }
+:is(.markdown-rendered.ih-clip, .ih-clip .markdown-rendered) audio { height: 28px; max-width: 280px; opacity: .85; }
+:is(.markdown-rendered.ih-clip, .ih-clip .markdown-rendered) :is(.el-hr, .el-h1) + .el-p > p > strong:only-child { font: italic 700 1.05em/1 var(--ith-disp); font-variant-numeric: lining-nums; color: var(--ith-acc); }
+
+/* 15d. Said Today: a small "SAID · source" label, the conversation name in serif, times in italic Didot, one red rule */
+.markdown-rendered .callout.callout[data-callout-metadata~="said-today"] {
+  --callout-color: 0, 0, 0; --callout-icon: none;
+  --ith-ink: inherit; --ith-body: inherit; --ith-mute: inherit; --ith-acc: inherit; --text-normal: inherit; --text-muted: inherit;
+  background: transparent; color: var(--ith-body); box-shadow: none; border: 0; border-left: 1.5px solid var(--ith-acc); border-radius: 0;
+  padding: 2px 0 4px 16px; margin: 1.4em 0 1.4em 4px; transform: none;
+}
+.markdown-rendered .callout.callout[data-callout-metadata~="said-today"]::before { content: "Said"; display: block; position: static; width: auto; height: auto; background: none; transform: none; font: 400 8.5px/1.6 var(--ith-label); letter-spacing: .4em; text-transform: uppercase; color: var(--ith-mute); margin-bottom: 2px; }
+.markdown-rendered .callout.callout[data-callout-metadata~="said-today"][data-callout-metadata~="claude"]::before { content: "Said · Claude"; }
+.markdown-rendered .callout.callout[data-callout-metadata~="said-today"][data-callout-metadata~="codex"]::before { content: "Said · Codex"; }
+.markdown-rendered .callout.callout[data-callout-metadata~="said-today"][data-callout-metadata~="chatgpt"]::before { content: "Said · ChatGPT"; }
+.markdown-rendered .callout[data-callout-metadata~="said-today"] .callout-title { padding: 0; margin-bottom: 2px; color: inherit; gap: 6px; }
+.markdown-rendered .callout.callout[data-callout-metadata~="said-today"] .callout-title-inner { font: 600 1em/1.5 var(--ith-voice); letter-spacing: .01em; text-transform: none; color: var(--ith-ink); }
+.markdown-rendered .callout.callout[data-callout-metadata~="said-today"] .callout-title-inner em { font: italic 400 .88em/1 var(--ith-disp); font-variant-numeric: lining-nums; color: var(--ith-mute); white-space: nowrap; }
+.markdown-rendered .callout[data-callout-metadata~="said-today"] .callout-fold { color: var(--ith-mute); opacity: .6; }
+.markdown-rendered .callout[data-callout-metadata~="said-today"] .callout-content { font-size: .95em; line-height: 1.75; }
+.markdown-rendered .callout[data-callout-metadata~="said-today"] .callout-content > ul { margin: 6px 0 0; padding-left: 0; list-style: none; }
+.markdown-rendered .callout[data-callout-metadata~="said-today"] .callout-content > ul > li { margin: 0 0 4px; padding-left: 0; margin-inline-start: 0; }
+.markdown-rendered .callout[data-callout-metadata~="said-today"] .callout-content li > :is(.list-bullet, .list-collapse-indicator) { display: none; }
+.markdown-rendered .callout[data-callout-metadata~="said-today"] .callout-content li::marker { content: ""; }
+.markdown-rendered .callout[data-callout-metadata~="said-today"] .callout-content li > strong:first-of-type { font: italic 400 1em/1 var(--ith-disp); font-variant-numeric: lining-nums tabular-nums; color: var(--ith-ink); margin-right: .35em; }
+.markdown-rendered .callout[data-callout-metadata~="said-today"] .callout-content li em:only-child,
+.markdown-rendered .callout[data-callout-metadata~="said-today"] .callout-content li > ul > li > em { color: var(--ith-mute); font-size: .9em; }
+.markdown-rendered .callout[data-callout-metadata~="said-today"] .callout-content li > ul { list-style: none; padding-left: 1.2em; margin: 2px 0; }

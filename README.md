@@ -2,11 +2,15 @@
 
 A notebook theme for Obsidian. 一本手账样子的 Obsidian 主题。手帳のような Obsidian テーマ。
 
+The whole window is one sheet of paper: no panel frames, no tab chrome. Red-pen underlines, paper slips for callouts, ticket stubs for tags, Roman numerals before every section.
+
 ![Ithaca, light](docs/light.png)
 
 ![Ithaca, dark](docs/dark.png)
 
-![Ithaca on a phone](docs/mobile.png)
+![Notebook pieces](docs/pieces.png)
+
+![An index card](docs/card.png)
 
 [English](#english) · [中文](#中文) · [日本語](#日本語)
 
@@ -16,38 +20,37 @@ A notebook theme for Obsidian. 一本手账样子的 Obsidian 主题。手帳の
 
 ### Install
 
-- **From the community directory** (once listed): Settings → Appearance → Themes → Manage → search “Ithaca” → Install and use.
+- **Community themes** (once listed): Settings → Appearance → Themes → Manage → search “Ithaca” → Install and use.
 - **By hand:** create `.obsidian/themes/Ithaca/` in your vault, put `theme.css` and `manifest.json` from the latest release in it, then pick Ithaca in Settings → Appearance → Themes.
 
-Ithaca makes no network requests. Its three Latin fonts are embedded (see [Fonts](#fonts)).
+Ithaca makes no network requests. Its Latin fonts are embedded (see [Fonts](#fonts)).
+
+If your notes start with their own `# Title`, turn off Settings → Appearance → **Show inline title** so the title isn't shown twice.
 
 ### Style Settings
 
-Install the [Style Settings](https://github.com/mgmeyers/obsidian-style-settings) plugin to change these:
+With the [Style Settings](https://github.com/mgmeyers/obsidian-style-settings) plugin you can change:
 
 | Group | Option | Default |
 |---|---|---|
 | Paper | Light-mode paper: Quiet / Happy | Quiet |
 | | Dark-mode paper: Tense / Night / Quiet / Happy | Tense |
+| | Lay every slip straight (no tilt) | off |
 | Window | Hide the tab bar until the pointer reaches the top | off |
 | | Always show ribbon icons | off |
-| | Handwritten title above the file list, plus its text | off, empty |
+| | Handwritten title above the file list, and its text | off |
 | Typography | Use the bundled open fonts everywhere | off |
 | | No Roman numerals before H2 | off |
 | | Keep footnotes at the bottom instead of the margin | off |
 | | Desk lamp: dim every paragraph but the one under the pointer | off |
-| | Signature at the end of each note, plus its text | off, empty |
-| Labels | Empty-note hint, backlinks label, stamp words | |
+| | Signature at the end of each note, and its text | off |
+| Labels | Backlinks label, stamp words, old-page mark | English |
 
-Without Style Settings you get the defaults.
+Without Style Settings you get the defaults. Setting titles follow Obsidian's language (English, 中文, 日本語).
 
 ![Style Settings panel](docs/style-settings.png)
 
-Titles follow Obsidian's language (English, 中文, 日本語).
-
 ### Notebook marks
-
-Add these by hand, or let a companion plugin insert them (coming later).
 
 **In a note's `cssclasses`:**
 
@@ -63,14 +66,18 @@ Add these by hand, or let a companion plugin insert them (coming later).
 
 ```html
 <span class="ih-sub">A subtitle under the title</span>
-<span class="ih-circ">the words that matter</span>
+<span class="ih-circ">the few words that matter</span>
 <span class="ih-mg">a margin note beside this paragraph</span>
 <span class="ih-mg ih-sticky">a sticky note in the margin</span>
+<span class="ih-sticker">worth it</span>            <!-- add is-red for a red one -->
+<span class="ih-postmark">Harbour post<br>2026.11.11</span>
+<span class="ih-barcode">14:38 · NOTEBOOK</span>
+<span class="ih-arrow">which led to</span>         <!-- alone on its line -->
 ```
 
 Margin notes and footnotes move into the right margin when Settings → Editor → **Readable line length** is on and the pane is at least 1000px wide. Otherwise they stay in the text.
 
-**Images:** put `photo` in the alt text (`![[pic.jpg|photo]]`) to get a white-bordered print. Add `left` or `right` to float it.
+**Images:** put `photo` in the alt text (`![[pic.jpg|photo]]`) for a white-bordered print. Add `left` or `right` to float it.
 
 **Callouts:**
 
@@ -80,40 +87,61 @@ Margin notes and footnotes move into the right margin when Settings → Editor �
 | `tip` `todo` `question` | Sticky note |
 | `warning` `danger` `bug` … | Black paper |
 | `note` `info` `summary` … | Plain, one red rule |
-| `receipt` | Thermal receipt with a barcode |
-| `letter` | Lined letter paper |
-| `lined` | Ruled lines to write on |
+| `receipt` · `receipts` | Thermal receipt with a barcode · a row of them |
+| `letter` · `lined` | Lined letter paper · ruled lines to write on |
 | `ledger` | One item per line, dashed rules |
-| `slips` | Each list item a paper slip |
-| `stickies` | Each list item a sticky note |
-| `tickets` | Each list item a ticket stub |
+| `slips` · `stickies` · `tickets` | Each list item a paper slip · sticky note · ticket stub |
+| `photos` | Each list item `![[pic.jpg]] caption` a print on a photo wall |
+| `timeline` | Each item `**1776** what happened`, cards left and right of a line |
+| `pinned` | Each item a pinned note |
+| `chat` | Each item `**Name:** words`, speech bubbles |
+| `old` | A yellowed slip |
 
 ```markdown
-> [!slips] This week
-> - First thing
-> - Second thing
+> [!timeline] Three stages
+> - **1776** A first draft
+> - **1801** Revised after the winter
 ```
+
+The `demo/` folder has sample notes for all of these.
+
+### Companion plugins
+
+Notes written by these plugins get their own look; the plugin only adds a class.
+
+| Class | Plugin | Look |
+|---|---|---|
+| `ih-film` | Video Summary | A strip of film under the header, timestamps in red italic |
+| `ih-receipt` | AI Accounting | The monthly summary as a thermal receipt |
+| `ih-clip` | Polyglot Helper | Word entries as clippings |
+| `[!abstract\|said-today …]` | Said Today | A small “Said” label and one red rule |
+
+A plugin can also put `ith-v-quiet`, `ith-v-tense`, `ith-v-night` or `ith-v-happy` on the window so the whole window takes the open note's paper.
 
 ### Fonts
 
 | Role | macOS | Elsewhere |
 |---|---|---|
-| Numbers, Latin titles | Didot | **Ithaca Display** (Bodoni Moda, embedded) |
+| Numbers, Latin titles | Didot / **Ithaca Display** | **Ithaca Display** (Bodoni Moda, embedded) |
 | Small labels | Futura | **Ithaca Label** (Jost, embedded) |
+| Handwriting | HanziPen SC | **Ithaca Hand** (Patrick Hand, embedded), LXGW WenKai / KaiTi for Chinese |
 | Signature | Snell Roundhand | **Ithaca Script** (Pinyon Script, embedded) |
 | Chinese titles | Weibei SC | Source Han Serif / Noto Serif SC / SimSun |
-| Handwriting | HanziPen SC | LXGW WenKai / KaiTi |
-| Quotes | Songti SC / Hiragino Mincho | Noto Serif SC / JP, Yu Mincho |
+| Quotes | Songti SC / Hiragino Mincho | Noto Serif SC / JP, Georgia, Yu Mincho |
 
-On macOS, Weibei SC and HanziPen SC are free but not installed by default: open Font Book and download them. On Windows and Linux, installing [LXGW WenKai](https://github.com/lxgw/LxgwWenKai) gives the handwriting its intended look.
+On macOS, Weibei SC and HanziPen SC are free but not installed by default: open Font Book and download them. On Windows and Linux, installing [LXGW WenKai](https://github.com/lxgw/LxgwWenKai) gives Chinese handwriting its intended look.
+
+### Performance
+
+Ithaca has no `:has()` selectors, and only one `!important`: Obsidian's own stylesheet sets `contain: paint !important` on editor widgets, which cuts a callout's shadow into a hard line, and nothing weaker can lift it. Tested on Obsidian 1.15: opening notes takes the same time as with the default theme.
+
+### Build
+
+`theme.css` is generated: edit `src/theme.src.css`, then run `python3 tools/build.py`. The script embeds `fonts/*.woff2` (Latin subsets).
 
 ### License
 
 MIT, see [LICENSE](LICENSE). The embedded fonts are under the SIL Open Font License 1.1, see [fonts/licenses](fonts/licenses).
-
-### Build
-
-`theme.css` is generated: edit `src/theme.src.css`, then run `python3 tools/build.py`. The script embeds `fonts/*.woff2`.
 
 ---
 
@@ -121,36 +149,28 @@ MIT, see [LICENSE](LICENSE). The embedded fonts are under the SIL Open Font Lice
 
 ### 安装
 
-- **社区主题库**（上架后）：设置 → 外观 → 主题 → 管理 → 搜索 “Ithaca” → 安装并使用。
+- **社区主题**（上架后）：设置 → 外观 → 主题 → 管理 → 搜索 “Ithaca” → 安装并使用。
 - **手动：** 在库里新建 `.obsidian/themes/Ithaca/`，放入最新版本的 `theme.css` 和 `manifest.json`，再到 设置 → 外观 → 主题 里选 Ithaca。
 
-主题不联网。三套西文字体已内嵌。
+主题不联网，西文字体已内嵌。笔记开头自己写了 `# 标题` 的，可以在 设置 → 外观 关掉“显示内嵌标题”，免得标题出现两次。
 
 ### Style Settings 选项
 
-装 [Style Settings](https://github.com/mgmeyers/obsidian-style-settings) 插件后可以调：浅色和深色各自用哪种纸、藏标签栏、工具条常显、文件列表顶上的手写题字、西文一律用自带开源字体、二级标题前的罗马数字、脚注放页边还是页底、台灯、笔记末尾签名，以及空白笔记提示、反向链接前的一句、印章上的字。不装插件就是默认样子。
+装 [Style Settings](https://github.com/mgmeyers/obsidian-style-settings) 后可以调：浅色和深色各用哪种纸、纸片放正、藏标签栏、工具条常显、文件列表顶上的手写题字、西文一律用自带字体、二级标题前的罗马数字、脚注放页边还是页底、台灯、笔记末尾签名，以及反向链接前的一句、印章上的字、旧页角标。
 
 ### 手账标记
 
-写在笔记的 `cssclasses` 里：
+`cssclasses`：`ih-mood-*`（这一篇换纸）、`ih-stamp-*`（盖章）、`ih-bm`（书签丝带）、`ih-card`（索引卡）、`ih-aged`（旧页）。
 
-- `ih-mood-quiet` / `ih-mood-tense` / `ih-mood-night` / `ih-mood-happy`：这一篇换自己的纸色
-- `ih-stamp-draft` / `-final` / `-sent` / `-wait` / `-done`：右上角盖章
-- `ih-bm`：顶边垂一条书签丝带
-- `ih-card`：整篇变成横线索引卡
-- `ih-aged` / `ih-aged-2`：旧页，胶带发黄、角上一个“旧”字
+正文：`ih-sub`（副题）、`ih-circ`（红笔圈）、`ih-mg`（页边批注）、`ih-mg ih-sticky`（页边便利贴）、`ih-sticker`（圆贴纸）、`ih-postmark`（邮戳）、`ih-barcode`（条码）、`ih-arrow`（手绘箭头）。图片说明写 `照片` 或 `photo` 变成白边相片。
 
-写在正文里：`<span class="ih-sub">副题</span>`、`<span class="ih-circ">红笔圈</span>`、`<span class="ih-mg">页边批注</span>`、`<span class="ih-mg ih-sticky">页边便利贴</span>`。图片的说明文字写 `照片` 或 `photo`，就变成白边相片，再加 `left` / `right` 可以靠边。
+callout 除了内置类型，还有 `receipt`、`receipts`、`letter`、`lined`、`ledger`、`slips`、`stickies`、`tickets`、`photos`（相片墙）、`timeline`（交错纸卡）、`pinned`（图钉便利贴）、`chat`（对话气泡）、`old`（泛黄旧纸条）。`demo/` 里有每种的示例。
 
-页边批注和脚注，要在 设置 → 编辑器 → **限制行宽** 打开、并且这一栏至少 1000px 宽时，才会挪到右页边；否则留在正文里。
-
-callout 除了内置类型，还多了 `receipt`（小票）、`letter`（信纸）、`lined`（横线纸）、`ledger`（一行一件）、`slips`（纸条）、`stickies`（便利贴）、`tickets`（票根）。后四种按列表排，每一项一张。
+配套插件（Video Summary、AI Accounting、Polyglot Helper、Said Today）写出的笔记各有自己的样子；插件也可以在窗口上挂 `ith-v-*`，让整扇窗跟着当前笔记换纸。
 
 ### 字体
 
-魏碑和翩翩体是 macOS 自带的免费字体，但默认没装，要去“字体册”里下载。Windows、Linux 建议装[霞鹜文楷](https://github.com/lxgw/LxgwWenKai)，手写体才是设计的样子。
-
-以后会有配套插件，用来插入这些标记。
+魏碑和翩翩体是 macOS 的免费字体，但默认没装，要去“字体册”下载。Windows、Linux 建议装[霞鹜文楷](https://github.com/lxgw/LxgwWenKai)，中文手写体才是设计的样子。
 
 ---
 
@@ -161,22 +181,12 @@ callout 除了内置类型，还多了 `receipt`（小票）、`letter`（信纸
 - **コミュニティテーマ**（掲載後）：設定 → 外観 → テーマ → 管理 → 「Ithaca」を検索 → インストールして使用。
 - **手動：** Vault に `.obsidian/themes/Ithaca/` を作り、最新リリースの `theme.css` と `manifest.json` を入れて、設定 → 外観 → テーマで Ithaca を選びます。
 
-ネットワーク通信はしません。欧文フォント 3 種を埋め込んでいます。
+ネットワーク通信はしません。欧文フォントは埋め込み済みです。ノートの先頭に `# 見出し` を書く場合は、設定 → 外観 →「インラインタイトルを表示」をオフにしてください。
 
-### Style Settings
+### しるし
 
-[Style Settings](https://github.com/mgmeyers/obsidian-style-settings) プラグインで、ライト／ダークそれぞれの紙、タブバーを隠す、リボンを常に表示、ファイル一覧上の手書きタイトル、同梱フォントの使用、H2 のローマ数字、脚注の位置、デスクランプ、署名、各種ラベルを変更できます。
-
-### 手帳のしるし
-
-`cssclasses` に `ih-mood-*`（ノートごとの紙）、`ih-stamp-*`（スタンプ）、`ih-bm`（しおり）、`ih-card`（インデックスカード）、`ih-aged`（古いページ）。本文では `ih-sub`（副題）、`ih-circ`（赤丸）、`ih-mg`（余白の書き込み）、`ih-mg ih-sticky`（余白の付箋）。
-
-余白の書き込みと脚注は、設定 → エディタ → **行の長さを制限** がオンで、ペインの幅が 1000px 以上のときに右の余白へ移ります。
-
-callout には `receipt`・`letter`・`lined`・`ledger`・`slips`・`stickies`・`tickets` を追加しています。
+`cssclasses` に `ih-mood-*`（ノートごとの紙）、`ih-stamp-*`（スタンプ）、`ih-bm`（しおり）、`ih-card`（インデックスカード）、`ih-aged`（古いページ）。本文では `ih-sub`・`ih-circ`・`ih-mg`・`ih-sticker`・`ih-postmark`・`ih-barcode`・`ih-arrow`。callout には `receipt`・`letter`・`lined`・`ledger`・`slips`・`stickies`・`tickets`・`photos`・`timeline`・`pinned`・`chat`・`old` を追加しています。例は `demo/` にあります。
 
 ### フォント
 
 macOS の「魏碑」「翩翩体」は無料ですが標準では入っていないため、Font Book からダウンロードしてください。Windows・Linux では [LXGW WenKai](https://github.com/lxgw/LxgwWenKai) をおすすめします。
-
-これらのしるしを挿入するコンパニオンプラグインを今後公開予定です。

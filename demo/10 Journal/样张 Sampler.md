@@ -4,7 +4,6 @@ cssclasses:
 tags:
   - Demo/Theme
 ---
-# 一本写给自己的手账
 <span class="ih-sub">A notebook for one reader</span>
 
 这是一页演示笔记。正文用系统字体，标题用魏碑，**重要的话**加粗，*语气*用宋体。内链像 [[搬家清单]] 这样有一道红线，外链 [Obsidian](https://obsidian.md) 是灰的，还没建的 [[一篇还没写的笔记]] 是虚线。最要紧的几个字可以 <span class="ih-circ">用红笔圈起来</span>。<span class="ih-mg">页边批注：贴着这一段。</span>
