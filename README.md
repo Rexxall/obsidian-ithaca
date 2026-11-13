@@ -24,9 +24,17 @@ A paper notebook has a few habits no app copies: a red pen for the words that ma
 
 ![Notebook pieces](docs/pieces.png)
 
-**Dark as well as light.** Two light papers and four dark ones, each checked for 4.5:1 text contrast.
+**Six papers, light and dark.** Two light papers and four dark ones, each checked for 4.5:1 text contrast. Pick one for each mode in Style Settings, or give a single note its own paper with `ih-mood-*`.
 
-![Ithaca, dark](docs/dark.png)
+![The same note on six papers](docs/gallery-2-papers.png)
+
+**More paper.** An index card, a bookmark ribbon, a yellowed old page, letter paper and ruled lines, chat bubbles.
+
+![Index card, ribbon and letter, chat](docs/gallery-4-more.png)
+
+**Made for Chinese and Japanese too.** Chinese titles get Weibei, quotes get Songti or Mincho, and margin notes get a handwritten face.
+
+![A note written in Chinese](docs/cjk.png)
 
 **As fast as the default theme.** No `:has()` selectors and a single `!important`. On Obsidian 1.15, the median note opened in 17.7–19.3 ms with Ithaca and 18.0–18.6 ms with the default theme (120 opens each), with no long tasks.
 
@@ -128,6 +136,10 @@ Margin notes and footnotes move into the right margin when Settings → Editor �
 The `demo/` folder has sample notes for all of these.
 
 ### Companion plugins
+
+**Plugin notes get their own look.** A Video Summary note gets a strip of film under its header and red timestamps.
+
+![A Video Summary note with the film strip](docs/film.png)
 
 Notes written by these plugins get their own look; the plugin only adds a class.
 
