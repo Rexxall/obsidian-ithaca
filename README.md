@@ -1,6 +1,6 @@
 # Ithaca
 
-![Ithaca, a notebook theme for Obsidian](docs/gallery-1-poster.png)
+![Ithaca, a notebook theme for Obsidian](docs/gallery-1-red.png)
 
 **Your vault, kept like a paper notebook.**
 
@@ -22,11 +22,11 @@ A paper notebook has a few habits no app copies: a red pen for the words that ma
 
 **A drawer of notebook pieces.** A photo wall, pinned notes, a timeline, receipts, a postmark, a sticker, a barcode, rubber stamps. All of them are Markdown callouts or one-word spans.
 
-![Notebook pieces](docs/gallery-2-pieces.png)
+![Notebook pieces](docs/pieces.png)
 
 **Dark as well as light.** Two light papers and four dark ones, each checked for 4.5:1 text contrast.
 
-![Ithaca, dark](docs/gallery-3-dark.png)
+![Ithaca, dark](docs/dark.png)
 
 **As fast as the default theme.** No `:has()` selectors and a single `!important`. On Obsidian 1.15, the median note opened in 17.7–19.3 ms with Ithaca and 18.0–18.6 ms with the default theme (120 opens each), with no long tasks.
 
