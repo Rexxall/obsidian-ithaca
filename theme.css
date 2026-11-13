@@ -364,7 +364,7 @@ body:not(.ith-show-ribbon):not(.is-mobile) .workspace-ribbon:is(:hover, :focus-w
 .nav-header { display: none; padding: 10px 14px 4px; }
 .workspace-leaf-content[data-type="file-explorer"]:is(:hover, :focus-within) .nav-header { display: block; position: absolute; right: 8px; top: 8px; z-index: 2; }
 body.ith-nav-title .nav-files-container::before { content: var(--ith-nav-title-text); display: block; font: italic 30px/1 var(--ith-sign); color: var(--ith-mute); margin: 8px 0 22px 4px; }
-.nav-folder-title, .nav-file-title { background: transparent; border-radius: 0; padding: 3px 4px 3px 0; box-shadow: none; }
+.nav-folder-title, .nav-file-title { background: transparent; border-radius: 0; padding: 3px 4px 3px 24px; box-shadow: none; }
 .nav-folder-title-content, .nav-file-title-content { font-size: 13.5px; line-height: 1.75; color: var(--ith-mute); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .nav-folder-title:focus-visible, .nav-file-title:focus-visible { outline: 2px solid var(--ith-acc); outline-offset: -2px; border-radius: 3px; }
 .nav-folder.mod-root > .nav-folder-title { display: none; }
@@ -618,8 +618,8 @@ textarea { border-radius: 8px; }
 }
 
 /* 9b. Red-pen circle: <span class="ih-circ">the few words that matter</span> */
-.markdown-rendered .ih-circ { position: relative; display: inline-block; max-width: 100%; padding: 0 4px; margin: 0 6px; text-indent: 0; color: var(--ith-ink); }
-.markdown-rendered .ih-circ::before { content: ""; position: absolute; inset: -4px -8px; border: 1.5px solid var(--ith-acc); border-radius: 48% 52% 50% 50% / 60% 44% 56% 40%; transform: rotate(calc(-2deg * var(--ith-tilt))); pointer-events: none; }
+:is(.markdown-rendered, .cm-html-embed) .ih-circ { position: relative; display: inline-block; max-width: 100%; padding: 0 4px; margin: 0 6px; text-indent: 0; color: var(--ith-ink); }
+:is(.markdown-rendered, .cm-html-embed) .ih-circ::before { content: ""; position: absolute; inset: -4px -8px; border: 1.5px solid var(--ith-acc); border-radius: 48% 52% 50% 50% / 60% 44% 56% 40%; transform: rotate(calc(-2deg * var(--ith-tilt))); pointer-events: none; }
 .markdown-rendered :is(.callout, .ih-sticky) .ih-circ { color: inherit; }
 
 /* 9c. Stamps: cssclasses ih-stamp-draft / -final / -sent / -wait / -done */

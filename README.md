@@ -1,16 +1,38 @@
 # Ithaca
 
-A notebook theme for Obsidian. 一本手账样子的 Obsidian 主题。手帳のような Obsidian テーマ。
+![Ithaca, a notebook theme for Obsidian](docs/gallery-1-poster.png)
 
-The whole window is one sheet of paper: no panel frames, no tab chrome. Red-pen underlines, paper slips for callouts, ticket stubs for tags, Roman numerals before every section.
+**Your vault, kept like a paper notebook.**
 
-![Ithaca, light](docs/light.png)
+[![Add to Obsidian](https://img.shields.io/badge/Add%20to-Obsidian-b3261e?style=for-the-badge&logo=obsidian&logoColor=white)](https://community.obsidian.md/themes/ithaca)
 
-![Ithaca, dark](docs/dark.png)
+A paper notebook has a few habits no app copies: a red pen for the words that matter, slips taped in, a note squeezed into the margin. Ithaca brings those habits into Obsidian. The whole window is one sheet of paper, with no panel frames and no tab chrome.
 
-![Notebook pieces](docs/pieces.png)
+**Circle what matters.** Wrap a few words in `ih-circ` and the red pen rings them, in Live Preview and in reading view.
 
-![An index card](docs/card.png)
+![Typing a red-pen ring](docs/red-pen.gif)
+
+**Callouts become paper.** Quotes are taped slips, tips are sticky notes, warnings are black paper, each laid down a little crooked.
+
+![A quote callout turning into a taped slip](docs/paper-slips.gif)
+
+**Notes in the margin.** When the pane is wide enough, margin notes and footnotes move beside the paragraph they belong to.
+
+![Closing the sidebar moves the margin note into the margin](docs/margin-notes.gif)
+
+**A drawer of notebook pieces.** A photo wall, pinned notes, a timeline, receipts, a postmark, a sticker, a barcode, rubber stamps. All of them are Markdown callouts or one-word spans.
+
+![Notebook pieces](docs/gallery-2-pieces.png)
+
+**Dark as well as light.** Two light papers and four dark ones, each checked for 4.5:1 text contrast.
+
+![Ithaca, dark](docs/gallery-3-dark.png)
+
+**As fast as the default theme.** No `:has()` selectors and a single `!important`. On Obsidian 1.15, the median note opened in 17.7–19.3 ms with Ithaca and 18.0–18.6 ms with the default theme (120 opens each), with no long tasks.
+
+**Fits a phone.** At 390 px the slips, photos and timeline reflow into one column, and margin notes drop back into the text.
+
+<img src="docs/mobile.png" alt="Ithaca at phone width" width="300">
 
 [English](#english) · [中文](#中文) · [日本語](#日本語)
 
@@ -133,7 +155,7 @@ On macOS, Weibei SC and HanziPen SC are free but not installed by default: open 
 
 ### Performance
 
-Ithaca has no `:has()` selectors, and only one `!important`: Obsidian's own stylesheet sets `contain: paint !important` on editor widgets, which cuts a callout's shadow into a hard line, and nothing weaker can lift it. Tested on Obsidian 1.15: opening notes takes the same time as with the default theme.
+Ithaca has no `:has()` selectors and only one `!important`. Obsidian's own stylesheet sets `contain: paint !important` on editor widgets, which cuts a callout's shadow into a hard line, and nothing weaker can lift it. Measured on Obsidian 1.15 by opening five sample notes 30 times each in reading and editing view, twice per theme: median 17.7 and 19.3 ms with Ithaca, 18.0 and 18.6 ms with the default theme, and no long tasks with Ithaca.
 
 ### Build
 
@@ -152,7 +174,7 @@ MIT, see [LICENSE](LICENSE). The embedded fonts are under the SIL Open Font Lice
 - **社区主题**（上架后）：设置 → 外观 → 主题 → 管理 → 搜索 “Ithaca” → 安装并使用。
 - **手动：** 在库里新建 `.obsidian/themes/Ithaca/`，放入最新版本的 `theme.css` 和 `manifest.json`，再到 设置 → 外观 → 主题 里选 Ithaca。
 
-主题不联网，西文字体已内嵌。笔记开头自己写了 `# 标题` 的，可以在 设置 → 外观 关掉“显示内嵌标题”，免得标题出现两次。
+主题不联网，西文字体已内嵌。没有 `:has()`，实测打开笔记和默认主题一样快（中位数约 18 ms）；手机宽度下纸片、相片、时间线会排成一列。笔记开头自己写了 `# 标题` 的，可以在 设置 → 外观 关掉“显示内嵌标题”，免得标题出现两次。
 
 ### Style Settings 选项
 
@@ -181,7 +203,7 @@ callout 除了内置类型，还有 `receipt`、`receipts`、`letter`、`lined`�
 - **コミュニティテーマ**（掲載後）：設定 → 外観 → テーマ → 管理 → 「Ithaca」を検索 → インストールして使用。
 - **手動：** Vault に `.obsidian/themes/Ithaca/` を作り、最新リリースの `theme.css` と `manifest.json` を入れて、設定 → 外観 → テーマで Ithaca を選びます。
 
-ネットワーク通信はしません。欧文フォントは埋め込み済みです。ノートの先頭に `# 見出し` を書く場合は、設定 → 外観 →「インラインタイトルを表示」をオフにしてください。
+ネットワーク通信はしません。欧文フォントは埋め込み済みです。`:has()` は使っておらず、ノートを開く速さは標準テーマと同じです（中央値 約 18 ms）。スマートフォンの幅では紙片・写真・年表が一列に並びます。ノートの先頭に `# 見出し` を書く場合は、設定 → 外観 →「インラインタイトルを表示」をオフにしてください。
 
 ### しるし
 
