@@ -983,8 +983,8 @@ body.is-mobile .markdown-preview-view.ih-card .markdown-preview-sizer { margin: 
 .markdown-source-view:is(.ih-film, .ih-clip) .cm-sizer::before { display: block; font: 400 9.5px/1.6 var(--ith-label); letter-spacing: .4em; text-transform: uppercase; color: var(--ith-mute); margin-bottom: 16px; }
 
 /* 15a. Video Summary: film base with two rows of sprocket holes and one red frame */
-:is(.markdown-preview-view, .markdown-source-view).ih-film { --ith-film-base: #141316; --ith-film-frame: #2e2c31; --ith-film-hole: #77736d; }
-.theme-dark :is(.markdown-preview-view, .markdown-source-view).ih-film { --ith-film-base: #050506; --ith-film-frame: #29272c; --ith-film-hole: #8d867b; }
+:is(.markdown-preview-view, .markdown-source-view).ih-film { --ith-film-base: #141316; --ith-film-hole: #77736d; --ith-film-f1: #6e4c3b; --ith-film-f2: #3c5768; --ith-film-f3: #50603f; --ith-film-f4: #5c4052; }
+.theme-dark :is(.markdown-preview-view, .markdown-source-view).ih-film { --ith-film-base: #050506; --ith-film-hole: #8d867b; --ith-film-f1: #5e4234; --ith-film-f2: #344b5a; --ith-film-f3: #445236; --ith-film-f4: #4e3747; }
 .markdown-preview-view.ih-film:not(.ih-card) .mod-header::before,
 .markdown-source-view.ih-film .cm-sizer::before {
   content: "Video Summary"; padding-bottom: 40px; margin-bottom: 22px;
@@ -992,7 +992,7 @@ body.is-mobile .markdown-preview-view.ih-card .markdown-preview-sizer { margin: 
     repeating-linear-gradient(90deg, var(--ith-film-hole) 0 6px, transparent 6px 12px) left 4px bottom 21px / calc(100% - 8px) 2px no-repeat,
     repeating-linear-gradient(90deg, var(--ith-film-hole) 0 6px, transparent 6px 12px) left 4px bottom 3px / calc(100% - 8px) 2px no-repeat,
     linear-gradient(var(--ith-acc), var(--ith-acc)) left 80px bottom 8px / 34px 10px no-repeat,
-    repeating-linear-gradient(90deg, var(--ith-film-frame) 0 34px, transparent 34px 38px) left 4px bottom 8px / calc(100% - 8px) 10px no-repeat,
+    repeating-linear-gradient(90deg, var(--ith-film-f1) 0 34px, transparent 34px 38px, var(--ith-film-f2) 38px 72px, transparent 72px 76px, var(--ith-film-f3) 76px 110px, transparent 110px 114px, var(--ith-film-f4) 114px 148px, transparent 148px 152px) left 4px bottom 8px / calc(100% - 8px) 10px no-repeat,
     linear-gradient(var(--ith-film-base), var(--ith-film-base)) left bottom / 100% 26px no-repeat;
 }
 :is(.markdown-rendered.ih-film, .ih-film .markdown-rendered) a.external-link:is([href*="?t="], [href*="&t="]) { font: italic 700 1em/1 var(--ith-disp); font-variant-numeric: lining-nums; letter-spacing: -.01em; color: var(--ith-acc); background: none; text-decoration: none; }

@@ -12,3 +12,5 @@ cssclasses:
 > - Answer the letter
 > - Buy stamps
 > - Press the mint leaves
+> - Water the window box
+> - Return the library book

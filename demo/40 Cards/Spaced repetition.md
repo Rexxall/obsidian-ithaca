@@ -9,4 +9,6 @@ Review a fact just before you would forget it. Each successful recall pushes the
 ## Why it works
 Effortful retrieval strengthens memory more than rereading.
 
+Space the reviews out: a day, three days, a week.
+
 #learning
